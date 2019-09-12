@@ -1,0 +1,243 @@
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% trans 'Dosimeters report' %}</title>
+    <style>
+        @font-face {
+            font-family: 'HelveticaNeue';
+            font-style: normal;
+            font-weight: 400;
+        }
+
+        html, body, div, span, applet, object, iframe,
+        h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+        a, abbr, acronym, address, big, cite, code,
+        del, dfn, em, img, ins, kbd, q, s, samp,
+        small, strike, strong, sub, sup, tt, var,
+        b, u, i, center,
+        dl, dt, dd, ol, ul, li,
+        fieldset, form, label, legend,
+        table, caption, tbody, tfoot, thead, tr, th, td,
+        article, aside, canvas, details, embed,
+        figure, figcaption, footer, header, hgroup,
+        menu, nav, output, ruby, section, summary,
+        time, mark, audio, video {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+            vertical-align: baseline;
+            box-sizing: border-box;
+            font-family: 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            color: #000000;
+            word-wrap: break-word;
+            word-break: break-word;
+        }
+
+        h1, h2, h3, h4, h5, p {
+            color: #000000;
+        }
+
+        .align-center {
+            text-align: center;
+        }
+        .align-left {
+            text-align: left;
+        }
+        .align-right {
+            text-align: right;
+        }
+
+        @page {
+            margin: 0;
+        }
+
+        body {
+            color: #000000;
+        }
+
+        hr {
+            margin: 30px 0 40px;
+            border: 0;
+            border-top: 1px solid #DEE3EB;
+            box-sizing: content-box;
+            height: 0;
+        }
+
+        table {
+            text-align: left;
+            border-collapse: collapse;
+            border-spacing: 0;
+            width: 100%;
+            table-layout: fixed;
+            line-height: 1.5em;
+        }
+
+        table thead tr {
+            border: 1px solid #000000;
+        }
+
+        table {
+            border-bottom: 1px solid #000000;
+        }
+
+        table th,
+        table td {
+            padding: 2px 5px;
+            border-left: 1px solid #000000;
+            border-right: 1px solid #000000;
+        }
+
+
+        thead th {
+            font-weight: bold;
+            background-color: #c4c1c1;
+            border: 1px solid #000000;
+            font-size: 12px;
+        }
+
+        .even {
+            background-color: rgb(247, 243, 241);
+        }
+
+        .root {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .logo img {
+            width: 100%;
+            margin: 0 auto 15px;
+        }
+
+        .seller-data div {
+            width: 50%;
+            float: left;
+        }
+
+        .customer-data {
+            margin-bottom: 30px;
+        }
+
+        .customer-data > div {
+            width: 50%;
+            float: left;
+        }
+
+
+        .clearfix::after {
+            content: '';
+            clear: both;
+            display: block;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        h1 {
+            font-size: 26px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        p {
+            margin-bottom: 15px;
+            line-height: 1.5em;
+        }
+
+        .margin-b-30 {
+            margin-bottom: 30px
+        }
+
+        .s-12 {
+            font-size: 12px;
+        }
+
+        .s-14 {
+            font-size: 14px;
+        }
+
+        .ital {
+            font-style: italic;
+        }
+
+        .b {
+            font-weight: bold;
+        }
+
+        .pull-right {
+            float: right;
+        }
+    </style>
+</head>
+<body>
+<div class="root">
+    <div class="logo align-center">
+        <img src="{{ logo }}" alt="">
+    </div>
+    <h1 class="align-center margin-b-30">{% trans "Radon Measurement Report" %}</h1>
+    <div class="customer-data clearfix">
+        <div class="l-side">
+            <p class="b" style="margin-bottom: 75px;">{% trans "Order number" %}: {{ line.order.number }} ({{ line.order.partner_order_id|default:"-" }})</p>
+            {% for field in line.order.shipping_address.active_address_fields %}
+                <div>{{ field }}</div>
+            {% endfor %}
+        </div>
+        <div class="r-side">
+            {# TODO: Need to show a date when last dosimeter in an order got the results. #}
+            <p class="b align-right">{% trans "Issue date" %}: {% now "d/m/Y" %}</p>
+        </div>
+    </div>
+    <p class="margin-b-30">
+        {% trans "This report contains the result of your radon measurement" %}.
+    </p>
+    <p class="margin-b-15">
+        {% blocktrans with start_date=line.order.get_measurement_date_min|date:"d/m/Y" end_date=line.order.get_measurement_date_max|date:"d/m/Y" %}
+            Measurements took place between {{ start_date }} and {{ end_date }}.
+        {% endblocktrans %}
+    </p>
+    <div class="table-container margin-b-30">
+        <table>
+            <thead>
+            <tr class="align-center">
+                <th>{% trans "Serial number" %}</th>
+                <th>{% trans "Location" %}</th>
+                <th>{% trans "Floor" %}</th>
+                <th>{% trans "Result" %}(Bq/m3)</th>
+                <th>{% trans "Uncertainty" %}(Bq/m3)</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for dosimeter in line.dosimeters.active %}
+                <tr class="{% if forloop.counter|divisibleby:2 %}even{% endif %}">
+                    <td class="align-right">{{ dosimeter.serial_number }}</td>
+                    <td class="align-left">{{ dosimeter.location }}</td>
+                    <td class="align-center">{{ dosimeter.floor }}</td>
+                    <td class="align-left">{{ dosimeter.concentration_visual }}</td>
+                    <td class="align-left">{{ dosimeter.uncertainty_visual }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <p class="margin-b-15">
+        {% blocktrans with avg_concentration=line.order.dosimeters_avg_concentration %}
+            The average radon concentration is: {{ avg_concentration }} Bq / m3
+        {% endblocktrans %}
+    </p>
+    <p class="margin-b-30 s-14">{{ dosimeter_description|safe }}</p>
+    <p class="margin-b-15 ital"><b>{% trans 'Issued by: Maria Hansen, Laboratory Manager at Track Analysis Systems Ltd' %}</b></p>
+    <p class="s-14">{% trans 'Radon analysis is conducted by our laboratory in England, the dosimetry department at Track Analysis Systems Ltd. Contact us if you have questions about analysis or methods: maria@tasl.co.uk or +44 117 938 1172.' %}</p>
+</div>
+</body>
+</html>
+

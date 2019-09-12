@@ -1,0 +1,20 @@
+{% load i18n %}
+
+<div class="order-product-item order-product-default">
+    <div class="order-product-top-panel">
+        <div class="product-data-wrapper">
+            <div class="image-wrapper">
+                <img v-if="item.product_image" class="thumbnail" src="" alt="" :src="item.product_image" :alt="item.product_title" />
+                <div v-else="item.product_image" class="thumbnail empty"></div>
+            </div>
+            <div class="product-data">
+                <div class="product-hint product-name"><% item.product_title  || '{% trans "No title" %}' %></div>
+            </div>
+            <div class="product-data">
+                <div class="product-hint">{% trans 'Quantity' %}</div>
+                <p><%item.quantity%></p>
+            </div>
+        </div>
+        <div class="with-width product-price"><%item.product_price%></div>
+    </div>
+</div>

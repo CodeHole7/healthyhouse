@@ -1,0 +1,17 @@
+{% load i18n %}
+s
+<div class="blog-item">
+    <div class="col-xs-12 col-sm-6 with-date">
+        <div class="blog-date">
+            <span>{{ article.publication_date|date:"j F Y" }}</span>
+        </div>
+        {% if article.image %}
+            <div class="img-wrapper"><img src="{{ article.image.url }}" alt="{{ article.image_caption }}"></div>
+        {% endif %}
+    </div>
+    <div class="col-xs-12 col-sm-6 blog-details-wrapper">
+        <h3>{{ article.title }}</h3>
+        <p class="main-text-blog">{{ article.html_preview|safe }}</p>
+        <a href="{{ article.short_url }}" class="btn btn-success">{% trans 'read more' %}</a>
+    </div>
+</div>

@@ -1,0 +1,144 @@
+{% extends 'dashboard/layout.html' %}
+
+{% block extrastyles %}
+    {{ block.super }}
+    <style type="text/css">
+      form.update-dosimeter-form div.form-control {
+        width: auto !important;
+      }
+      #s2id_id_status{
+        width: 170px !important;
+      }
+    </style>
+{% endblock %}
+
+{% load sorting_tags %}
+{% load i18n %}
+
+{% block title %}
+    {% trans "Dosimeters" %} | {{ block.super }}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <ul class="breadcrumb">
+        <li>
+            <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+        </li>
+        <li class="active">{% trans "Dosimeters" %}</li>
+    </ul>
+{% endblock %}
+
+{% block header %}
+    <div class="page-header">
+        <h1>{% trans "Dosimeters" %}</h1>
+    </div>
+
+{% endblock header %}
+
+{% block dashboard_content %}
+
+
+    <div class="well">
+
+        <form action="." method="post" class="form-inline update-dosimeter-form">
+            {% csrf_token %}
+            {% include 'dashboard/partials/form_fields_inline.html' with form=form_update %}
+            <button type="submit" class="btn btn-primary" data-loading-text="{% trans 'Updating...' %}">{% trans "Update" %}</button>
+            {% if is_filtered %}
+                <a class="btn btn-default" href="{% url 'dashboard:dosimeter-list' %}" >{% trans "Reset" %}</a>
+            {% endif %}
+        </form>
+    </div>
+
+    <div class="well">
+        <form action="." method="get" class="form-inline">
+            {% include 'dashboard/partials/form_fields_inline.html' with form=form %}
+            <button type="submit" class="btn btn-primary" data-loading-text="{% trans 'Searching...' %}">{% trans "Search" %}</button>
+            {% if is_filtered %}
+                <a class="btn btn-default" href="{% url 'dashboard:dosimeter-list' %}" >{% trans "Reset" %}</a>
+            {% endif %}
+        </form>
+    </div>
+
+    <form action="." method="post" class="order_table">
+        {% csrf_token %}
+        <table class="table table-striped table-bordered">
+            <caption>
+                <i class="icon-bar-chart icon-large"></i>{{ queryset_description }}
+            </caption>
+            {% if dosimeters.exists %}
+                <thead>
+                    <tr>
+                        <th>{% trans 'ID' %}</th>
+                        <th>{% trans 'Order number' %}</th>
+                        <th>{% trans 'Status' %}</th>
+                        <th>{% trans 'Serial number' %}</th>
+                        <th>{% trans 'Owner' %}</th>
+                        <th>{% trans 'Batch' %}</th>
+                        <th>{% trans 'Concentration' %}</th>
+                        <th>{% trans 'Uncertainty' %}</th>
+                        <th>{% trans 'Report URL' %}</th>
+                        <th>{% trans 'Measurement start date' %}</th>
+                        <th>{% trans 'Measurement end date' %}</th>
+                        <th>{% trans 'Floor' %}</th>
+                        <th>{% trans 'Location' %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for dosimeter in dosimeters %}
+                    <tr>
+                        <td>
+                            {% if dosimeter.serial_number == updated_dosimeter %}
+                              <b>
+                            {% endif %}
+                            <a href="{% url 'dashboard:dosimeter-detail' pk=dosimeter.pk %}?next_url={{ request.get_full_path|urlencode }}">{{ dosimeter.pk }}</a>
+                            {% if dosimeter.serial_number == updated_dosimeter %}
+                              </b>
+                            {% endif %}
+                        </td>
+                        <td><a href="{% url 'dashboard:order-detail' number=dosimeter.line.order.number %}">{{ dosimeter.line.order.number }}</a></td>
+                        <td>
+                            {{ dosimeter.status|default:"" }}
+                        </td>
+                        <td>{{ dosimeter.serial_number|default:"" }}</td>
+
+                        <td>{{ dosimeter.get_owner_name|default:"Not Assigned" }}</td>
+                        <td>{{ dosimeter.get_batch_name|default:"Not Assigned" }}</td>
+
+                        <td>{{ dosimeter.concentration|default:"" }}</td>
+                        <td>{{ dosimeter.uncertainty|default:"" }}</td>
+                        <td>{{ dosimeter.report_url|default:"" }}</td>
+                        <td>{{ dosimeter.measurement_start_date|default:""|date:"d-m-Y" }}</td>
+                        <td>{{ dosimeter.measurement_end_date|default:""|date:"d-m-Y" }}</td>
+                        <td>{{ dosimeter.get_floor_display|default:"" }}</td>
+                        <td>{{ dosimeter.location|truncatechars:20|default:"" }}</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr><td>{% trans "No dosimeters found." %}</td></tr>
+            {% endif %}
+        </table>
+        {% include "dashboard/partials/pagination.html" %}
+    </form>
+{% endblock dashboard_content %}
+
+{% block onbodyload %}
+    {{ block.super }}
+    $('form.update-dosimeter-form input[name="serial_number"]').focus();
+    {% if auto_down_pdf %}
+        setTimeout(function(){ location.href = "{{auto_down_pdf}}"; }, 1000);
+    {% endif %}
+
+
+    $('#id_status').on('change', function(){
+     
+        if($(this).val() == 'shipped_to_distributor')
+        {
+            $('#id_owner').prop('disabled', false)
+        }else{
+            $('#id_owner').prop('disabled', true)            
+        }
+    })
+{% endblock onbodyload %}
+
+

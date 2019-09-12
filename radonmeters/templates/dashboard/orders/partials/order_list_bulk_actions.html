@@ -1,0 +1,155 @@
+{% load i18n %}
+
+<div class="btn-group">
+  <style>
+    .bulk-actions-menu a {
+      cursor: pointer;
+    }
+    .bulk-actions-menu li a {
+      padding: 10px 20px;
+    }
+  </style>
+
+  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+    <span class="caret"></span>
+    <span>{% trans "Bulk Actions" %}</span>
+  </button>
+
+  <ul class="dropdown-menu bulk-actions-menu pull-right" role="menu">
+    {% if is_superuser %}
+    <li role="presentation">
+      <a 
+        class="js-order-action" 
+        role="menuitem" 
+        data-type="bulk" 
+        data-action="approve" 
+        tabindex="-1" 
+        name="action">
+        {% trans "Approve selected orders" %}
+      </a>
+    </li>
+    {% endif %}
+
+    <li role="presentation">
+      <a 
+        class="js-order-action" 
+        role="menuitem" 
+        data-type="bulk" 
+        data-action="send" 
+        tabindex="-1" >
+        {% trans "Send selected orders" %}
+      </a>
+    </li>
+    <li role="presentation" class="divider"></li>
+
+    <li role="presentation" class="dropdown-header">
+      {% trans "PDF Files" %}&nbsp;
+      <small class="text-muted">
+        {% trans "(for all / selected orders)" %}
+      </small>
+    </li>
+    {% if is_superuser %}
+    <li role="presentation">
+      <a 
+        role="menuitem" 
+        data-type="bulk" 
+        data-object="invoice" 
+        class="js-order-download" 
+        name="action" 
+        tabindex="-1">
+        {% trans "Download Invoices" %}
+      </a>
+    </li>
+    {% endif %}
+    <li role="presentation">
+      <a 
+        data-type="bulk" 
+        data-object="report" 
+        class="js-order-download" 
+        name="action" 
+        role="menuitem" 
+        tabindex="-1">
+        {% trans "Download Reports" %}
+      </a>
+    </li>
+    <li role="presentation">
+      <a 
+        data-type="bulk" 
+        data-object="instruction" 
+        class="js-order-download" 
+        name="action" 
+        role="menuitem" 
+        tabindex="-1">
+        {% trans "Download Instructions" %}
+      </a>
+    </li>
+    <li role="presentation">
+      <a 
+        data-type="bulk" 
+        data-object="instruction" 
+        class="js-order-send" 
+        name="action" 
+        role="menuitem" 
+        tabindex="-1">
+          {% trans "Send Instructions" %}
+      </a>
+    </li>
+    {% if is_superuser %}
+    <li role="presentation">
+      <a
+        data-type="bulk"
+        data-object="invoices"
+        data-order-id="{{ order.number }}"
+        class="js-order-send"
+        name="action"
+        role="menuitem"
+        tabindex="-1">
+          {% trans "Send Invoice" %}
+      </a>
+    </li>
+    
+    <li role="presentation" class="divider"></li>
+
+    <li role="presentation" class="dropdown-header">{% trans "Shipment" %}</li>
+    <li role="presentation">
+      <a 
+        role="menuitem" 
+        data-type="bulk" 
+        data-action="create-shipment" 
+        class="js-order-action" 
+        name="action" 
+        tabindex="-1">
+        {% trans "Create Shipment" %}&nbsp;
+        <small class="text-muted">
+          {% trans "(for selected orders)" %}
+        </small>
+      </a>
+    </li>
+    <li role="presentation">
+      <a 
+        role="menuitem" 
+        data-type="bulk" 
+        data-object="label_all"
+        class="js-order-download" 
+        name="action" 
+        tabindex="-1">
+        {% trans "Download Labels" %}&nbsp; 
+        <small class="text-muted">
+          {% trans "(for all / selected orders)" %}
+        </small>
+      </a>
+    </li>
+    {% endif %}
+    <li role="presentation" class="divider"></li>
+    <li role="presentation" class="dropdown-header">{% trans "Download selected orders as a CSV" %}:</li>
+    <li role="presentation" style="padding: 3px 20px">
+      <button 
+        type="submit" 
+        class="btn btn-default btn-sm btn-block"
+        name="action" 
+        value="download_selected_orders">
+        {% trans "Download" %}
+      </button>
+    </li>
+  </ul>
+</div>

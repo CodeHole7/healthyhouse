@@ -1,0 +1,19 @@
+{% load i18n %}
+
+<div class="auth-links hidden-xs">
+    {% if user.is_authenticated %}
+        <a href="{% url 'customer:summary' %}">
+            <span class="icon rm-icon-profile"></span>
+            <span>{% trans 'Profile' %}</span>
+        </a>
+        <a href="{% url 'customer:logout' %}">
+            <span class="icon rm-icon-login"></span>
+            <span>{% trans "Log out" %}</span>
+        </a>
+    {% else %}
+        <a href="{% url 'customer:login' %}">
+            <span class="icon rm-icon-login"></span>
+            <span>{% trans "Sign in / Sign up" %}</span>
+        </a>
+    {% endif %}
+</div>

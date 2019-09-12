@@ -1,0 +1,1 @@
+{"version":3,"sources":["common/dropdown.js"],"names":["$","find","closest","addClass"],"mappings":"aACIA,OAAE,kBAAkBC,KAAK,WAAWC,QAAQ,gBAAgBC,SAAS","file":"dropdown.js","sourcesContent":["(($) => {\n    $(\".dropdown-menu\").find('.active').closest('.flat-parent').addClass('active');\n\n})(jQuery);\n"]}

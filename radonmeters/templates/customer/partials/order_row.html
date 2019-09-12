@@ -1,0 +1,43 @@
+{% load i18n static %}
+
+<div class="table-row">
+    <div class="order-item  table-row"  @click="handlerToggleProductList">
+        <div class="order-item-id table-cell">
+            <span># <%order.number%></span>
+        </div>
+        <div class="order-item-date table-cell"><%order.date_placed%></div>
+        <div class="with-width order-item-price table-cell"><%order.total_price%></div>
+        <div class="with-width order-item-status-wrapper table-cell">
+            <span v-if="order.status === 'created'" class="order-item-status created">{% trans 'created' %}</span>
+            <span v-if="order.status === 'issued'" class="order-item-status issued" >{% trans 'in progress' %}</span>
+            <span v-if="order.status === 'prepared_to_delivery'" class="order-item-status prepared" >{% trans 'prepared' %}</span>
+            <span v-if="order.status === 'delivery_to_client'" class="order-item-status delivery" >{% trans 'delivery' %}</span>
+            <span v-if="order.status === 'completed'" class="order-item-status completed" >{% trans 'completed' %}</span>
+            <span v-if="order.status === 'canceled'" class="order-item-status canceled" :class="order.status">{% trans 'canceled' %}</span>
+            <span v-if="order.status === 'returned'" class="order-item-status returned">{% trans 'returned' %}</span>
+            <span class="icon" :class="{'rm-icon-minus': order.isOpened, 'rm-icon-plus': !order.isOpened}"></span>
+        </div>
+    </div>
+
+    <div v-if="order.isOpened" class="order-product-wrapper table-row" >
+        <div class="table-cell">
+            <div v-if="dosimeters.length" class="order-dosimeter-summer" @click="handlerToggleDosimeters">
+                <span class="icon" :class="{'rm-icon-minus': dosimetersListIsOpened, 'rm-icon-plus': !dosimetersListIsOpened}"></span>
+                <span>{% trans 'Dosimeters' %}</span>
+                
+                <span class="product-report pull-right">
+                    <div v-if="isFetch" class="loader-container">
+                        <div class="spinner"></div>
+                    </div>
+                    <a @click.stop.prevent="checkForReport" href="#" download="{% trans 'Report' %}" class="report-link" :class="{'disabled': isFetch}">
+                        <img src="{% static 'images/pdf.svg' %}" class="report-icon">
+                        <span>{% blocktrans %}Download report{% endblocktrans %}</span>
+                    </a>
+                </span>
+            </div>
+            <div v-if="dosimetersListIsOpened" v-for="item in dosimeters" :key="item.pk" :item="item" :is="'dosimeters'"></div>
+
+            <div  v-for="item in defaultProducts" :key="item.id" :item="item" :is="'default-product'"></div>
+        </div>
+    </div>
+<div>

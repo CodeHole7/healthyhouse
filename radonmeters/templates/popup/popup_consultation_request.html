@@ -1,0 +1,34 @@
+{% load i18n %}
+
+<div class="popup-holder" id="consultation-form-popup" tabindex="-1" aria-hidden="true" role="dialog">
+    <div class="popup-dialog" role="document">
+        <div class="popup-content">
+            <div class="btn-close-container">
+                <button type="button" class="close-popup" title="{% trans 'Close' %}" aria-label="Close">
+                    <span aria-hidden="true" class="rm-icon-cross"></span>
+                </button>
+            </div>
+            <div class="popup-header">
+                <h1 class="text-center">{% trans 'CONSULTATION' %}</h1>
+            </div>
+            <div class="popup-body">
+                <form class="form form-vertical text-center" id="consultation-form" action="{% url 'common:create_consultation_request' %}" method="post" novalidate="novalidate">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="id_name">{% trans 'your name' %}</label>
+                        <input type="text" name="name" id="id_name" required placeholder="{% trans 'Enter name' %}" class="form-control" maxlength="50">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_phone_number">{% trans 'Your number' %}</label>
+                        <input type="text" name="phone_number" required id="id_phone_number" placeholder="{% trans 'Enter phone' %}" maxlength="15" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_email">{% trans 'Your e-mail' %}</label>
+                        <input type="email" name="email" id="id_email" required placeholder="{% trans 'Enter e-mail' %}" maxlength="254" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg">{% trans 'I want a consultation' %}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

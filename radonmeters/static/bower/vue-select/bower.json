@@ -1,0 +1,38 @@
+{
+  "name": "vue-select",
+  "description": "A Vue.js component implementing the select control with the jQuery select2 plugin.",
+  "version": "0.3.1",
+  "keywords": [
+    "Vue.js",
+    "component",
+    "select",
+    "jquery.select2"
+  ],
+  "authors": [
+    "Haixing Hu"
+  ],
+  "homepage": "https://github.com/Haixing-Hu/vue-select",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Haixing-Hu/vue-select.git"
+  },
+  "main": [
+    "src/vue-select.js"
+  ],
+  "ignore": [
+    "lib",
+    "coverage",
+    "node_modules"
+  ],
+  "dependencies": {
+    "vue": "^1.0.24",
+    "select2": "^4.0.3"
+  },
+  "devDependencies": {
+    "bootstrap": "^3.3.6",
+    "jquery": "^2.2.4",
+    "select2-bootstrap-theme": "^0.1.0-beta.7",
+    "vue-i18n-plugin": "^0.2.2"
+  }
+}

@@ -1,0 +1,31 @@
+{% extends 'dashboard/layout.html' %}
+{% load i18n %}
+
+{% block breadcrumbs %}
+    <ul class="breadcrumb">
+        <li>
+            <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+        </li>
+        <li>
+            <a href="{% url 'dashboard:users-index' %}">{% trans "Customers" %}</a>
+        </li>
+        <li class="active">{% trans 'Delete address' %}</li>
+    </ul>
+{% endblock %}
+
+{% block body_class %}{{ block.super }} users{% endblock %}
+
+{% block dashboard_content %}
+<div class="container">
+    <h1>{% trans 'Are you sure you want to delete this address?' %}</h1>
+    <h3>{{ object.summary }}</h3><br/>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group form-actions">
+            <button type="submit" class="btn btn-danger" data-loading-text="{% trans 'Deleting...' %}">{% trans 'Delete' %}</button> {% trans 'or' %}
+          <a href="{% url 'dashboard:user-detail' user_address.id %}">{% trans 'cancel' %}</a>
+        </div>
+    </form>
+</div>
+{% endblock dashboard_content %}
+

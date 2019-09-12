@@ -1,0 +1,408 @@
+[
+    {
+        "pk": 1,
+        "model": "catalogue.product",
+        "fields": {
+            "rating": null,
+            "description": "<p>The Health Board recommended method for measuring radon content in your home. Note this meter can in pt. bought with approx. 10% discount via radonfrithjem.dk, At Radon Meters we also sell a closed radon measuring box with track film, which is the method recommended by the National Board of Health. Our radon meters are the size of a matchbox and can thus be placed discreetly. The meters are supplied with Danish instructions and are manufactured by a recognized English producer. Our radon meters are high quality and measure with high accuracy. The analysis of the measurement result is carried out by an ISO accredited laboratory. </p><p>With a closed radon dosimeter from Radonmeters it is cheap and easy to measure your house radon concentration.</p><h2>The process is as follows:</h2><ol> <li>You order a number of dose meter boxes that we send to you by regular mail. The National Board of Health recommends measuring at least two places in your home and thus purchasing at least two meters.</li> <li>You read the detailed Danish instructions and immediately begin the measurements recommended by the National Board of Health for at least 60 days</li> <li>Once you have measured for the desired period, return the dose meter boxes to the enclosed return envelope (postage paid)</li> <li>We will analyze your dose meter boxes at an ISO accredited laboratory in England</li> <li>Within typically 4-6 weeks, you receive the final radon analysis result per.mail</li> <li>Our price includes all delivery and return costs regardless of the amount of orders. A test of dosimeters is of course also included in the price. The National Board of Health recommends a measurement period of at least 2 months in the heating season, at least 2 places in the house as well as measurement on all floors of the house. This also allows you to calculate an annual average value for your property. That said, of course, it is up to you if you want to measure for longer or shorter time. The longer you measure the safer is the result.</li> <li>When ordering 50 or more dosimeters, you can request an individual offer. If you need help or have questions during the above course, you are always welcome to contact us.</li></ol>",
+            "parent": null,
+            "title": "Analog Closed Radon Measuring Box",
+            "upc": "e9a2d799-f22f-45c0-807c-0f3c4acd8d3a",
+            "is_discountable": true,
+            "date_created": "2017-10-01 00:00Z",
+            "date_updated": "2017-10-01 00:00Z",
+            "product_options": [],
+            "slug": "analog-closed-radon-measuring-box",
+            "product_class": 1,
+            "structure": "standalone"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "catalogue.product",
+        "fields": {
+            "rating": null,
+            "description": "<p>RD200 is a Smart Radon Detector made in South Korea. The RD200 has 20 times higher sensitivity than the other handy radon detectors. Because the RD200 has the dual structured pulsed-ionization chamber system and highly accurate detection circuit designed by FTLab’s own technology. A time for the first reliable data display is just <1 hour, so no longer need to wait a long time, 24~48hours. Also it offers convenience for data log, graph display, alarm setting by Bluetooth function with Smart Phone.</p><h2>SPECIFICATION:</h2><p><b>Type:</b> pulsed ion chamber 200cc <br/><b>First reliable data out:</b> < 60min <br/><b>Data interval:</b> 10min update (60min moving average) <br/><b>Sensitivity:</b> 0.5cpm/pCi/l at 10pCi/l (30cph/pCi/l) <br/><b>Operating range:</b> 10~40℃, RH < 90% <br/><b>Range:</b> 0.1 ~ 99.99 pCi/l <br/><b>Precision:</b> < 10% at 10pCi/l <br/><b>Accuracy:</b> < ±10% (min. error <±0.5pCi/l ) <br/><b>Power:</b> DC 12 ± 0.1V, 65mA (12V DC adapter) <br/><b>Size:</b> RD200:</b> Φ80(mm) x 120(mm), 240g <br/><b>Data communication:</b> Bluetooth LE (Android/iOS) <br/><b>Data log:</b> max 1year (1h step) <br/><b>Display:</b> 0.96 inch OLED<br/></p>",
+            "parent": null,
+            "title": "Radon Eye RD200",
+            "upc": "6152b22c-34f2-438d-910b-91b0bc48c1fa",
+            "is_discountable": true,
+            "date_created": "2017-10-01 00:00Z",
+            "date_updated": "2017-10-01 00:00Z",
+            "product_options": [],
+            "slug": "radon_eye",
+            "product_class": 1,
+            "structure": "standalone"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "catalogue.product",
+        "fields": {
+            "rating": null,
+            "description": "<p>Wave will give you detailed information about radon, temperature and humidity on your phone. See daily, weekly, monthly, and yearly metrics in the app. Use this knowledge to take the necessary steps to protect your home and those you dear to radon gas. Wave can also inform you by email or on your phone / tablet if the radon level exceeds critical value. This unit is manufactured in Norway and was briefly described on the engineer 8 January 2017: <a href='https://ing.dk/artikel/nordmaend-lancerer-live-maaling-radon-191580' target='_blank'>link</a></p>",
+            "parent": null,
+            "title": "Air Things Wave",
+            "upc": "c365c383-7c3f-49fb-b4cf-645c09606637",
+            "is_discountable": true,
+            "date_created": "2017-10-01 00:00Z",
+            "date_updated": "2017-10-01 00:00Z",
+            "product_options": [],
+            "slug": "air_things_wave",
+            "product_class": 1,
+            "structure": "standalone"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "catalogue.product",
+        "fields": {
+            "rating": null,
+            "description": "<p>Beautiful design and easy to place as it runs on battery.</p><p>User-friendly Norwegian quality product, small (120mm × 69mm × 22.5mm) and lightweight (130 gram) digital radon meter . Corentium Home (formerly known as Canary) is a Norwegian-developed digital radon meter for the use of radon metering in homes, public buildings and workplaces. Corentium Home is the discrete radon meter that ALL can find out.</p> <p>Insert the battery and you are running. The Corentium Home Electronic Radon meter allows you to continuously read the mean values ​​for the last 24 hours, the last 7 days and up to the last year. This allows you to quickly see if your actions to reduce the radon level have an effect.</p><p>Canary radon meter (now called Corentium Home) was nominated for the Norwegian Research Council Innovation Prize in 2012.</p><p>Feel free to contact us for further information about the meter sent.</p>",
+            "parent": null,
+            "title": "Corentium Home (canary)",
+            "upc": "1dccc96d-f3dc-47b3-bede-90949f59c1d3",
+            "is_discountable": true,
+            "date_created": "2017-10-01 00:00Z",
+            "date_updated": "2017-10-01 00:00Z",
+            "product_options": [],
+            "slug": "corentium_home",
+            "product_class": 1,
+            "structure": "standalone"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "catalogue.product",
+        "fields": {
+            "rating": null,
+            "description": "<h2>The package contains the following:</h2><ul> <li>A Corentium Plus digital radon meter (formerly called Canary Pro)</li> <li>A micro USB cable</li> <li>Excel compatible PC Software for analysis and reporting</li></ul><p>The USB cable is inserted into the USB port of your PC, enabling you to transfer data from the supplied Corentium Plus radon meter to your PC. The package also contains the necessary software that enables detailed analysis, reporting and documentation of your measurements.Corentium Plus is primarily intended for professional users. The system provides opportunity to analyze the radon level within a given period of time, such as office hours. In an office environment, this will give a far more true picture of the radon level, as ventilation may only be switched on during office hours (venting = lower radon concentration).In addition to radon, Corentium Plus also measures temperature, humidity and air pressure, so you can see the impact these factors have on your radon level.The meter allows the display to be turned off while measuring. This is useful when discrete measurements are required.Please note that delivery time for Corentium Plus is approx. 7 days. Contact us for further information about the product.</p>",
+            "parent": null,
+            "title": "Corentium Plus",
+            "upc": "7d8ac095-e90c-4c95-8674-ec21aa6efa35",
+            "is_discountable": true,
+            "date_created": "2017-10-01 00:00Z",
+            "date_updated": "2017-10-01 00:00Z",
+            "product_options": [],
+            "slug": "corentium_plus",
+            "product_class": 1,
+            "structure": "standalone"
+        }
+    },
+    {
+        "pk": 6,
+        "model": "catalogue.product",
+        "fields": {
+            "rating": null,
+            "description": "<p>The most accurate radon meter in the market in this price range and even more accurate and precise than a dosimeter.</p><p>Proven quality meter, user-friendly, individually calibrated to German standards and relatively small (120mm x 75mm x 50mm). Uses electrical outlets.</p><p>Ramon 2.2 Digital Radon Meters are both for personal and professional use and are easy to use for ALL. Radon measurements are updated every hour and you can read the mean values ​​for the last week and for the full period since the last reset (up to a maximum of 5 years) on the radon meter.</p><p>All Ramon 2.2 radon meters are individually calibrated and quality assured to European standard .</p><p>NOTE: There are other meters on the market with the same appearance sold under names other than Ramon 2.2. These have not been through this quality control and special calibration. They are therefore of a different quality and not nearly as precise as Ramon 2.2. </p><p>Ramon 2.2 electronic radon meter has a low power consumption and you do not lose data even if you unplug it from the wall socket. Therefore, you can choose to read only your radon level at certain times of the day, for example, for radon measurement within the working hours of a public building. </p><p>You can see the first readings 2 days after you turn on / reset the meter.However, we recommend that you read at least 7 days in each room to get a good indication of your radon concentration and to evaluate any measures to reduce the radon level in your building.</p><p>Ramon 2.2 digital radon meter is CE approved: \"The product complies with the Electromagnetic Compatibility Directive and the Low Voltage Equipment Directive\". </p><p>Feel free to contact us for further information about the meter sent.</p>",
+            "parent": null,
+            "title": "Ramon 2.2",
+            "upc": "24cb66e5-aade-488c-8cce-3f05abe7b950",
+            "is_discountable": true,
+            "date_created": "2017-10-01 00:00Z",
+            "date_updated": "2017-10-01 00:00Z",
+            "product_options": [],
+            "slug": "ramon_2_2",
+            "product_class": 1,
+            "structure": "standalone"
+        }
+    },
+    {
+        "pk": 7,
+        "model": "catalogue.product",
+        "fields": {
+            "rating": null,
+            "description": "",
+            "parent": null,
+            "title": "Mold airtest",
+            "upc": "6f4b07a0-eec6-48af-9c3b-820ebc032a6c",
+            "is_discountable": true,
+            "date_created": "2017-10-01 00:00Z",
+            "date_updated": "2017-10-01 00:00Z",
+            "product_options": [],
+            "slug": "mold_airtest",
+            "product_class": 1,
+            "structure": "standalone"
+        }
+    },
+    {
+        "pk": 8,
+        "model": "catalogue.product",
+        "fields": {
+            "rating": null,
+            "description": "",
+            "parent": null,
+            "title": "Mold airtest (incl. labreport)",
+            "upc": "20089446-eef1-4c4f-a0d6-b9dc37440c5b",
+            "is_discountable": true,
+            "date_created": "2017-10-01 00:00Z",
+            "date_updated": "2017-10-01 00:00Z",
+            "product_options": [],
+            "slug": "modl_airtest_with_labreport",
+            "product_class": 1,
+            "structure": "standalone"
+        }
+    },
+    {
+        "pk": 9,
+        "model": "catalogue.product",
+        "fields": {
+            "rating": null,
+            "description": "",
+            "parent": null,
+            "title": "Model test kit (1 room)",
+            "upc": "00740cd8-dbd9-4ee6-93ca-02353f524b2b",
+            "is_discountable": true,
+            "date_created": "2017-10-01 00:00Z",
+            "date_updated": "2017-10-01 00:00Z",
+            "product_options": [],
+            "slug": "model_test_kit_1_room",
+            "product_class": 1,
+            "structure": "standalone"
+        }
+    },
+    {
+        "pk": 10,
+        "model": "catalogue.product",
+        "fields": {
+            "rating": null,
+            "description": "",
+            "parent": null,
+            "title": "Model test kit (2 rooms)",
+            "upc": "fe5b6655-3b6e-47ca-b110-4cca8d8fdfa5",
+            "is_discountable": true,
+            "date_created": "2017-10-01 00:00Z",
+            "date_updated": "2017-10-01 00:00Z",
+            "product_options": [],
+            "slug": "model_test_kit_2_rooms",
+            "product_class": 1,
+            "structure": "standalone"
+        }
+    },
+    {
+        "pk": 11,
+        "model": "catalogue.product",
+        "fields": {
+            "rating": null,
+            "description": "",
+            "parent": null,
+            "title": "Hygrometers",
+            "upc": "fe73dfdf-f21c-4dbd-a72c-29c826dd2158",
+            "is_discountable": true,
+            "date_created": "2017-10-01 00:00Z",
+            "date_updated": "2017-10-01 00:00Z",
+            "product_options": [],
+            "slug": "hygrometers",
+            "product_class": 1,
+            "structure": "standalone"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "catalogue.productcategory",
+        "fields": {
+            "category": 2,
+            "product": 1
+        }
+    },
+    {
+        "pk": 2,
+        "model": "catalogue.productcategory",
+        "fields": {
+            "category": 3,
+            "product": 2
+        }
+    },
+    {
+        "pk": 3,
+        "model": "catalogue.productcategory",
+        "fields": {
+            "category": 3,
+            "product": 3
+        }
+    },
+    {
+        "pk": 4,
+        "model": "catalogue.productcategory",
+        "fields": {
+            "category": 3,
+            "product": 4
+        }
+    },
+    {
+        "pk": 5,
+        "model": "catalogue.productcategory",
+        "fields": {
+            "category": 3,
+            "product": 5
+        }
+    },
+    {
+        "pk": 6,
+        "model": "catalogue.productcategory",
+        "fields": {
+            "category": 3,
+            "product": 6
+        }
+    },
+    {
+        "pk": 7,
+        "model": "catalogue.productcategory",
+        "fields": {
+            "category": 5,
+            "product": 7
+        }
+    },
+    {
+        "pk": 8,
+        "model": "catalogue.productcategory",
+        "fields": {
+            "category": 5,
+            "product": 8
+        }
+    },
+    {
+        "pk": 9,
+        "model": "catalogue.productcategory",
+        "fields": {
+            "category": 5,
+            "product": 9
+        }
+    },
+    {
+        "pk": 10,
+        "model": "catalogue.productcategory",
+        "fields": {
+            "category": 5,
+            "product": 10
+        }
+    },
+    {
+        "pk": 11,
+        "model": "catalogue.productcategory",
+        "fields": {
+            "category": 5,
+            "product": 11
+        }
+    },
+    {
+        "pk": 1,
+        "model": "partner.stockrecord",
+        "fields": {
+            "cost_price": null,
+            "date_created": "2017-10-01 00:00Z",
+            "date_updated": "2017-10-01 00:00Z",
+            "low_stock_threshold": null,
+            "num_allocated": null,
+            "num_in_stock": 999,
+            "partner": 1,
+            "partner_sku": "default_e9a2d799-f22f-45c0-807c-0f3c4acd8d3a",
+            "price_currency": "DKK",
+            "price_excl_tax": 335,
+            "price_retail": null,
+            "product": 1
+        }
+    },
+    {
+        "pk": 2,
+        "model": "partner.stockrecord",
+        "fields": {
+            "cost_price": null,
+            "date_created": "2017-10-01 00:00Z",
+            "date_updated": "2017-10-01 00:00Z",
+            "low_stock_threshold": null,
+            "num_allocated": null,
+            "num_in_stock": 999,
+            "partner": 1,
+            "partner_sku": "default_6152b22c-34f2-438d-910b-91b0bc48c1fa",
+            "price_currency": "DKK",
+            "price_excl_tax": 2250,
+            "price_retail": null,
+            "product": 2
+        }
+    },
+    {
+        "pk": 3,
+        "model": "partner.stockrecord",
+        "fields": {
+            "cost_price": null,
+            "date_created": "2017-10-01 00:00Z",
+            "date_updated": "2017-10-01 00:00Z",
+            "low_stock_threshold": null,
+            "num_allocated": null,
+            "num_in_stock": 999,
+            "partner": 1,
+            "partner_sku": "default_c365c383-7c3f-49fb-b4cf-645c09606637",
+            "price_currency": "DKK",
+            "price_excl_tax": 1950,
+            "price_retail": null,
+            "product": 3
+        }
+    },
+    {
+        "pk": 4,
+        "model": "partner.stockrecord",
+        "fields": {
+            "cost_price": null,
+            "date_created": "2017-10-01 00:00Z",
+            "date_updated": "2017-10-01 00:00Z",
+            "low_stock_threshold": null,
+            "num_allocated": null,
+            "num_in_stock": 999,
+            "partner": 1,
+            "partner_sku": "default_1dccc96d-f3dc-47b3-bede-90949f59c1d3",
+            "price_currency": "DKK",
+            "price_excl_tax": 1500,
+            "price_retail": null,
+            "product": 4
+        }
+    },
+    {
+        "pk": 5,
+        "model": "partner.stockrecord",
+        "fields": {
+            "cost_price": null,
+            "date_created": "2017-10-01 00:00Z",
+            "date_updated": "2017-10-01 00:00Z",
+            "low_stock_threshold": null,
+            "num_allocated": null,
+            "num_in_stock": 999,
+            "partner": 1,
+            "partner_sku": "default_7d8ac095-e90c-4c95-8674-ec21aa6efa35",
+            "price_currency": "DKK",
+            "price_excl_tax": 8495,
+            "price_retail": null,
+            "product": 5
+        }
+    },
+    {
+        "pk": 6,
+        "model": "partner.stockrecord",
+        "fields": {
+            "cost_price": null,
+            "date_created": "2017-10-01 00:00Z",
+            "date_updated": "2017-10-01 00:00Z",
+            "low_stock_threshold": null,
+            "num_allocated": null,
+            "num_in_stock": 999,
+            "partner": 1,
+            "partner_sku": "default_24cb66e5-aade-488c-8cce-3f05abe7b950",
+            "price_currency": "DKK",
+            "price_excl_tax": 2095,
+            "price_retail": null,
+            "product": 6
+        }
+    },
+    {
+        "pk": 1,
+        "model": "catalogue.productattribute",
+        "fields": {
+            "required": false,
+            "product_class": 1,
+            "option_group": null,
+            "code": "promo_image",
+            "type": "image",
+            "name": "Promotion Image"
+        }
+    }
+]

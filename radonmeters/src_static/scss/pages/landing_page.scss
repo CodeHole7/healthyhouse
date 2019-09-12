@@ -1,0 +1,177 @@
+.slider-section {
+    text-align: center;
+    .btn-shop-now {
+        margin-top: 30px;
+        width: 100%;
+        max-width: 330px;
+    }
+
+    .scroll-wrapper {
+        text-align: center;
+        margin-top: 90px;
+        color: $brand-default;
+        opacity: 0.4;
+        span { display: block; }
+        .mouse {
+            font-size: 40px;
+        }
+        .scroll-tip {
+            text-transform: uppercase;
+            margin-top: 15px;
+            font-size: 10px;
+            letter-spacing: 9px;
+            line-height: 14px;
+        }
+    }
+    margin-bottom: 90px;
+}
+.products-section {
+    margin-bottom: 90px;
+}
+.advatages-section {
+    margin-bottom: 90px;
+    p {
+        font-size: $font-size-medium;
+        line-height: 29px;
+    }
+    h1 {
+        margin-bottom: 80px;
+    }
+    h3 {
+        margin-top: 0;
+    }
+    .advantages-list-item {
+        display: table;
+        width: 100%;
+        margin-bottom: 70px;
+        &:last-child {
+            margin-bottom: 10px;
+        }
+        & > div {
+            display: table-cell;
+            vertical-align: middle;
+        }
+        & > div:last-child {
+            padding-left: 40px;
+            padding-right: 40px;
+        }
+    }
+    .sep {
+        border-right: 1px solid $gray-ultra-light;
+    }
+    .description-wrapper {
+        padding: 0 0 0 40px;
+    }
+
+}
+.blog-section {
+    h1 {
+        margin-bottom: 80px;
+    }
+    .btn-lg.btn {
+        display: block;
+        margin-top: 60px;
+        width: 100%;
+        max-width: 330px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+}
+.risk-inform-section {
+    margin-left: -15px;
+    margin-right: -15px;
+    background-image: url('../images/girl.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 150px 0; 
+    font-size: $font-size-base;
+    background-size: cover;
+    background-attachment: fixed;
+    @media (max-width: $dev-xs)  {
+        padding: 30px 0;
+    }
+    .top-title {
+        text-align: center;
+        color: $white;
+        line-height: 29px;	
+        margin-bottom: 30px;
+        & > div:first-child {
+            font-weight: 600;
+        }
+    }
+    form {
+        margin-bottom: 30px;
+        @media (max-width: $dev-xs)  {
+            display: block;
+            text-align: center;
+        }
+    }
+    input.form-control {
+        height: 50px;
+        flex-grow: 1;
+        margin-right: 15px;
+        @media (max-width: $dev-xs)  {
+            margin-right: 0;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+    }
+    button {
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+    .risk-results {
+        border: 2px solid $white;
+        padding: 8px 15px;
+        max-width: 655px;
+        margin: 0 auto 30px;
+        line-height: 29px;	
+        text-align: center;
+        color: $white;
+        background-color: #355A81;
+    }
+    .link-thirdpart {
+        font-size: 10px;
+    }
+    .link-to-radon {
+        text-align: center;
+        a {
+            color: $white;
+        }
+    }
+}
+@media (max-width: $dev-sm)  {
+    .slider-section{
+        .container {
+            padding: 0;
+        }
+    }
+}
+
+@media (max-width: $dev-xs)  {
+    .slider-section{
+        .scroll-wrapper {
+            display: none;
+        }
+    }
+    .products-section {
+        margin-bottom: 30px;
+    }
+    .advatages-section {
+        margin-bottom: 30px;
+    }
+}
+
+@media (max-width: 991px)  {
+    .advatages-section {
+        .sep {
+            border-right: none;
+        }
+        .description-wrapper {
+            padding: 30px 0 0 0;
+            h3 {
+                text-align: center;
+            }
+        }
+    }
+}

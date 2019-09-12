@@ -1,0 +1,100 @@
+.category-aside {
+    .side-categories {
+        position: relative;
+        min-height: 600px;
+        max-width: 220px;
+        border: 1px solid $gray-ultra-light;
+        border-radius: 8px;
+        background-color: $bg-gray;
+        padding: 40px 15px 105px;
+    }
+    ul {
+        list-style: none;
+    }
+    a {
+        text-decoration: none;
+    }
+    .side-categories-list {
+        padding: 0;
+        ul {
+            padding-left: 15px;
+            margin-bottom: 0;
+            li {
+                padding: 8px 0;
+            }
+            li:first-child {
+                padding-top: 16px;
+            }
+            li:last-child {
+                padding-bottom: 0;
+            }
+
+            a{
+                color: $category-aside-subcategory-link-color;
+                &:focus,
+                &:hover {
+                    color: $brand-info;
+                }
+            }
+        }
+
+        > li {
+            padding: 12px 0;
+
+            > a {
+                color: $brand-default;
+                &:focus,
+                &:hover {
+                    color: $brand-info;
+                }
+            }
+        }
+        .active {
+            > a {
+                color: $brand-info;
+            }
+        }
+
+    }
+    .all-categories {
+        a {
+            color: $brand-default;
+            &:focus,
+            &:hover {
+                color: $brand-info;
+            }
+        }
+        text-transform: uppercase;
+        line-height: 15px;
+        margin-bottom: 25px;
+    }
+    .consultation-btn-wrapper {
+        position: absolute;
+        bottom: 40px;
+        left: 15px;
+        right: 15px;
+    }
+
+    .open-consultation-popup {
+        letter-spacing: 2px;
+        font-size: $font-size-small;
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+}
+
+@media (max-width: $dev-xs) {
+    .category-aside {
+        margin-bottom: 30px;
+        .side-categories {
+            min-height: auto;
+            padding: 30px 15px 15px;
+            max-width: 100%;
+        }
+        .consultation-btn-wrapper{
+            position: static;
+        }
+    }
+}

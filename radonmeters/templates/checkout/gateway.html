@@ -1,0 +1,125 @@
+{% extends "layout.html" %}
+
+{% load i18n static %}
+{% load widget_tweaks %}
+
+{% block title %}
+    {% trans "Checkout gateway" %} | {{ block.super }}
+{% endblock %}
+
+{% block content_wrapper %}
+    <div class="container customer-type">
+        <h1 class="text-center">{% trans 'Who are you?' %}</h1>
+        <div class="tab">
+            <a class="section-tab active" href="#sign_in">
+                {% trans 'I am a returning customer' %}
+            </a>
+            <a class="section-tab " href="#continue">
+                {% trans 'I am a new customer' %}
+            </a>
+        </div>
+        {{ form.non_field_errors.as_ul }}
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 login_form show" id="sign_in">
+                <form id="signin_form" class="form form-vertical" action="." method="post" novalidate="">
+                    <h2 class="text-center hidden-xs">{% trans 'I am a returning customer' %}</h2>
+                    {% csrf_token %}
+
+                    <p class="text-center">
+                        {% trans 'Log in to your account and then you will be redirected back to the checkout process.' %}
+                    </p>
+
+                    <input type="hidden" name="user_type" value="customer" required="" id="id_user_type_1">
+                    <button name="signin" type="submit"  class="btn btn-lg btn-primary" >{% trans 'sign in' %}</button>
+                </form>
+            </div>
+            <div class="col-xs-12 col-sm-6 continue_form" id="continue">
+                <form id="continue_form" class="form form-vertical" action="." method="post" novalidate="">
+                    <h2 class="text-center hidden-xs">{% trans 'I am a new customer' %}</h2>
+                    {% csrf_token %}
+
+                    <p class="text-center">
+                        {% trans 'You will be registered automatically. Password will be generated and sent you by email.' %}
+                    </p>
+
+                    <input type="hidden" name="user_type" value="guest" required="" id="id_user_type_0">
+
+                    <button name="continue" type="submit" class="btn btn-lg btn-primary">{% trans 'Continue as guest' %}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+{#    <form action="." method="post" class="form-stacked well">#}
+{#        {% csrf_token %}#}
+{#        {{ form.non_field_errors }}#}
+{##}
+{#        <div class="form-group">#}
+{#            <label for="id_username" class=" control-label required">#}
+{#                {% trans "My email address is" %}#}
+{#            </label>#}
+{#            <input type="email" name="username" id="id_username" class="form-control" required="" />#}
+{#            <input type="radio" name="options" id="id_options_0" value="anonymous" required="" checked="" hidden="" />#}
+{#            <input type="submit" class="btn btn-default" value="{% trans "Continue" %}" />#}
+{#        </div>#}
+{##}
+{#        {% include "partials/form_field.html" with field=form.username %}#}
+{##}
+{#        <div class="form-group">#}
+{#            <div class="controls">#}
+{#                <div class="radio">#}
+{#                    {{ form.options.0 }}#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{##}
+{#        <div class="form-group {% if form.password.errors %}error{% endif %}">#}
+{#            {{ form.options.errors }}#}
+{#            <div class="controls">#}
+{#                <div class="radio">#}
+{#                    {{ form.options.2 }}#}
+{#                    <div class="form-inline">#}
+{#                        {% render_field form.password class+="form-control" %}#}
+{#                        <small><a href="{% url 'password-reset' %}" tabindex="-1">{% trans "Get a password reminder" %}</a></small>#}
+{#                        {% for error in form.password.errors %}#}
+{#                            <span class="error-block">{{ error }}</span>#}
+{#                        {% endfor %}#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{##}
+{#        <div class="form-group">#}
+{#            <div class="controls">#}
+{#                <div class="radio">#}
+{#                    {{ form.options.1 }}#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{##}
+{#        <div class="form-group">#}
+{#            <div class="row">#}
+{#                <div class="col-sm-3">#}
+{#                    <button type="submit" class="btn btn-lg btn-block btn-primary" data-loading-text="{% trans 'Continuing...' %}">{% trans "Continue" %}</button>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{##}
+{#    </form>#}
+
+{% endblock content_wrapper %}
+
+{% block onbodyload %}
+    {{ block.super }}
+    oscar.checkout.gateway.init();
+{% endblock %}
+
+{% block extrascripts %}
+    <script src="{% static 'js/pages/customer_type.js' %}"></script>
+{% endblock %}

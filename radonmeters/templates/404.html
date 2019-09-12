@@ -1,0 +1,15 @@
+{% extends "error.html" %}
+{% load i18n %}
+
+{% block title %}
+{% trans 'Page not found' %} | {{ block.super }}
+{% endblock %}
+
+{% block error_heading %}
+    404
+{% endblock %}
+
+{% block error_message %}
+<p>{% trans "Not Found :(" %}</p>
+<p>{% trans "The link you followed probably broken, or the page has been removed!" %}</p>
+{% endblock %}

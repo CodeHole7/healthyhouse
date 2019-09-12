@@ -1,0 +1,6 @@
+{% extends "customer/emails/base.txt" %}
+{% load i18n %}
+
+{% block body %}
+Please, check your shipment.
+{% endblock %}

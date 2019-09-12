@@ -1,0 +1,90 @@
+.pagination-wrapper {
+    text-align: center;
+    .pagination {
+
+
+        > li > a,
+        > li > span  {
+            padding-top: 6px;
+            padding-bottom: 6px;
+            font-size: $font-size-extra-large;
+            margin-left: 0;
+            line-height: 21px;
+        }
+        > li.previous > a,
+        > li.next > a {
+            background-color: $white;
+            color: $brand-default;
+            border-radius: 20px;
+            padding-left: 25px;
+            padding-right: 25px;
+            border: 1px solid $brand-default;
+            transition: background-color 0.3s;
+            cursor: pointer;
+            line-height: 21px;
+            font-size: 12px;
+            &:hover,
+            &:focus {
+              z-index: 3;
+              color: $white;
+              background-color: $brand-default;
+              border: 1px solid transparent;
+            }
+
+        }
+
+        .page-item {
+            > a,
+            > span {
+                color: $brand-default;
+                border: 1px solid transparent;
+
+            }
+            > a {
+                &:hover,
+                &:focus {
+                  z-index: 3;
+                  color: $brand-info;
+                  background-color: $white;
+                  border: 1px solid transparent;
+                }
+            }
+            > span {
+                &:hover,
+                &:focus {
+                  z-index: 3;
+                  color: $brand-default;
+                  background-color: $white;
+                  border: 1px solid transparent;
+                  cursor: default;
+                }
+
+            }
+        }
+
+        .page-item.active {
+            > span {
+                color: $brand-info;
+                border: 1px solid transparent;
+                background-color: $white;
+                cursor: default;
+                &:hover,
+                &:focus {
+                  z-index: 3;
+                  color: $brand-info;
+                  background-color: $white;
+                  border: 1px solid transparent;
+                  cursor: default;
+                }
+            }
+        }
+
+    }
+}
+@media (max-width: $dev-xs)  {
+    .pagination-wrapper {
+        .page-item:not(.active){
+            display: none;
+        }
+    }
+}

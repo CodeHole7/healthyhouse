@@ -1,0 +1,104 @@
+{% load thumbnail %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% with all_images=product.images.all %}
+    {# use length rather then count as the images get queried anyways #}
+
+    {% if all_images|length > 1 %}
+
+        <div id="product_gallery" class="photo-container clearfix">
+
+            <div class="thumbnails-slider-outer">
+                {% if all_images|length > 4 %}
+                <button type="button" class="slick-prev">
+                    <span class="rm-icon-arrow-top"></span>
+                </button>
+                {% endif %}
+                <div class="thumbnails-slider">
+                    {% for image in all_images %}
+                        {% thumbnail image.original "645x788" crop='center' upscale=True as origin %}
+                        {% thumbnail image.original "430x525" crop='center' upscale=True as preview %}
+                        <div data-target="#product_gallery" data-slide-to="{{ forloop.counter0 }}" class="thumbnail {% if forloop.first %}selected{% endif %}" data-original="{{ request.scheme }}://{{ request.get_host }}{{ preview.url }}" data-cloudzoom = "zoomImage: '{{ request.scheme }}://{{ request.get_host }}{{origin.url}}'">
+
+                            {% thumbnail image.original "93x93" crop="center" as thumb %}
+                            <img src="{{ thumb.url }}" alt="{{ product.get_title }}"  />
+                            {% endthumbnail %}
+                        </div>
+
+                        {% endthumbnail %}
+                        {% endthumbnail %}
+                    {% endfor %}
+                </div>
+                {% if all_images|length > 4 %}
+                <button type="button" class="slick-next">
+                    <span class="rm-icon-arrow-bottom"></span>
+                </button>
+                {% endif %}
+            </div>
+            <div class="main-photo-block">
+                <div class="main-photo-inner" role="listbox">
+                {% for image in all_images %}
+                    {% if forloop.first %}
+                    <div class="item">
+                        {% thumbnail image.original "645x788" crop='center' upscale=True as origin %}
+                        {% thumbnail image.original "430x525" crop='center' upscale=True as thumb %}
+
+                        <img itemprop="image" src="{{ request.scheme }}://{{ request.get_host }}{{ thumb.url }}" class="cloudzoom image-view" alt="{{ product.get_title }}" data-cloudzoom = "zoomImage: '{{ request.scheme }}://{{ request.get_host }}{{origin.url}}'" />
+                        {% endthumbnail %}
+                        {% endthumbnail %}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+
+    {% else %}
+        {# Only one image to show #}
+        {% if product.primary_image.is_missing %}
+            <div id="product_gallery" class="photo-container clearfix" style="text-align:center;">
+
+                <div class="main-photo-block" style="display: inline-block; height: auto; float:none; ">
+                    <div class="main-photo-inner" role="listbox">
+                        <div class="item">
+                            <img itemprop="image" src="{% static 'images/product_empty.png' %}" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        {% else %}
+            {% with image=product.primary_image %}
+            <div id="product_gallery" class="photo-container clearfix">
+
+                <div class="thumbnails-slider-outer">
+                    <div class="thumbnails-slider">
+                        {% thumbnail image.original "645x788" crop='center' upscale=True as origin %}
+                        {% thumbnail image.original "430x525" crop='center' upscale=True as preview %}
+                        <div data-target="#product_gallery" data-slide-to="{{ forloop.counter0 }}" class="thumbnail selected" data-original="{{ request.scheme }}://{{ request.get_host }}{{ preview.url }}" data-cloudzoom = "zoomImage: '{{ request.scheme }}://{{ request.get_host }}{{origin.url}}'">
+                            {% thumbnail image.original "93x93" crop="center" as thumb %}
+                            <img src="{{ request.scheme }}://{{ request.get_host }}{{ thumb.url }}" alt="{{ product.get_title }}"  />
+                            {% endthumbnail %}
+                        </div>
+                        {% endthumbnail %}
+                        {% endthumbnail %}
+                    </div>
+                </div>
+                <div class="main-photo-block" style="display: block; height: auto; ">
+                    <div class="main-photo-inner" role="listbox">
+                        <div class="item">
+                            {% thumbnail image.original "645x788" crop='center' upscale=True as origin %}
+                            {% thumbnail image.original "430x525" crop='center' upscale=True as thumb %}
+                            {{origin.original}}
+                            <img itemprop="image" src="{{ request.scheme }}://{{ request.get_host }}{{ thumb.url }}" class="cloudzoom image-view" alt="{{ product.get_title }}" data-cloudzoom = "zoomImage: '{{ request.scheme }}://{{ request.get_host }}{{origin.url}}'" />
+                            {% endthumbnail %}
+                            {% endthumbnail %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endwith %}
+        {% endif %}
+    {% endif %}
+{% endwith %}

@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% load thumbnail %}
+{% load i18n static %}
+
+{% block title %}
+    {% trans "Shopping cart" %} | {{ block.super }}
+{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumb-container">
+    <ul class="breadcrumb">
+        <li>
+            <a href="{{ homepage_url }}">{% trans "Home" %}</a>
+        </li>
+        <li class="active">{% trans "Shopping bag" %}</li>
+    </ul>
+</div>
+{% endblock %}
+
+{# Hide mini-basket so we don't have two baskets to keep in sync #}
+{% block mini_basket %}{% endblock %}
+
+{% block headertext %}
+    {% trans "Shopping bag" %}
+{% endblock %}
+
+{% block content_wrapper %}
+    {# Use a partial template so that AJAX can be used to re-render basket #}
+
+    <h1 class="text-center basket-header">{% trans 'YOUR SHOPPING CART' %}</h1>
+    <div class="container basket-page-content">
+        {% include 'basket/partials/basket_content.html' %}
+    </div>
+{% endblock content_wrapper %}
+
+{% block onbodyload %}
+    {{ block.super }}
+    {# We pass in the URL to send AJAX requests to #}
+    var options = {
+        'basketURL': '{% url 'basket:summary' %}'
+    };
+    oscar.basket.init(options);
+{% endblock %}
+
+{% block extrascripts %}
+    <script>
+        var _radonOptions = {
+            'basketURL': '{% url 'basket:summary' %}'
+        };
+    </script>
+    <script src="{% static 'js/pages/basket_page.js' %}"></script>
+
+{% endblock %}

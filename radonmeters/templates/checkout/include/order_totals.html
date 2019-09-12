@@ -1,0 +1,162 @@
+{% load i18n %}
+{% load currency_filters %}
+{% load shipping_tags %}
+{% load purchase_info_tags %}
+
+<div id="basket_totals" class="basket_totals">
+    <table class="table table-condensed">
+        <tbody>
+            {% with discounts=order.basket_discounts %}
+                {% if discounts %}
+                    <tr>
+                        <td class="padd-cell"></td>
+                        <td class="total">{% trans "Sum:" %}</td>
+                        <td class="total align-right">{{ order.basket_total_before_discounts_incl_tax|currency:order.currency }}</td>
+                    </tr>
+                    {% for discount in discounts %}
+                        <tr>
+                            <td class="padd-cell"></td>
+                            <td class="total">{% trans "Discount:" %} {#{ discount.offer }#}</td>
+                            <td class="total align-right">- {{ discount.amount|currency:order.currency }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+
+                {% if discounts %}
+                    <tr>
+                        <td class="padd-cell"></td>
+                        <td class="total">{% trans "Total:" %}</th>
+                        <td class="total align-right">{{ order.basket_total_incl_tax|currency:order.currency }}</th>
+                    </tr>
+                {% else %}
+                    <tr class="basket-items">
+                        <td class="padd-cell"></td>
+                        <td class="total">{% trans "Sum:" %}</th>
+                        <td class="total align-right">
+                            {% if show_tax_separately %}
+                                {{ order.basket_total_excl_tax|currency:order.currency }}
+                            {% else %}
+                                {{ order.basket_total_incl_tax|currency:order.currency }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endwith %}
+
+
+
+            {% block shipping_totals %}
+                <tr>
+                    <td class="padd-cell"></td>
+                    <td class="total"> {% trans "Shipping:" %}</td>
+                    <td class="total align-right">{% if show_tax_separately %}
+                                {{ order.shipping_excl_tax|currency:order.currency }}
+                            {% else %}
+                                {{ order.shipping_incl_tax|currency:order.currency }}
+                            {% endif %}</td>
+                </tr>
+                {% if order.has_shipping_discounts %}
+                    <tr>
+                        <td class="padd-cell"></td>
+                        <td class="total">{% trans "Shipping charge (before discounts)" %}</td>
+                        <td class="total align-right">{{ order.shipping_before_discounts_incl_tax|currency:order.currency }}</td>
+                    </tr>
+                    {% for discount in order.shipping_discounts %}
+                        <tr>
+                            <td class="padd-cell"></td>
+                            <td><span class="total label label-success">{% trans "Discount" %}</span> {{ discount.offer }}</td>
+                            <td class="total align-right">- {{ discount.amount|currency:order.currency }}</td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td class="padd-cell"></td>
+                        <th class="total">{% trans "Shipping charge (after discounts)" %}</th>
+                        <th class="total align-right">{{ order.shipping_incl_tax|currency:order.currency }}</th>
+                    </tr>
+                {% else %}
+                    {% comment %}
+                    <tr>
+                        <td class="padd-cell"></td>
+                        <th class="total">{% trans "Shipping charge" %}</th>
+                        <th class="total align-right">
+                            {% if show_tax_separately %}
+                                {{ order.shipping_excl_tax|currency:order.currency }}
+                            {% else %}
+                                {{ order.shipping_incl_tax|currency:order.currency }}
+                            {% endif %}
+                        </th>
+                    </tr>
+                    {% endcomment %}
+                {% endif %}
+            {% endblock %}
+
+            {% block tax_totals %}
+                {% if show_tax_separately %}
+                    <tr>
+                        <th colspan="3">
+                            <h3>{% trans "Tax" %}</h3>
+                        </th>
+                    </tr>
+                    <tr>
+                        <td class="padd-cell"></td>
+                        <th class="total">{% trans "order" %}</th>
+                        <th class="total align-right">
+                            {{ order.total_tax|currency:order.currency }}
+                        </th>
+                    </tr>
+                    <tr>
+                        <td class="padd-cell"></td>
+                        <th class="total">{% trans "Shipping:" %}</th>
+                        <th class="total align-right">
+                            {{ shipping_charge.tax|currency:order.currency }}
+                        </th>
+                    </tr>
+                {% endif %}
+            {% endblock %}
+
+            {% block post_order_action_totals %}
+                {% if order.post_order_actions %}
+                    <tr>
+                        <th><h3>{% trans "Post order actions" %}</h3><small>{% trans "These will be applied once your order is placed." %}</small></th>
+                        <td></td>
+                    </tr>
+                    {% for discount in order.post_order_actions %}
+                        <tr>
+                            <td class="total" colspan="2">
+                                <span class="label label-success">{{ discount.name }}</span><br/>
+                                <p>{{ discount.description }}</p>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            {% endblock %}
+
+            {% block basket_total %}
+                <tr class="basket-total-footer">
+                    <td class="padd-cell"></td>
+                    <td class="total">{% trans "Total sum:" %}</td>
+                    <td class="total align-right price_color">
+                        {{ order.total_incl_tax|currency:order.currency }}
+                        {# {% if not show_tax_separately and order.is_tax_known %}#}
+                        {#     {{ order.total_incl_tax|currency:order.currency }}#}
+                        {# {% else %}#}
+                        {#     {{ order.total_excl_tax|currency:order.currency }}#}
+                        {# {% endif %}#}
+                        {# {% if basket.is_tax_known %}#}
+                        {#     {{ order_total.incl_tax|currency:order.currency }}#}
+                        {# {% else %}#}
+                        {#     {{ order_total.excl_tax|currency:order.currency }}#}
+                        {# {% endif %}#}
+                    </td>
+                </tr>
+                {% comment %}
+                {% if not order_total.is_tax_known %}
+                    <tr>
+                        <td><small>{% trans "Taxes will be added during checkout." %}</small></td>
+                    </tr>
+                {% endif %}
+                {% endcomment %}
+            {% endblock %}
+        </tbody>
+    </table>
+</div>

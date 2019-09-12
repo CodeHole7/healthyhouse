@@ -1,0 +1,111 @@
+.sub-navigation {
+    border-top: 1px solid rgba(177, 187, 202, .3);
+    border-bottom: 1px solid rgba(177, 187, 202, .3);
+    height: 90px;
+    overflow: hidden;
+    .sub-nav-inner-wrapper {
+        height: 90px;
+        overflow: hidden;
+        text-align: center;
+        position: relative;
+        margin: 0 auto;
+        -ms-overflow-style: none;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-overflow-scrolling: touch;
+        &::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
+        }
+    }
+    .sub-nav-list {
+        @extend .list-unstyled;
+        height: 110px;
+        white-space: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        margin-bottom: 0;
+        -ms-overflow-style: none;
+        -moz-box-sizing: border-box;
+        -webkit-overflow-scrolling: touch;
+        &::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
+        }
+    }
+    .sub-nav-item {
+        display: inline-block;
+        position: relative;
+        height: 90px;
+        min-width: 190px;
+        vertical-align: top;
+
+        &:after {
+            content: '';
+            right: 0;
+            top: 30px;
+            bottom: 30px;
+            position: absolute;
+            border-left: 1px solid $brand-default;
+        }
+        &:last-child:after {
+            content: none;
+        }
+        a {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex: 1 0 auto;
+            height: 100%;
+            text-decoration: none;
+            color: $brand-default;
+            padding: 0 5px;
+            &:hover,
+            &:active,
+            &:focus {
+                color: $brand-info;
+            }
+            transform: matrix3d(0.142021, 0, -0.939692, 0.000469657, 0, 1, 0, 0, 1.28947, 0, 0.469331, -0.000234571, 0, 0, 0, 1); transform-origin: 50% 0% 0px;
+            opacity: 0;
+            transition: all 0.3s;
+            &.item-show {
+                opacity: 1;
+                transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+            }
+        }
+    }
+
+    .sub-nav-icon {
+        display: block;
+        width: 35px;
+        margin: 0 auto;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        height: 35px;
+        margin-bottom: 5px;
+    }
+    .paddle {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 3em;
+        border-radius: 0;
+        padding-left: 0;
+        padding-right: 0;
+        color: $brand-default;
+        background-color: $bg-gray;
+        box-shadow: 0 0 10px $gray-ultra-light;
+        &:active {
+            color: $brand-default;
+        }
+    }
+    .left-paddle {
+        left: 0;
+    }
+    .right-paddle {
+        right: 0;
+    }
+}

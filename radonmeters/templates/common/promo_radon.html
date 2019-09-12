@@ -1,0 +1,277 @@
+{% extends "layout.html" %}
+
+{% load i18n %}
+{% load basket_tags static %}
+{% load promotion_tags %}
+{% load category_tags %}
+{% load product_tags %}
+{% load thumbnail %}
+
+{% block title %}
+    {% if summary %}{{ summary }} |{% endif %} {{ block.super }}
+{% endblock %}
+
+{% block headertext %}{{ summary }}{% endblock %}
+
+
+{% block subnavigation %}
+    <div class="sub-navigation">
+        <div class="sub-nav-inner-wrapper">
+            <ul class="sub-nav-list">
+
+                <li class="sub-nav-item">
+                    <a href="#radonguide">
+                        <span class="sub-nav-icon" style="background-image: url({% static 'images/guide.svg' %})"></span>
+                        <span class="sub-nav-title">{% trans "Radonguiden" %}</span>
+                    </a>
+                </li>
+                <li class="sub-nav-item">
+                    <a href="#how-radon-enters">
+                        <span class="sub-nav-icon" style="background-image: url({% static 'images/way.svg' %})"></span>
+                        <span class="sub-nav-title">{% trans "Hvordan kommer radon" %}</span>
+                    </a>
+                </li>
+                <li class="sub-nav-item">
+                    <a href="#measure-types">
+                        <span class="sub-nav-icon" style="background-image: url({% static 'images/instrument_type.svg' %})"></span>
+                        <span class="sub-nav-title">{% trans "Instrument type" %}</span>
+                    </a>
+                </li>
+                <li class="sub-nav-item">
+                    <a href="#ready-to-purchase">
+                        <span class="sub-nav-icon" style="background-image: url({% static 'images/purchase.svg' %})"></span>
+                        <span class="sub-nav-title">{% trans "Purchase" %}</span>
+                    </a>
+                </li>
+                {% comment %}
+                <li class="sub-nav-item">
+                    <a href="#consultation-section">
+                        <span class="sub-nav-icon" style="background-image: url('{% static 'images/support.png' %}')"></span>
+                        <span class="sub-nav-title">{% trans 'Consultation' %}</span>
+                    </a>
+                </li>
+                {% endcomment %}
+                {# Cycle for render category sections #}
+                {% comment %}
+                {% for category_section in category_sections %}
+                    <li class="sub-nav-item">
+                        <a href="#{{ category_section.slug }}">
+                            {% if category_section.icon %}
+                                {% thumbnail category_section.icon "35x35" crop="center" format="PNG" as thumb %}
+                                    <span class="sub-nav-icon" style="background-image: url('{{ thumb.url }}')"></span>
+                                {% endthumbnail %}
+                            {% endif %}
+                            <span class="sub-nav-title">{{ category_section.title|lower|capfirst}}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+                {% endcomment %}
+
+            </ul>
+            <button class="left-paddle paddle btn hidden">
+                <span class="rm-icon-arrow-left"></span>
+            </button>
+            <button class="right-paddle paddle btn hidden">
+                <span class="rm-icon-arrow-right"></span>
+            </button>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content_wrapper %}
+    <div class="content">
+
+        <section class="radonguide" id="radonguide_s">
+            <div class="container">
+                <div class="section-number-wrapper">
+                    <div class="section-number">1</div>
+                </div>
+                
+                <h2>{% trans "Radonguiden" %}</h2>
+                <p class="text-center">{% blocktrans %}I det følgende vil du på en enkel måde blive guidet til at købe det rigtige radonmåle udstyr samt blive informeret om hvad du skal være opmærksom på
+                ved en radonmåling. Når du er klar til at købe et måleprodukt 
+                kan du gå videre til radonshoppen og vælge det udstyr du har
+                besluttet dig for at købe.{% endblocktrans %}</p>
+            </div>
+        </section>
+
+        <section class="how-radon-enters" id="how-radon-enters_s">
+            <div class="container">
+                <div class="section-number-wrapper">
+                    <div class="section-number">2</div>
+                </div>
+                <h2>{% trans "Hvordan kommer radon ind i huset" %}</h2>
+                <p class="text-center">{% blocktrans %}Før du går i gang med at måle radon er det vigtigt at vide hvordan radon kommer ind i dit hus. I udgangspunktet bliver radonpartikler trukket ind i huset som en konsekvens af det undertryk der
+                opstår pga. den temperaturforskel der er mellem indenfor og udenfor. Som illustreret herunder og listet på punktform ses det at radonpartikler faktisk trænger ind hvor
+                det har mulighed for det.{% endblocktrans %}</p>
+                <img class="home-scheme" src="{% static 'images/house.png' %}" alt="how radon enters" />
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6">
+                        <h3>{% trans "Radonpartikler trænger altså primært ind i huset via." %}:</h3>
+                        <ol>
+                            <li>
+                                {% trans "Samling mellem gulvplade og væg" %}
+                            </li>
+                            <li>
+                                {% trans "Utætheder ved gennemføringer i gulv, fundament og kældervæg, fx. vandforsyning og afløbsrør, gulvafløb, rensebrønde, kabler samt energiforsyning i form af gas el- fjernvarme" %}
+                            </li>
+                            <li>
+                                {% trans "Revner og sprækker i gulve og vægge forårsaget af sætninger el. materialernes krybning, fx. udtørringssvind" %}
+                            </li>
+                            <li>
+                                {% trans "Luftstrømning gennem porøse byggematerialer, fx. betonhulsten og letklinkerblokke eller murede fundamenter med revnet puds. Ofte er der ikke udvendig puds på grundmur under terræn." %}
+                            </li>
+                            <li>
+                                {% trans "Diffusion gennem dæk og kældervæg mod jord" %}
+                            </li>
+                        </ol>
+                        {% trans "Radon kan også i visse tilfælde komme ind via vand og byggemaeterialer." %}
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <h3>{% trans "Ved måling skal du huske at..." %}</h3>
+                        <ul>
+                            <li>
+                                {% trans "Radonkoncentration varierer meget over døgnets 24 timer samt over årstiderne" %}
+                            </li>
+                            <li>
+                                {% trans "Momentane målinger kan give et meget misvisende billede af radonkoncentrationen" %}
+                            </li>
+                            <li>
+                                {% trans "For at få et mere retvisende billede af radonkoncentrationen bør der måles i minimum 2 måneder" %}
+                            </li>
+                            <li>
+                                {% trans "Pga. mest mulig stabilitet i radonniveau i fyringssæsonen anbefales det at man måler i minimum 2 måneder mellem oktober og april." %}
+                            </li>
+                            <li>
+                                {% trans "Det er vigtigt at måle i de rum man opholder sig i flere timer dagligt. Fx. soveværelse,  stue men helst ikke køkken" %}
+                            </li>
+                            <li>
+                                {% trans "Ved måling i bygning med flere etager bør der måles i samtlige etager" %}
+                            </li>
+                            <li>
+                                {% trans "Der bør måles minimum 2 steder for at give bedre indblik i hvordan radon er fordelt i huset" %}
+                            </li>
+                            <li>
+                                {% trans "Målere bør placeres hensigtsmæssigt så de måler under de samme betingelser som husets beboere opholder sig under." %}
+                            </li>
+                            <li>
+                                {% trans "Hvis der ikke er tid til langtidsmåling er den absolut kortest anbefalede målelængde 7 døgn" %}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="measure-types" id="measure-types_s">
+            <div class="container">
+                <div class="section-number-wrapper">
+                    <div class="section-number">3</div>
+                </div>
+                <h2>{% trans "Hvilken instrument type skal du vælge" %}</h2>
+                <p class="text-center">{% trans "Der er i udgangspunktet 2 forskellige instrumenttyper at vælge imellem. Disse er analoge og digitale måleinstrumenter, hvor nogle fordele og ulemper er listet herunder." %}</p>
+                <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                        <div class="dosimeter-type-img" style="background-image: url({% static 'images/analog.jpg' %})"></div>
+                        <div class="lists sep">
+                            <h3>{% trans "Analog måling" %}</h3>
+                            <h4>{% trans "Fordele" %}</h4>
+                            <ul class="plus">
+                                <li>{% trans "Billig" %}</li>
+                                <li>{% trans "Meget pålidelig" %}</li>
+                                <li>{% trans "Anbefalet af sundhedsstyrelsen" %}</li>
+                                <li>{% trans "Resultat rapport følger med et køb" %}</li>
+                            </ul>
+                            <h4>{% trans "Ulemper" %}</h4>
+                            <ul class="minus">
+                                <li>{% trans "Ufleksibel da man skal sende prøver til laboratorium" %}</li>
+                                <li>{% trans "Kan kun bruges 1 gang" %}</li>
+                                <li>{% trans "Følsom overfor varmekilder" %}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <div class="dosimeter-type-img" style="background-image: url({% static 'images/digital.jpg' %})"></div>
+                        <div class="lists">
+                            <h3>{% trans "Digital måling" %}</h3>
+                            <h4>{% trans "Fordele" %}</h4>
+                            <ul class="plus">
+                                <li>{% trans "Fleksibel" %}</li>
+                                <li>{% trans "Intuitiv" %}</li>
+                                <li>{% trans "Giver direkte resultat" %}</li>
+                                <li>{% trans "Kan bruges flere gange og forskellige steder" %}</li>
+                            </ul>
+                            <h4>{% trans "Ulemper" %}</h4>
+                            <ul class="minus">
+                                <li>{% trans "Kompleks måleteknik" %}</li>
+                                <li>{% trans "Større variation på resultat og mindre pålidelighed" %}</li>
+                                <li>{% trans "Forskellige typer af elektroniske målere kan give forskellige resultater" %}</li>
+                                <li>{% trans "Nogle typer af elektroniske målere er følsomme overfor elektromagnetisk stråling" %}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+        </section>
+
+        <section class="ready-to-purchase" id="ready-to-purchase_s">
+            <div class="container">
+                <div class="section-number-wrapper">
+                    <div class="section-number">4</div>
+                </div>
+                <h2>{% trans "Ready to purchase" %}</h1>
+                <a href="{% url 'catalogue:index' %}" class="btn btn-primary">{% trans "See all" %}</a>
+            </div>
+        </section>
+
+        {% comment %}
+        <section class="what-is-section" id="what-is-section_s">
+            <div class="container">
+                <h1>{% trans "What is" %} {{ category.name }}</h1>
+                {{ category.description|safe }}
+            </div>
+        </section>
+        {% endcomment %}
+
+        {# Render blog #}
+        {% comment %}
+        {% if related_entries %}
+            <section class="blog-section section">
+                <div class="container">
+                    <h1 class="text-center header-of-section">{% trans 'Last news' %}</h1>
+                    <div class="blog-wrapper">
+                        {% for object in related_entries %}
+                            {% include 'blog/entry_detail_short.html' %}
+                        {% endfor %}
+                        <a class="btn btn-primary btn-lg" href="{% url 'zinnia:entry_archive_index' %}">{% trans 'See all' %}</a>
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+        {% endcomment %}
+
+        {# Render category section list #}
+        {% if category_sections %}
+            <section class="measure-section" id="seo-section_s">
+                <div class="container">
+                    <h1 class="text-center header-of-section">{% trans 'ADDITIONAL INFORMATION' %}</h1>
+                    <div class="measure-article-wrapper">
+                        {% for category_section in category_sections %}
+                            {% include 'catalogue/partials/category_section_row.html' %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+
+    </div>
+{% endblock content_wrapper %}
+
+{% block extrascripts %}
+{% endblock %}
+
+
+{% block onbodyload %}
+    {{ block.super }}
+    oscar.search.init();
+{% endblock %}

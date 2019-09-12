@@ -1,0 +1,22 @@
+.flatpage {
+    line-height: 29px;
+    h1 {
+        text-align: center;
+    }
+    ol {
+        counter-reset: item;
+    }
+
+    ol > li {
+        counter-increment: item;
+    }
+
+    ol ol > li {
+        display: block;
+    }
+
+    ol ol > li:before {
+        content: counters(item, ".") ". ";
+        margin-left: -15px;
+    }
+}

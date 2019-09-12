@@ -1,0 +1,101 @@
+.measure-article-item {
+    min-height: 350px;
+    display: flex;
+    margin-bottom: 100px;
+    &.odd {
+        flex-direction: row;
+        .img-wrapper {
+            float: right;
+        }
+        .blog-date {
+            transform: rotate(-90deg);
+            left: 0;
+            bottom: 0;
+            transform-origin: 0;
+        }
+    }
+    &.even {
+        flex-direction: row-reverse;
+        .img-wrapper {
+            float: left;
+        }
+        .blog-date {
+            transform: rotate(-90deg);
+            right: 0;
+            top: 0;
+            transform-origin: 100%;
+        }
+    }
+    h3 {
+        height: 105px;
+        position: relative;
+        line-height: 105px;
+        margin: 0 0 10px 0;
+    }
+    .img-wrapper{
+        width: 100%;
+        overflow: hidden;
+        max-width: 528px;
+        max-height: 350px;
+        img {
+            margin: 0 auto;
+            display: block;
+            width: 100%;
+
+        }
+    }
+    .article-number {
+        position: absolute;
+        opacity: 0.1;
+        color: #70819D;
+        font-size: 144px;
+        font-weight: bold;
+        letter-spacing: 14px;
+        left: -10px;
+    }
+
+    .measure-main-text {
+        font-size: $font-size-medium;
+        line-height: 29px;
+    }
+
+
+    .blog-date {
+        position: absolute;
+        height: 2px;
+        border-radius: 1.5px;
+        background-color: #83CEFF;
+        width: 350px;
+        span {
+            background-color: $white;
+            position: absolute;
+            right: 0;
+            top: 0;
+            margin-top: -7px;
+            padding-left: 20px;
+            font-size: $font-size-small;
+            font-weight: bold;
+            letter-spacing: 2px;
+            line-height: 16px;
+            text-transform: uppercase;
+        }
+    }
+}
+
+
+@media (max-width: $dev-xs)  {
+    .measure-article-item {
+        display: block;
+        .img-wrapper {
+            float: none;
+            max-width: 100%;
+            max-height: 100%;
+            margin-bottom: 30px;
+        }
+    }
+}
+@media (min-width: $dev-xs)  {
+    .measure-article-item {
+
+    }
+}

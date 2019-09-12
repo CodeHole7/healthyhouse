@@ -1,0 +1,26 @@
+{% load i18n staticfiles base_context %}
+
+<div class="media js-image-item-row">
+  <div class="media-left">
+      <img src="{{ url }}" 
+          class="media-object js-image-item-preview" 
+          style="width:60px">
+  </div>
+  <div class="media-body">
+      <div class="input-group" style="width: 100%;">
+          <input 
+              class="form-control input-sm image-item-field js-image-item-field"  
+              type="text"
+              readonly
+              value="{{ url }}">
+          <div class="input-group-btn">
+              <button 
+                  class="btn btn-default btn-sm js-image-item-remove" 
+                  type="button"
+                  data-id="{{ id }}">
+                    {% trans "remove" %}
+              </button>
+          </div>
+      </div>
+  </div>
+</div>

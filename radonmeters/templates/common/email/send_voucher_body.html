@@ -1,0 +1,7 @@
+{% extends 'base_email.html' %}
+{% load i18n %}
+
+{% block body %}
+    <h1>{% trans "You get a discount coupon." %}</h1>
+    <p>{% trans "Coupon code:" %} {{ code }}</p>
+{% endblock %}

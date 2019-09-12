@@ -1,0 +1,170 @@
+{% extends "checkout/checkout.html" %}
+{% load i18n static %}
+
+{% block title %}
+    {% trans "Shipping address" %} | {{ block.super }}
+{% endblock %}
+
+{% block checkout_nav %}
+    {% include 'checkout/nav.html' with step=1 %}
+{% endblock %}
+
+{% block checkout_title %}{% trans "Shipping address" %}{% endblock %}
+
+{% block order_contents %}{% endblock %}
+
+{% block shipping_address %}
+<div class="row shipping-payment">
+    <div class="col-sm-12 available-addresses">
+        <h1 class="text-center checkout-header">{% trans "Where should we ship to?" %}</h1>
+        {% if user.is_authenticated %}
+            {% if addresses %}
+                <h2 class="text-center">{% trans "An address from your address book?" %}</h3>
+                <div class="choose-block">
+                    <div class="row">
+                        {% for address in addresses %}
+                            {% block select_address_form %}
+                                <div class="col-sm-6">
+                                    <div class="well">
+                                        <address>
+                                            {% block select_address_fields %}
+                                                {% for field in address.active_address_fields %}
+                                                    <p>{{ field }}</p>
+                                                {% endfor %}
+                                            {% endblock %}
+                                        </address>
+                                        <form action="{% url 'checkout:shipping-address' %}" method="post" id="select_shipping_address_{{ address.id }}">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="action" value="ship_to" />
+                                            <input type="hidden" name="address_id" value="{{ address.id }}" />
+                                            {% if address.is_default_for_shipping %}
+                                                <button type="submit" class="btn btn-success btn-sm ship-address" data-loading-text="{% trans 'Saving...' %}"><i class="icon-ok"></i> {% trans "Ship to your default shipping address" %}</button>
+                                            {% else %}
+                                                <button type="submit" class="btn btn-primary btn-sm ship-address" data-loading-text="{% trans 'Saving...' %}">{% trans "Ship to this address" %}</button>
+                                            {% endif %}
+
+                                            {% comment %}
+                                            <div class="btn-group address-controls">
+                                                <a href="{% url 'checkout:user-address-update' pk=address.id %}" class="btn btn-default btn-sm">{% trans "Edit address" %}</a>
+                                                <button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="{% url 'checkout:user-address-delete' pk=address.id %}" class="btn-remove-address">{% trans "Delete" %}</a></li>
+                                                </ul>
+                                            </div>
+                                            {% endcomment %}
+                                        </form>
+                                    </div>
+                                </div>
+                                {% if forloop.counter|divisibleby:2 %}
+                                    </div><div class="row">
+                                {% endif %}
+                            {% endblock %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <h3 class="text-center">{% trans "Or a new address?" %}</h3>
+            {% endif %}
+        {% endif %}
+
+        {% block new_address_form %}
+
+            <form action="{% url 'checkout:shipping-address' %}" method="post" id="new_shipping_address" class="form form-vertical shipping-form form-with-button large-select2" novalidate>
+                {% csrf_token %}
+
+
+
+                <div class="col-sm-offset-1 col-sm-10 no-padding">
+                    <div class="row">
+                        <!-- {% include "partials/form_fields.html" with form=form %} -->
+
+                        {% if form.is_bound and not form.is_valid %}
+                            <div class="alert alert-danger">
+                                <strong>{% trans "Oops! We found some errors" %}</strong> - {% trans "please check the error messages below and try again" %}
+                            </div>
+                        {% endif %}
+
+                        {% if form.non_field_errors %}
+                            {% for error in form.non_field_errors %}
+                                <div class="alert alert-danger">
+                                    <i class="icon-exclamation-sign"></i> {{ error }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="row">
+                     <!-- first_name last_name line1 line2 line3 line4 state postcode country phone_number notes -->
+                            <div class="col-xs-12 col-sm-5">
+                                {% for field in form %}
+                                    {% if field.is_hidden %}
+                                        {% include 'partials/form_field.html' with field=field style=style %}
+                                    {% endif %}
+                                    {% blocktrans asvar helpblock %}
+                                        You will be able to edit this email in own <a href="/accounts/profile/edit/">Profile</a>.
+                                    {% endblocktrans %}
+                                    {% if forloop.counter < 6 %}
+                                        {% if field.name == 'email' %}
+                                            {% include 'partials/form_field.html' with field=field style=style helpblock=helpblock group_margin_b='True' %}
+                                        {% else %}
+                                            {% with None as helpblock %}
+                                                {% include 'partials/form_field.html' with field=field style=style %}
+                                            {% endwith %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+
+                            <div class="col-xs-12 col-sm-5 col-sm-offset-2">
+                                {% for field in form %}
+
+                                    {% if forloop.counter > 5 and forloop.counter < 11 %}
+                                        {% include 'partials/form_field.html' with field=field style=style %}
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                    </div>
+                    <div class="row">
+                            <div class="col-xs-12">
+                                {% for field in form %}
+
+                                    {% if forloop.counter > 10 %}
+                                        {% include 'partials/form_field.html' with field=field style=style %}
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="col-sm-12 text-center">
+                            <button type="submit" class="btn btn-lg btn-primary submit-form" data-loading-text="{% trans 'Continuing...' %}">{% trans "Go to payment" %}</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12 text-center back-link">
+                            <a href="{% url 'basket:summary' %}">{% trans "back to cart" %}</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        {% endblock %}
+    </div>
+</div>
+{% endblock shipping_address %}
+
+{% block shipping_method %}{% endblock %}
+{% block payment_method %}{% endblock %}
+
+
+{% block extrascripts %}
+    <script>
+        var _radonOptions = {
+            'requiredError': "<ul class=\"errorlist\"><li>{% trans 'This field is required.' %}</li></ul>",
+            'invalidEmailError': "<ul class=\"errorlist\"><li>{% trans 'Enter a valid email address.' %}</li></ul>",
+            'invalidPhoneError': "<ul class=\"errorlist\"><li>{% trans 'Enter a valid phone number' %}</li></ul>",
+        };
+    </script>
+    <script src="{% static 'bower/autosize/dist/autosize.min.js' %}"></script>
+    <script src="{% static 'js/pages/shipping_form.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+
+{% block extrahead %}{{ block.super }}
+    <script src="https://code.jquery.com/jquery.min.js"></script>
+    <script src="{% static 'js/admin_restart_server.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+  <form class="restart-supervisor" method="post"
+        data-main_admin_url="{% url 'admin:index' %}">{% csrf_token %}
+    <div>Be careful with restarting. During restarting server users who use the site might get the error.</div>
+    <button class="button-restart" type="submit" >Restart server</button>
+    <span class="span-restart" style="display: none; color: red">Please, wait. Server is being restarted.</span>
+    <div class="span-restart-success" style="display: none; color: green;">Server has been restarted.</div>
+  </form>
+{% endblock %}

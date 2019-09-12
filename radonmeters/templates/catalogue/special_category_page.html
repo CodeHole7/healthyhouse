@@ -1,0 +1,184 @@
+{% extends "layout.html" %}
+
+{% load i18n %}
+{% load basket_tags static %}
+{% load promotion_tags %}
+{% load category_tags %}
+{% load product_tags %}
+{% load thumbnail %}
+
+{% block title %}
+    {% if summary %}{{ summary }} |{% endif %} {{ block.super }}
+{% endblock %}
+
+{% block headertext %}{{ summary }}{% endblock %}
+
+{# block breadcrumbs #}
+<div class="breadcrumb-container">
+    <ul class="breadcrumb">
+        <li>
+            <a href="{{ homepage_url }}">{% trans "Home" %}</a>
+        </li>
+        {% for category in category.get_ancestors %}
+            <li class="rm-icon-arrow-pag-right">
+                <a href="{{ category.get_absolute_url }}">{{ category.name|lower|capfirst }}</a>
+            </li>
+        {% endfor %}
+        <li class="rm-icon-arrow-pag-right active">{{ category.name|lower|capfirst }}</li>
+    </ul>
+</div>
+{# endblock breadcrumbs #}
+
+{# block column_left #}
+    {% category_tree as tree_categories %}
+    {% if tree_categories %}
+        <div class="side_categories">
+            <ul class="nav nav-list">
+                {% for tree_category, info in tree_categories %}
+                    <li>
+                        <a href="{{ tree_category.get_absolute_url }}">
+                            {% if tree_category.pk == category.pk %}
+                                <strong>{{ tree_category.name }}</strong>
+                            {% else %}
+                                {{ tree_category.name }}
+                            {% endif %}
+                        </a>
+
+                        {% if info.has_children %}<ul>{% else %}</li>{% endif %}
+                        {% for n in info.num_to_close %}
+                            </ul></li>
+                        {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+{# endblock #}
+
+{% block subnavigation %}
+    <div class="sub-navigation">
+        <div class="sub-nav-inner-wrapper">
+            <ul class="sub-nav-list">
+
+                {% category_tree as tree_categories %}
+                {% if tree_categories %}
+                    {% for tree_category, info in tree_categories %}
+                        {% if tree_category.pk == category.pk %}
+
+                            <li class="sub-nav-item">
+                                <a href="#what-is-section">
+                                    {% if tree_category.image %}
+                                        {% thumbnail tree_category.image "35x35" crop="center" format="PNG" as thumb %}
+                                            <span class="sub-nav-icon" style="background-image: url('{{ thumb.url }}')"></span>
+                                        {% endthumbnail %}
+                                    {% endif %}
+                                    <span class="sub-nav-title">{% trans "What is" %} {{tree_category|lower|capfirst}}</span>
+                                </a>
+                            </li>
+
+                            <li class="sub-nav-item">
+                                <a href="#consultation-section">
+                                        <span class="sub-nav-icon" style="background-image: url('{% static 'images/support.png' %}')"></span>
+                                    <span class="sub-nav-title">{% trans 'Consultation' %}</span>
+                                </a>
+                            </li>
+
+                            {# Cycle for render sub-categories #}
+                            {% for sub in tree_category.get_children %}
+                                <li class="sub-nav-item">
+                                    <a href="#sub-category-section-{{ sub.pk }}">
+                                        {% if sub.image %}
+                                            {% thumbnail sub.image "35x35" crop="center" format="PNG" as thumb %}
+                                                <span class="sub-nav-icon" style="background-image: url('{{ thumb.url }}')"></span>
+                                            {% endthumbnail %}
+                                        {% endif %}
+                                        <span class="sub-nav-title">{{sub.name|lower|capfirst}}</span>
+                                    </a>
+                                </li>
+                            {% endfor %}
+
+                            {# Cycle for render category sections #}
+                            {% for category_section in category_sections %}
+                                <li class="sub-nav-item">
+                                    <a href="#{{ category_section.slug }}">
+                                        {% if category_section.icon %}
+                                            {% thumbnail category_section.icon "35x35" crop="center" format="PNG" as thumb %}
+                                                <span class="sub-nav-icon" style="background-image: url('{{ thumb.url }}')"></span>
+                                            {% endthumbnail %}
+                                        {% endif %}
+                                        <span class="sub-nav-title">{{ category_section.title|lower|capfirst}}</span>
+                                    </a>
+                                </li>
+                            {% endfor %}
+
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+
+            </ul>
+            <button class="left-paddle paddle btn hidden">
+                <span class="rm-icon-arrow-left"></span>
+            </button>
+            <button class="right-paddle paddle btn hidden">
+                <span class="rm-icon-arrow-right"></span>
+            </button>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content_wrapper %}
+    <div class="content">
+
+        <section class="what-is-section" id="what-is-section_s">
+            <div class="container">
+                <h1>{% trans "What is" %} {{category.name}}</h1>
+                {{ category.description|safe }}
+            </div>
+        </section>
+
+        {# Render blog #}
+        {% if related_entries %}
+            <section class="blog-section section">
+                <div class="container">
+                    <h1 class="text-center header-of-section">{% trans 'Last news' %}</h1>
+                    <div class="blog-wrapper">
+                        {% for object in related_entries %}
+                            {% include 'blog/entry_detail_short.html' %}
+                        {% endfor %}
+                        <a class="btn btn-primary btn-lg" href="{% url 'zinnia:entry_archive_index' %}">{% trans 'See all' %}</a>
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+
+        {# Render category section list #}
+        {% if category_sections %}
+            <section class="measure-section" id="seo-section_s">
+                <div class="container">
+                    <h1 class="text-center header-of-section">{% trans 'ADDITIONAL INFORMATION' %}</h1>
+                    <div class="measure-article-wrapper">
+                        {% for category_section in category_sections %}
+                            {% include 'catalogue/partials/category_section_row.html' %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+
+    </div>
+{% endblock content_wrapper %}
+
+{% block extrascripts %}
+    <script>
+        var _radonOptions = {
+            'requiredError': "<ul class=\"errorlist\"><li>{% trans 'This field is required.' %}</li></ul>",
+            'invalidEmailError': "<ul class=\"errorlist\"><li>{% trans 'Enter a valid email address.' %}</li></ul>",
+        };
+    </script>
+    <script src="{% static 'js/pages/category.js' %}"></script>
+{% endblock %}
+
+
+{% block onbodyload %}
+    {{ block.super }}
+    oscar.search.init();
+{% endblock %}

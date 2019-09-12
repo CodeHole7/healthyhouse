@@ -1,0 +1,12 @@
+[
+    {
+        "pk": 1,
+        "model": "promotions.rawhtml",
+        "fields": {
+            "body": "<h3>Take responsibility for your own and your family's health. Measure the radon concentration in your house</h3><p>It is easy and quick to do a radon measurement and if the radon content is too high there is no need to despair. In many cases, the radon content can be lowered to an acceptable level using simple solutions such as increased venting / ventilation and sealing of cracks and cracks. See also our section on radon protection. We offer digital radon meters for both private and recruitment use as well as radon dosimeters / radon measuring boxes. Building authorities recommend that the radon content in buildings be kept below 100 Bq / m³. It is estimated that 350,000 Danish households exceed this limit. We accept the following payment methods: Dankort, Visa / Dankort, Visa, Visa Electron, MasterCard, Maestro, JCB and American Express.</p>",
+            "date_created": "2017-10-01 00:00Z",
+            "name": "home_page_our_advantages",
+            "display_type": "Home page our advantages"
+        }
+    }
+]

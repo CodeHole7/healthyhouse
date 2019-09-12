@@ -1,0 +1,40 @@
+{
+  "name": "Radonmeters",
+  "description": "",
+  "main": "gulpfile.js",
+  "authors": [
+    "SteelKiwi.dev"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bLazy": "blazy#1.8.2",
+    "bootstrap-sass": "3.3.7",
+    "autosize": "4.0.0",
+    "cookieconsent": "3.0.4",
+    "font-awesome": "fontawesome#4.7.0",
+    "jquery_lazyload": "jquery.lazyload#1.9.7",
+    "jquery": "=3.2.1",
+    "jssocials": "1.5.0",
+    "moment": "momentjs#2.20.1",
+    "stickyjs": "*",
+    "vue-bootstrap-datetimepicker": "=3.1.1",
+    "slick-carousel": "^1.7.1",
+    "vue-select": "0.3.1",
+    "vue": "#2.5.13",
+    "eonasdan-bootstrap-datetimepicker": "4.17.47",
+    "intl-tel-input": "12.1.9",
+    "jquery-auto-complete": "1.0.7"
+  },
+  "resolutions": {
+    "vue": "^2.0.0",
+    "jquery": "3.2.1"
+  }
+}

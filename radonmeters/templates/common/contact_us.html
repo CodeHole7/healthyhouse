@@ -1,0 +1,88 @@
+{% extends 'layout.html' %}
+
+{% load i18n %}
+{% load static %}
+
+{% block title %}
+    {% trans "CONTACT US" %} | {{ block.super }}
+{% endblock %}
+
+{% block content_wrapper %}
+    <div class="container contact-us">
+        <h1 class="text-center">{% trans "Contact us" %}</h1>
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                {% if config.BUSINESS_NAME %}
+                    <p>{{ config.BUSINESS_NAME }}</h3>
+                {% endif %}
+
+                {% if config.CONTACT_INFO_ADDRESS %}
+                    <p>{{ config.CONTACT_INFO_ADDRESS }}</h3>
+                {% endif %}
+
+                {% if config.CONTACT_INFO_EMAIL %}
+                    <p>{% trans 'Email' %}: {{ config.CONTACT_INFO_EMAIL }}</p>
+                {% endif %}
+
+                {% if config.CONTACT_INFO_PHONE_NUMBER %}
+                    <p>{% trans 'Tel.' %} {{ config.CONTACT_INFO_PHONE_NUMBER }}</p>
+                {% endif %}
+
+                {% if config.CONTACT_INFO_CVR_NUMBER %}
+                    <p>{% trans 'CVR No.' %} {{ config.CONTACT_INFO_CVR_NUMBER }}</p>
+                {% endif %}
+                {% if config.CONTACT_INFO_BANK_NAME %}
+                    <p>{% trans 'Bank details' %}: </p>
+                    <p>{% trans 'Loans Save Bank' %} {{ config.CONTACT_INFO_BANK_NAME }}</p>
+                {% endif %}
+
+                {% if config.CONTACT_INFO_BANK_NAME %}
+                    {% if config.CONTACT_INFO_REGISTRATION_NUMBER %}
+                        <p>{% trans 'Registration number.' %} {{ config.CONTACT_INFO_REGISTRATION_NUMBER }}</p>
+                    {% endif %}
+                    {% if config.CONTACT_INFO_ACCOUNT_NUMBER %}
+                        <p>{% trans 'Account No.' %} {{ config.CONTACT_INFO_ACCOUNT_NUMBER }}</p>
+                    {% endif %}
+                {% endif %}
+            </div>
+
+            <div class="col-xs-12 col-sm-6">
+                <form enctype="multipart/form-data" action="{% url 'common:contact_us_request' %}" data-submit-to-server="false" method="post" id="contact-us-form" class="form form-vertical" novalidate>
+                    {% csrf_token %}
+                    {% for field in form %}
+                        {% include 'partials/form_field.html' with field=field style=style rows=2 %}
+                    {% endfor %}
+                    <div class="form-group">
+                        <div class="g-recaptcha"
+                            data-sitekey="{{ config.SERVICES_GOOGLE_RECAPTCHA_KEY }}"
+                            data-callback="onSubmitForm"></div>
+                    </div>
+                    <button type="submit" 
+                        class="btn btn-primary btn-lg btn-block" 
+                        >{% trans 'I want a consultation' %}</button>
+                    
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block extrascripts %}
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <script>
+        var _radonOptions = {
+            'requiredError': "<ul class=\"errorlist\"><li>{% trans 'This field is required.' %}</li></ul>",
+            'invalidEmailError': "<ul class=\"errorlist\"><li>{% trans 'Enter a valid email address.' %}</li></ul>",
+            'zendesk_request_api': 'https://radonmeters.zendesk.com/api/v2/requests.json',
+            'locale_id': '{{LANGUAGE_CODE}}',
+            'success_send': '{% trans "Your message successfully sent." %}'
+        };
+    </script>
+    <script src="{% static 'bower/autosize/dist/autosize.min.js' %}"></script>
+    <script src="{% static 'js/pages/contact_us.js' %}"></script>
+    <script>
+        function onSubmitForm() {}
+    </script>
+{% endblock %}

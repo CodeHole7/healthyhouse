@@ -1,0 +1,70 @@
+{% extends "customer/baseaccountpage.html" %}
+{% load i18n %}
+{% load currency_filters %}
+{% load staticfiles %}
+{% load base_context %}
+
+{% block breadcrumbs %}
+<div class="breadcrumb-container">
+    <ul class="breadcrumb">
+        <li>
+            <a href="{{ homepage_url }}">{% trans 'Home' %}</a>
+        </li>
+        <li>
+            <a href="{% url 'customer:summary' %}">{% trans 'Profile' %}</a>
+        </li>
+        <li class="active">{% trans "Your orders" %}</li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block extrastyles %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "bower/jquery-auto-complete/jquery.auto-complete.css" %}" />
+{% endblock %}
+
+{% block tabcontent %}
+    <div class="container order-page" id="order-list" data-url="{% url 'api:profile:orders' %}">
+            {% csrf_token %}
+            <h2 class="order-page-title">{{ form.description }}</h2>
+            {% if orders %}
+                {% base_config as config %}
+                <a href="#" class="link-return" onclick="openReturnportal({{ config.SERVICES_RETUR_LINK }});">{% trans "Return" %}</a>
+            {% endif %}
+            <div class="table order-table" >
+                <div class="order-table-header table-row">
+                    <div class="table-head">{% trans "Order number" %}</div>
+                    <div class="table-head">{% trans "Date" %}</div>
+                    <div class="table-head with-width">{% trans "Sum" %}</div>
+                    <div class="table-head with-width">{% trans "Status" %}</div>
+                </div>
+                <div v-for="(order, key) in orders" :key="order.id" :order="order" :is="'order-item'" @open="openOrder" @close="closeOrder"></div>
+            </div>
+            <div class="empty-list-message" :class="{'show': isEmpty}">
+                <p class="text-center">{% trans "You haven't placed any orders yet." %}</p>
+            </div>
+            <div v-show="showLoader" class="order-loader">
+                <div class="loader-container">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+            <button class="btn btn-primary load-more" :class="{'show': next_page}" :disabled="isDisabled" type="button" @click="loadMore">{% trans 'Load more' %}</button>
+    </div>
+{% endblock tabcontent %}
+
+{% block extrascripts %}
+    <script id="order-row" type="text/template">
+        {% include 'customer/partials/order_row.html' %}
+    </script>
+    <script id="default_product_row" type="text/template">
+        {% include 'customer/partials/default_product_row.html' %}
+    </script>
+    <script id="dosimeters_product_row" type="text/template">
+        {% include 'customer/partials/dosimeters_product_row.html' %}
+    </script>
+
+    <script src="{% static 'bower/jquery-auto-complete/jquery.auto-complete.min.js' %}"></script>
+    <script src="{% static 'bower/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'bower/vue-bootstrap-datetimepicker/dist/vue-bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'js/pages/order_list.js' %}"></script>
+{% endblock %}

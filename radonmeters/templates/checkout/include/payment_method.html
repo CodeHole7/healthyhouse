@@ -1,0 +1,27 @@
+{% load currency_filters %}
+{% load thumbnail %}
+{% load i18n %}
+{% load purchase_info_tags %}
+{% load staticfiles %}
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="billing-info-container checkout-block-info">
+            <h2 class="checkout-sub-header">
+                <span class="checkout-sub-header-text">{% trans "Billing info" %}</span>
+                <span class="checkout-sub-header-link">
+                    <a href="{% url 'checkout:payment-details' %}">
+                        {% trans "change" %}
+                    </a>
+                </span>
+            </h2>
+            <div class="details-container">
+                <p>
+                    <span class="card-icon {{ card_data.brand|default:'hidden' }}"></span>
+                    {% trans "Ending:" %}   хххх  хххх  хххх  {{ card_data.last4|default:'xxxx' }}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

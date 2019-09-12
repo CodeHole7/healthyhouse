@@ -1,0 +1,238 @@
+// Application styles
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    direction: ltr;
+}
+body.off-scrolling {
+    overflow: hidden;
+}
+body.with-bg {
+    #app {
+        background-image: url('../images/bubbles_bg-min.png?v=1');
+        min-height: 100%;
+        background-position: center 0;
+        background-size: 100%;
+        background-repeat: no-repeat;
+        @media (max-width: $dev-xs) {
+            background-size: initial;
+        }
+    }
+}
+
+body.storefront.with-bg-error {
+    #app {
+        background-image: url('../images/error_bg.png?v=1');
+        background-position: center 0;
+        background-size: cover;
+        justify-content: initial;
+        background-repeat: no-repeat;
+        @media (max-width: $dev-xs) {
+            background-size: initial;
+        }
+    }
+}
+
+body.storefront {
+     #app {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex: 1 0 auto;
+        min-height: 100%;
+    }
+
+    .container-fluid {
+        width: 100%;
+    }
+}
+
+.cc-banner {
+    border-bottom: 1px solid $gray-ultra-light;
+}
+
+a:active, a:hover, a:focus, button:active, button:focus, th:active, th:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+#app {
+    color: $brand-default;
+    & > .page {
+        padding-bottom: 100px;
+        padding-top: 30px;
+        flex: 1 0 auto;
+        overflow: hidden;
+        @media (max-width: $dev-xs) {
+            padding-bottom: 30px;
+        }
+    }
+}
+
+
+
+.full-text {
+    max-width: 960px;
+    margin: 36px auto 0;
+    padding: 0 24px;
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    h2, h3, h4, h5 {
+        margin: 30px 0 10px;
+    }
+    p {
+        color: $brand-default;
+        font-size: $font-size-medium;
+    }
+    strong {
+        font-weight: 400;
+        color: $brand-default;
+    }
+}
+
+
+
+.help-block {
+    font-size: 12px;
+    padding: 0 30px;
+    color: lighten($gray-light, 5%)!important;
+    margin: 0;
+}
+
+.section {
+    margin-bottom: 90px;
+}
+
+
+
+.breadcrumb-container {
+    background-color: $breadcrumb-bg;
+    border-top: 1px solid $gray-ultra-light;
+    border-bottom: 1px solid $gray-ultra-light;
+    a {
+        @extend .brand-link;
+    }
+    .breadcrumb {
+        @extend .container;
+        margin-bottom: 0;
+        font-size: $font-size-small;
+        letter-spacing: 1px;
+        & > li + li::before{
+            content: '\e90c \00a0';
+            font-family: 'rm icons';
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-font-smoothing: antialiased;
+            font-style: normal;
+            font-variant: normal;
+            font-weight: normal;
+            line-height: 1;
+            speak: none;
+            text-transform: none;
+            font-size: 7px;
+        }
+    }
+}
+
+.center_block {
+    margin: 0 auto;
+    float: none;
+}
+
+// SOCIAL SHARING LINKS "JSSOCIAL"
+.jssocials-shares {
+    white-space: nowrap;
+}
+
+.jssocials-share {
+    display: inline-block;
+    a {
+        display: inline-block;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background-color: $brand-info;
+        color: $white;
+        text-align: center;
+        font-size: $font-size-small;
+        line-height: 22px;
+        margin-right: 13px;
+    }
+    &.jssocials-share-facebook {
+        a:hover, a:focus{
+            background-color: $soc-facebook-color;
+        }
+    }
+    &.jssocials-share-twitter {
+        a:hover, a:focus{
+            background-color: $soc-twitter-color;
+        }
+    }
+
+}
+
+// MESSAGES
+#messages {
+    position: absolute;
+    z-index: 100;
+    right: 3%;
+    width: 400px;
+    .alert {
+        box-shadow: 0 2px 17px 0 rgba(193,207,228,0.27);
+        transform: matrix3d(1,0,0.00,0,0.00,0,1.00,0.0005,0,-1,0,0,0,0,10,1);
+        transition: all .3s;
+        &.in {
+            transform: matrix3d(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1);
+        }
+    }
+    .alertinner {
+        word-break: break-word;
+        .btn {
+            padding: $padding-small-vertical $padding-small-horizontal;
+            font-size: 9px;
+        }
+    }
+}
+
+// IMG LAZY LOADING "BLAZY"
+.b-lazy {
+    filter: blur(25px);
+    transition: all 0.3s;
+
+   &.show {
+        opacity:1;
+        filter: blur(0px);
+   }
+}
+
+// WELLS
+.well {
+    h3 {
+        margin-top: 0;
+    }
+}
+
+// CLOUDZOOM
+.cloudzoom-zoom-inside {
+    background-color: $white;
+}
+
+
+@media (max-width: $dev-xs)  {
+    .page {
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+    #messages {
+        z-index: 10;
+        top: initial;
+        right: initial;
+        width: inherit;
+    }
+    .sticky-wrapper {
+        width: calc(100% - 30px)!important;
+    }
+}

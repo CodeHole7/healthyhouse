@@ -1,0 +1,295 @@
+.basket-page-content {
+    position: relative;
+    .basket_summary {
+        display: table;
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .basket-title,
+    .basket-item {
+        display: table-row;
+        border: 1px solid $gray-ultra-light;
+    }
+    .basket-item-cell {
+        display: table-cell;
+        vertical-align: top;
+    }
+    .basket-item-price,
+    .quantity-item-cell,
+    .item-main-info,
+    .item-image,
+    .item-detail {
+        @extend .basket-item-cell;
+    }
+    //
+    .basket-item {
+        position: relative;
+    }
+    .basket-title {
+        background-color: $bg-gray;
+        font-size: 10px;
+        font-weight: bold;
+        letter-spacing: 1px;
+        line-height: $font-size-medium;
+        text-transform: uppercase;
+        .basket-item-cell {
+            padding-top: 14px;
+            padding-bottom: 14px;
+            &:first-child {
+                padding-left: 30px;
+            }
+        }
+    }
+    .item-main-info {
+        width: 45%;
+    }
+    .item-detail {
+        padding-top: 24px;
+        max-width: 315px;
+        h3 {
+            margin: 0 0 18px 0;
+        }
+        p {
+            line-height: 23px;
+        }
+        a{
+            font-size: 16px;
+            font-weight: bold;
+            line-height: $font-size-medium;
+            color: $brand-default;
+            &:hover,
+            &:focus {
+                color: $brand-info;
+                text-decoration: none;
+            }
+        }
+    }
+    .item-image {
+        padding: 24px 30px;
+        .thumbnail {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 0;
+        }
+        a:focus,
+        a:hover {
+            .thumbnail {
+                border-color: $brand-default;
+            }
+        }
+    }
+    .quantity-item-cell {
+        padding-top: 24px;
+        width: 15%;
+        .quantity-incr,
+        .quantity-decr {
+            background-color: $bg-gray;
+            &:hover,
+            &:focus {
+                background-color: $brand-info;
+            }
+        }
+        .error-block {
+            padding-left: 0!important;
+        }
+    }
+
+    .remove-item {
+        position: absolute;
+        right: 28px;
+        top: 24px;
+    }
+
+    .basket-item-price {
+        padding-top: 24px;
+        font-size: $font-size-medium;
+        font-weight: 600;
+        line-height: 16px;
+        color: $brand-info;
+        position: relative;
+        width: 20%;
+    }
+
+
+    .mobile-hint {
+        font-weight: 400;
+        color: $brand-default;
+
+    }
+
+
+    .basket_totals {
+        margin-top: -1px;
+        td {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        .total {
+            width: 20%;
+        }
+
+        tr {
+            border: 1px solid #DEE3EB;
+        }
+
+        .total.align-right {
+            word-break: break-all;
+        }
+
+        .padd-cell {
+            width: 60%;
+        }
+    }
+
+    .basket-total-footer {
+        background-color: $bg-gray;
+        font-weight: 600;
+        td {
+            height: 70px;
+            vertical-align: middle;
+        }
+        .total {
+        }
+        .price_color {
+            color: $brand-info;
+            line-height: 38px;
+        }
+    }
+
+    .close {
+        font-size: 12px;
+        color: $brand-default;
+        opacity: 1;
+        &:hover,
+        &:focus {
+            color: $brand-danger;
+        }
+    }
+
+    .dimmer {
+        display: none;
+        background-color: rgba(255, 255, 255, .5);
+        width: 100%;
+        min-height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 7;
+        .loader-container {
+            position: absolute;
+            top: 40%;
+            width: 100%;
+            margin-top: -20px;
+        }
+    }
+
+    #voucher_form_container {
+        .form-control {
+            @extend .input-sm;
+        }
+    }
+}
+
+.basket-header {
+    margin-bottom: 30px;
+}
+
+.basket-proceed-container {
+    margin-top: 40px;
+}
+
+
+.delete-voucher-form {
+    .btn {
+        margin-top: 0;
+        background-color: transparent;
+        color: gray;
+        border-color: transparent;
+        font-size: 12px;
+        padding: 0 15px 0 0;
+
+        &:hover,
+        &:focus,
+        &:active {
+            border-color: transparent;
+            background-color: transparent;
+            color: $brand-danger;
+        }
+    }
+}
+
+
+@media (max-width: $dev-xs)  {
+    .basket-page-content {
+        padding-left: 0;
+        padding-right: 0;
+        .basket-item {
+            position: relative;
+            display: block;
+            margin-bottom: 15px;
+            padding-bottom: 24px;
+        }
+        .basket-item-cell {
+            display: block;
+        }
+        .item-main-info {
+            width: 100%;
+            text-align: center;
+        }
+        .item-image {
+            padding-right: 0;
+            padding-left: 0;
+            text-align: center;
+            .thumbnail {
+                display: inline-block
+            }
+        }
+        .checkout-quantity {
+            padding-left: 15px;
+            padding-right: 15px;
+            text-align: center;
+            .quantity {
+                display: inline-block;
+            }
+        }
+        .quantity-item-cell {
+            width: 100%;
+        }
+        .item-detail {
+            padding-top: 0;
+            max-width: 100%;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+        .basket-item-price {
+            width: 100%;
+            padding-right: 15px;
+            padding-left: 15px;
+            text-align: center;
+        }
+        .basket_totals {
+            margin-top: -1px;
+            .total {
+                width: 50%;
+            }
+            .padd-cell {
+                width: 0%;
+            }
+        }
+        #voucher_form_link {
+            display: block;
+            margin-bottom: 30px;
+        }
+        #voucher_form_container {
+            margin-bottom: 30px;
+        }
+    }
+}
+
+@media (min-width: $dev-xs)  {
+    .basket-page-content {
+        .mobile-hint {
+            display: none;
+        }
+    }
+}

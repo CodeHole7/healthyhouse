@@ -1,0 +1,57 @@
+{% extends 'dashboard/layout.html' %}
+{% load i18n %}
+
+{% block body_class %}{{ block.super }} create-page{% endblock %}
+
+{% block title %}
+    {{ title }} | {% trans "Shipment" %} | {{ block.super }}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <ul class="breadcrumb">
+        <li>
+            <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+        </li>
+        <li>
+            <a href="{% url 'dashboard:shipment-list' %}">{% trans "Shipment" %}</a>
+        </li>
+        {% if shipment %}
+            <li class="active">{% trans 'Edit shipments' %}</li>
+        {% else %}
+            <li class="active">{% trans 'Create shipments' %}</li>
+        {% endif %}
+    </ul>
+{% endblock %}
+
+{% block headertext %}
+    {% if shipment %}
+        ID: {{ shipment.id }}
+    {% else %}
+        {% trans "Create new default product" %}
+    {% endif %}
+{% endblock %}
+
+{% block dashboard_content %}
+    <form action="." method="post" class="form-stacked well wysiwyg">
+        {% csrf_token %}
+        <input type="hidden" name="next_url" value="{{ request.GET.next_url }}">
+        {% include "dashboard/partials/form_fields.html" with form=form %}
+        {% block form_actions %}
+            <div class="form-actions">
+                <p><b>{% trans 'Attention, object in delivery system will not be updated.' %}</b></p>
+                <button class="btn btn-primary btn-lg" type="submit" data-loading-text="{% trans 'Saving...' %}">{% trans "Save" %}</button>
+                <a class="btn btn-default btn-lg" href="{% if request.GET.next_url %}{{ request.GET.next_url }}{% else %}{% url 'dashboard:shipment-list' %}{% endif %}">{% trans "Cancel" %}</a>
+            </div>
+        {% endblock form_actions %}
+    </form>
+
+    {% if shipment %}
+        <form action="{% url 'dashboard:shipment-delete' pk=shipment.pk %}" method="post" class="form-stacked well wysiwyg">
+            {% csrf_token %}
+            <h3>{% trans 'Do you want to remove this object?' %}</h3>
+            <p><b>{% trans 'Attention, you also need to cancel/remove this instance in delivery system.' %}</b></p>
+            <input class="btn btn-danger btn-lg" type="submit" value="Delete" />
+        </form>
+    {% endif %}
+
+{% endblock dashboard_content %}

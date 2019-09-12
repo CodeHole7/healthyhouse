@@ -1,0 +1,24 @@
+[
+{
+  "model": "catalogue.productclass",
+  "pk": 1,
+  "fields": {
+    "name": "Default",
+    "slug": "default",
+    "requires_shipping": true,
+    "track_stock": true,
+    "options": []
+  }
+},
+{
+  "model": "catalogue.productclass",
+  "pk": 2,
+  "fields": {
+    "name": "Dosimeter",
+    "slug": "dosimeter",
+    "requires_shipping": true,
+    "track_stock": true,
+    "options": []
+  }
+}
+]

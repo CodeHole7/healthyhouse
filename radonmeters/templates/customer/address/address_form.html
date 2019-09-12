@@ -1,0 +1,105 @@
+{% extends "customer/baseaccountpage.html" %}
+
+
+{% load i18n static %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumb-container">
+        <ul class="breadcrumb">
+            <li>
+                <a href="{{ homepage_url }}">{% trans 'Home' %}</a>
+            </li>
+            <li>
+                <a href="{% url 'customer:address-list' %}">{% trans 'Shipping address' %}</a>
+            </li>
+            <li class="active">{% trans 'Edit address' %}
+            </li>
+        </ul>
+    </div>
+{% endblock %}
+
+
+{% block tabcontent %}
+    {% comment %}
+    {% with style='horizontal' %}
+        {% include "partials/form.html" %}
+    {% endwith %}
+    {% endcomment %}
+<div class="container shipping-form">
+    <h1>{% trans "Change shipping address" %}</h1>
+    <form action="." method="post" id="new_shipping_address" class="large-select2 form form-vertical shipping-form form-with-button" novalidate>
+        {% csrf_token %}
+        <div>
+            <div class="row">
+                <!-- {% include "partials/form_fields.html" with form=form %} -->
+
+                {% if form.is_bound and not form.is_valid %}
+                    <div class="alert alert-danger">
+                        <strong>{% trans "Oops! We found some errors" %}</strong> - {% trans "please check the error messages below and try again" %}
+                    </div>
+                {% endif %}
+
+                {% if form.non_field_errors %}
+                    {% for error in form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            <i class="icon-exclamation-sign"></i> {{ error }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="row">
+             <!-- first_name last_name line1 line2 line3 line4 state postcode country phone_number notes -->
+                    <div class="col-xs-12 col-sm-5">
+                        {% for field in form %}
+                            {% if field.is_hidden %}
+                                {% include 'partials/form_field.html' with field=field style=style %}
+                            {% endif %}
+
+                            {% if forloop.counter < 6 %}
+                                {% include 'partials/form_field.html' with field=field style=style %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-xs-12 col-sm-5 col-sm-offset-2">
+                        {% for field in form %}
+
+                            {% if forloop.counter > 5 and forloop.counter < 11 %}
+                                {% include 'partials/form_field.html' with field=field style=style %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+            </div>
+            <div class="row">
+                    <div class="col-xs-12">
+                        {% for field in form %}
+
+                            {% if forloop.counter > 10 %}
+                                {% include 'partials/form_field.html' with field=field style=style %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+            </div>
+
+
+            <div class="form-group row">
+                <div class="text-center clearfix col-xs-8 col-sm-4">
+                    <button type="submit" class="btn btn-primary submit-form pull-left" data-loading-text="{% trans 'Continuing...' %}">{% trans "Save" %}</button>
+
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock tabcontent %}
+
+{% block extrascripts %}
+    <script>
+        var _radonOptions = {
+            'requiredError': "<ul class=\"errorlist\"><li>{% trans 'This field is required.' %}</li></ul>",
+            'invalidEmailError': "<ul class=\"errorlist\"><li>{% trans 'Enter a valid email address.' %}</li></ul>",
+        };
+    </script>
+    <script src="{% static 'bower/autosize/dist/autosize.min.js' %}"></script>
+    <script src="{% static 'js/pages/shipping_form.js' %}"></script>
+{% endblock %}

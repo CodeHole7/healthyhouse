@@ -1,0 +1,76 @@
+[develop]
+radonmeters.dev.steel.kiwi ansible_ssh_user=admin ansible_ssh_port=22
+
+[develop:vars]
+project_base_dir="/home/admin"
+project_dir="/home/admin/djangoapp"
+project_venv_dir="/home/admin/venv"
+branch=develop
+server=radonmeters.dev.steel.kiwi
+user=admin
+
+[staging]
+radonmeters.stg.steel.kiwi ansible_ssh_user=admin ansible_ssh_port=22
+
+[staging:vars]
+project_base_dir="/home/admin"
+project_dir="/home/admin/djangoapp"
+project_venv_dir="/home/admin/venv"
+branch=develop
+server=radonmeters.stg.steel.kiwi
+user=admin
+
+[beta]
+35.158.215.87 ansible_ssh_user=admin ansible_ssh_port=22
+
+[beta:vars]
+project_base_dir="/home/admin"
+project_dir="/home/admin/djangoapp"
+project_venv_dir="/home/admin/venv"
+branch=master
+server=https://beta.radonmeters.com
+user=admin
+
+[production]
+52.57.1.0 ansible_ssh_user=admin ansible_ssh_port=22
+
+[production:vars]
+project_base_dir="/home/admin"
+project_dir="/home/admin/djangoapp"
+project_venv_dir="/home/admin/venv"
+branch=master
+server=https://radonmeters.com
+user=admin
+
+[radosure]
+18.196.150.137 ansible_ssh_user=admin ansible_ssh_port=22
+
+[radosure:vars]
+project_base_dir="/home/admin"
+project_dir="/home/admin/djangoapp"
+project_venv_dir="/home/admin/venv"
+branch=master
+server=https://radosure.radonmeters.com
+user=admin
+
+[radosure-develop]
+radosure.dev.steel.kiwi ansible_ssh_user=admin ansible_ssh_port=22
+
+[radosure-develop:vars]
+project_base_dir="/home/admin"
+project_dir="/home/admin/djangoapp"
+project_venv_dir="/home/admin/venv"
+branch=staging
+server=radosure.dev.steel.kiwi
+user=admin
+
+[gmscientific]
+18.197.171.204 ansible_ssh_user=admin ansible_ssh_port=22
+
+[gmscientific:vars]
+project_base_dir="/home/admin"
+project_dir="/home/admin/djangoapp"
+project_venv_dir="/home/admin/venv"
+branch=master
+server=https://gmscientific.radonmeters.com
+user=admin

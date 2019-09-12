@@ -1,0 +1,17 @@
+[
+{
+  "model": "accounting.accounting",
+  "pk": 1,
+  "fields": {
+    "client_username": "username",
+    "client_password": "password",
+    "username": "username",
+    "password": "password",
+    "organization_id": "182087",
+    "meta_fields": {
+      "AccountNumber": 1000,
+      "BalancingAccountNumber": 55100
+    }
+  }
+}
+]

@@ -1,0 +1,66 @@
+
+.no-margin {
+    margin: 0 !important;
+}
+
+.no-padding {
+    padding: 0 !important;
+}
+
+.bg-clear {
+    background-color: $white;
+}
+
+.bg-default {
+    background-color: $body-bg;
+    color: $text-color;
+}
+
+.hidden-field {
+    height: 0;
+    overflow: hidden;
+    width: 0;
+}
+
+.btn {
+    &.disabled {
+        background-color: $gray-lighter;
+        opacity: 1;
+    }
+}
+.btn.btn-sm {
+    border-radius: $btn-border-radius-base;
+}
+
+.alert {
+    .close {
+        font-size: 10px;
+        color: inherit;
+        font-size: 11px;
+        color: inherit;
+        text-shadow: none;
+        opacity: 1;
+        &:hover {
+            opacity: 0.4;
+        }
+    }
+}
+
+.intl-tel-input.separate-dial-code .selected-flag {
+    background-color: transparent;
+    outline: none;
+}
+
+.intl-tel-input.allow-dropdown .flag-container:hover .selected-flag{
+    background-color: transparent; 
+}
+
+
+@media (max-width: $dev-sm) {
+    .container {
+        width: 100%;
+    }
+    .section {
+        margin-bottom: 30px;
+    }
+}

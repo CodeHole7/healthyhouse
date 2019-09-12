@@ -1,0 +1,280 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% load promotion_tags %}
+
+{% block styles %}
+{% endblock %}
+
+{% block extrastyles %}
+    {{ block.super }}
+{% endblock %}
+
+{% block title %}{{ shop_name }}{% endblock %}
+
+{% block social_tags %}
+{% endblock %}
+
+{% block head_js%}
+{% endblock %}
+
+{% block layout %}
+        {# Top-horizontal bar with account, notifictions, dashboard links #}
+        {# include "partials/nav_accounts.html" #}
+
+        <header class="header container no-padding">
+            <div class="header-top-section container">
+                {% block accounts_block %}
+                    {% include "partials/accounts_block.html" %}
+                {% endblock %}
+                <a href="/" class="header-logo-link">
+                    <img src="{% static 'images/radon_logo.svg' %}" alt="logo">
+                </a>
+
+                <div class="right-links">
+                    {% include "partials/language.html" %}
+                    {% block mini_basket %}
+                        {% include "partials/mini_basket.html" %}
+                    {% endblock %}
+                </div>
+            </div>
+            {% block navigation %}
+                {% include "partials/nav_primary.html" %}
+            {% endblock %}
+        </header>
+
+        {% block subnavigation %}{% endblock %}
+        {% block breadcrumbs %}{% endblock %}
+        {% block checkout_nav %}{% endblock %}
+        {% block customer_profile_nav %}{% endblock %}
+
+
+        {# Main content of page - other layout templates may override this block #}
+        <div class="container-fluid page">
+                <div class="page_inner">
+                    <div style="height: 0;">
+                        <div id="messages">
+                            {% block alert_messages %}
+                                {% include "partials/alert_messages.html" %}
+                            {% endblock %}
+                        </div>
+                    </div>
+
+                {% block content_wrapper %}
+
+                    <div class="content">
+                        {% block subheader %}{% endblock subheader %}
+
+                        <div class="risk-inform-section">
+                            <div class="container">
+                                <div class="top-title">
+                                    <div>{% trans "Radongasser kan være kræftfremkaldende og bør derfor tages meget seriøst i enhver husstand." %}</div>
+                                    <div>{% trans "Over 65.000 enfamiliehuse i Danmark har en radon koncentration på over 200 Bq/m3, hvor 100 Bq/m3 er det anbefalede maximale niveau." %}</div>
+                                    <div>{% trans "Se herunder hvor stor din radonrisiko er ved at indtaste navnet på den kommune du bor i og tryk på knappen til højre." %}</div>
+                                </div>
+                                <form action="{% url 'api:municipality_radon_risk' %}" class="form-inline" id="risk-form">
+                                    <input id="autocomplete" class="form-control" placeholder="{% trans "Indtast kommune her" %}">
+                                    <button type="button" class="btn btn-primary" id="autocomplete-btn">{% trans "Tjek din radon risiko" %}</button>
+                                </form>
+                                
+                                <div id="radonleveltxt" class="risk-results" style="display: none;">
+                                    {% blocktrans %}
+                                    Op til <span id="statspan"></span> husstande i <span id="rdncls_ph"></span> kommune
+                                    har statistisk set forhøjet radon værdi.
+                                    <br>
+                                    Gennemsnitlig radon niveau i kommunen : <span id="avgbq"></span> Bq/m3.
+                                    {% endblocktrans %}
+                                    <div class="link-thirdpart">
+                                        {% blocktrans %}
+                                        Tal er baseret på 
+                                        <a target="_blank" href="https://www.sst.dk/da/straalebeskyttelse/radioaktivitet/radon/boliger/landsomfattende-radonundersoegelse">   
+                                            statens 2001 undersøgelse
+                                        </a>
+                                        {% endblocktrans %}
+                                    </div>
+                                </div>
+                                <div class="link-to-radon">
+                                    <a href="{% url 'common:promo_radon' %}">{% trans "Tryk her for mere information om en grundig undersøgelse af radonniveauet i din ejendom!" %}</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        {# Render slider #}
+                        <div class="slider-section row">
+                            <div class="container">
+
+                                {% comment %}
+                                <div class="slider">
+                                    {% for slide  in slider %}
+                                        <div class="slider-item" data-url="{{ slide.get_absolute_url }}" style="background-image: url('{{ slide.attr.promo_image.url }}')">
+                                            {{ slide.title }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                    <div class="slick-dots-custom"></div>
+                                <a class="btn btn-primary btn-lg btn-shop-now" href="1">{% trans 'Shop now' %}</a>
+                                {% endcomment %}
+                                <div class="scroll-wrapper">
+                                    <span class="mouse rm-icon-mouse"></span>
+                                    <span class="scroll-tip">{% trans 'Scroll' %}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {# Render advatages #}
+                        <div class="advatages-section">
+                            <div class="container">
+                                <!--<h1 class="text-center header-of-section">{% trans 'Our advantages' %}</h1>-->
+                                <h1 class="text-center header-of-section">{% trans 'Hvorfor du skal handle her' %}</h1>
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-6 sep">
+                                        <div class="advantages-list-item">
+                                            <div><div class="icon-book icon-book-dims">
+                                            </div></div>
+                                            <div>
+                                                <h3>{% trans 'Meget stor pålidelighed' %}</h3>
+                                                <p>{% blocktrans %}Vi er det radonmålefirma på det danske marked der har flest gode anbefalinger. Vi sætter en ære i
+                                                   at vores kunder er glade og tilfredse, hvilket også kan ses på vores 
+                                                   <a target="_BLANK" href="https://dk.trustpilot.com/review/radonmeters.com">anbefalinger her</a>
+                                                   {% endblocktrans %}
+                                                </p>
+                                                <!--
+                                                <h3>{% trans 'Advantage' %} 1</h3>
+                                                <p>{% trans 'You can count on us. See our excellent reviews on Trustpilot and notify us very much.' %}</p>
+                                                -->
+                                            </div>
+                                        </div>
+                                        <div class="advantages-list-item">
+                                            <div><div class="icon-free icon-free-dims">
+                                            </div></div>
+                                            <div>
+                                                <h3>{% trans 'Gratis levering' %}</h3>
+                                                <p>{% trans 'Vi tilbyder gratis levering på alle varer, og ved målinger der kræver laboratorie undersøgelser betaler vi også returportoen.' %}
+                                                </p>
+                                                <!--
+                                                <h3>{% trans 'Advantage' %} 2</h3>
+                                                <p>{% trans 'There is free delivery on all forms of delivery in all plaices' %}</p>
+                                                -->
+                                            </div>
+                                        </div>
+                                        <div class="advantages-list-item">
+                                            <div><div class="icon-support icon-support-dims">
+                                            </div></div>
+                                            <div>
+                                                <h3>{% trans 'Vi svarer med glæde på dine spørgsmål' %}</h3>
+                                                <p>{% trans 'Vi går meget langt for at besvare eventuelle spørgsmål du måtte have mhp. radon målinger. Hvis vi ikke er i stand til at svare direkte på dit spørgsmål har vi meget dygtige samarbejdspartnere, der kan.' %}
+                                                </p>
+                                                <!--
+                                                <h3>{% trans 'Advantage' %} 3</h3>
+                                                <p>{% trans 'We offer fast delivery on normal 1-2 days for digital radon meters sent with packet mail and approx' %}.</p>
+                                                -->
+                                            </div>
+                                        </div>
+                                        <div class="advantages-list-item">
+                                            <div><div class="icon-fast_delivery icon-fast_delivery-dims">
+                                            </div></div>
+                                            <div>
+                                                <h3>{% trans 'Privat online radonmåling oversigt' %}</h3>
+                                                <p>{% trans 'Hos Radonmeters bliver dine radonmålings rapporter opbevaret sikkert, så du altid let kan få fat i dem med et enkelt klik. Du har mulighed for at logge ind og hente tidligere rapporter samt anbefalinger. Det er helt gratis at bruge denne service, når først man har fået foretaget en måling.' %} 
+                                                </p>
+                                                <!--
+                                                <h3>{% trans 'Advantage' %} 4</h3>
+                                                <p>{% trans 'We are available for your radon questions both before and after your purchase' %}</p>
+                                                -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-md-5">
+                                        <div class="description-wrapper">
+                                            {#{ our_advantages_text|safe }#}
+                                            <h3>
+                                                {% blocktrans %}Tag ansvar for dit eget og din families helbred. 
+                                                Tag de første skridt med en radonmåling hos Radonmeters.
+                                                {% endblocktrans %}
+                                            </h3>
+                                            <p>{% blocktrans %}
+                                                Radon er en radioaktiv gas, der hverken kan ses, lugtes eller smages.
+                                                Vil man sikre sin familie mod den kræftfremkaldende radon, 
+                                                er det første skridt naturligvis at finde ud af, 
+                                                om man overhovedet har problemet i sit hjem.
+                                                Det er relativt let at finde ud af om man har forhøjede radon niveauer,
+                                                så derfor er der ikke nogen grund til at lade være med at foretage en radon
+                                                måling.
+                                                I langt de fleste tilfælde er det forholdsvist enkelt at få 
+                                                nedbragt radon niveauet i tilfælde af forhøjede koncentrationer.
+                                                Dette afhænger dog primært af størrelsen på radon koncentrationen.
+                                                Primært handler det om at få øget ventilationen de steder hvor 
+                                                koncentrationen er høj. Ligeledes kan man indsætte en radonspærre
+                                                for at forhindre at radongasserne trænger ind i huset. 
+                                                Vi tilbyder i udgangspunktet hjælp med måling af radon og har 
+                                                meget dygtige partnere der kan tilbyde hjælp med udbedring af 
+                                                Radon problemer. Vi tilbyder både radon måle bokse (dosimetre)
+                                                såvel som forskellige typer af elektroniske målere. Hvis man køber 
+                                                sin radonmåling ved Radonmeters kan man betale med 
+                                                Dankort, Visa / Dankort, Visa, Visa Electron, MasterCard, 
+                                                Maestro, JCB, American Express og mobile pay.<br/>
+                                                <a href="/radon">Klik her for at komme videre.</a>
+                                                {% endblocktrans %}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {# OUR TOP PRODUCTS #}
+                        {% if our_top_products %}
+                            <div class="products-section">
+                                <div class="container">
+                                    <!--<h1 class="text-center header-of-section">{% trans 'OUR TOP PRODUCTS' %}</h1>-->
+                                    <h1 class="text-center header-of-section">Mest solgte produkter</h1>
+                                    <div class="products-wrapper">
+                                        {% for product in our_top_products.all %}
+                                            <div class="product-item row {% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}">
+                                                {% include 'catalogue/partials/product_row.html' %}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {# Render blog #}
+                        {% if latest_articles %}
+                            <div class="blog-section">
+                                <div class="container">
+                                    <h1 class="text-center header-of-section">{% trans 'Last news' %}</h1>
+                                    <div class="blog-wrapper">
+                                        {% for object in latest_articles %}
+                                            {% include 'blog/entry_detail_short.html' %}
+                                        {% endfor %}
+                                        <a class="btn btn-primary btn-lg" href="{% url 'zinnia:entry_archive_index' %}">{% trans 'See all' %}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% comment %}
+                        {# Div exists for AJAX updates to entire content section #}
+                        <div id="content_inner">{% block content %}{% endblock %}</div>
+                        {% endcomment %}
+
+                    </div>
+
+                {% endblock %}
+            </div>
+        </div>
+
+        {% include "partials/footer.html" %}
+{% endblock %}
+
+{% block popup %}
+{% endblock %}
+
+{# Local scripts #}
+{% block scripts %}
+{% endblock %}
+
+{% block extrascripts %}
+{% endblock %}
+

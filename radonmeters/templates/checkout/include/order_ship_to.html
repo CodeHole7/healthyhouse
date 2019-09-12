@@ -1,0 +1,69 @@
+{% load currency_filters %}
+{% load thumbnail %}
+{% load i18n %}
+{% load purchase_info_tags %}
+{% load staticfiles %}
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="ship-to-container checkout-block-info">
+            <h2 class="checkout-sub-header">
+                <span class="checkout-sub-header-text">{% trans "Ship to" %}</span>
+                <span class="checkout-sub-header-link">
+                    <a href="{% url 'checkout:shipping-address' %}">
+                        {% trans "change" %}
+                    </a>
+                </span>
+            </h2>
+            {% if shipping_address %}
+                <div class="details-container">
+                    {% block shipping_address_actions %}
+
+                    {% endblock %}
+                    <address>
+                        {% for field in shipping_address.active_address_fields %}
+                            <p>{{ field }}</p>
+                        {% endfor %}
+                    </address>
+
+                    {% if shipping_address.phone_number %}
+                        <p>
+                            {% trans "Phone" %}: {{ shipping_address.phone_number }}
+
+                        </p>
+                        {% if guest_email %}
+                            <p>{% trans "Email" %}: {{ guest_email }}</p>
+                        {% endif %}
+                    {% endif %}
+
+                    {% comment %}
+                    {% if shipping_address.notes %}
+                        <h4>{% trans "Instructions" %}</h4>
+                        <p>{{ shipping_address.notes|linebreaks }}</p>
+                    {% endif %}
+                    {% endcomment %}
+
+                    {% if shipping_method %}
+                        <div class="">
+                            {% comment %}
+                            {% block shipping_method_actions %}
+                                <a href="{% url 'checkout:shipping-method' %}" class="pull-right">
+                                    {% trans "Change" %}
+                                </a>
+                            {% endblock %}
+                            {% endcomment %}
+                            <!-- <h3>{% trans "Shipping method" %}</h3> -->
+                            <p>{{ shipping_method.name }}
+                                {% if shipping_method.description %}
+                                    - {{ shipping_method.description|safe }}
+                                {% endif %}
+                            </p>
+
+                        </div>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+

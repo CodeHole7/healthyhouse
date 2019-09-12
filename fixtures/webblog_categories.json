@@ -1,0 +1,44 @@
+[
+    {
+        "pk": 1,
+        "model": "zinnia.category",
+        "fields": {
+            "rght": 2,
+            "description": "",
+            "parent": null,
+            "title": "Radon",
+            "level": 0,
+            "lft": 1,
+            "tree_id": 1,
+            "slug": "radon"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "zinnia.category",
+        "fields": {
+            "rght": 2,
+            "description": "",
+            "parent": null,
+            "title": "Mold",
+            "level": 0,
+            "lft": 1,
+            "tree_id": 2,
+            "slug": "mold"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "zinnia.category",
+        "fields": {
+            "rght": 2,
+            "description": "",
+            "parent": null,
+            "title": "Home accessories",
+            "level": 0,
+            "lft": 1,
+            "tree_id": 2,
+            "slug": "home_accessories"
+        }
+    }
+]

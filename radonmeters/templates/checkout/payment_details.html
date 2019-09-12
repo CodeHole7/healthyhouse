@@ -1,0 +1,129 @@
+{% extends "checkout/checkout.html" %}
+
+{% load i18n %}
+{% load static %}
+
+{% block title %}
+    {% trans "Payment details" %} | {{ block.super }}
+{% endblock %}
+
+{% block checkout_nav %}
+    {% include 'checkout/nav.html' with step=3 %}
+{% endblock %}
+
+{% block checkout_title %}{% trans "Enter payment details" %}{% endblock %}
+
+{% block order_contents %}{% endblock %}
+{% block shipping_address %}{% endblock %}
+{% block shipping_method %}{% endblock %}
+{% block payment_method %}{% endblock %}
+
+{% block payment_details %}
+    {% block payment_details_content %}
+    <div class="payment-form-page">
+        <div class="cart-page-card-wrapper">
+            <h1 class="text-center">{% trans 'Payment' %}</h1>
+            {% if card_data %}
+                <div class="choose-block">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="well text-center">
+                                <h3 class="text-center">
+                                    {% trans "You have an active card" %}
+                                </h3>
+                                <p>{% trans "Ending:" %}   хххх  хххх  хххх  {{ card_data.last4|default:'xxxx' }}</p>
+                                <a href="{% url 'checkout:preview' %}" class="btn btn-primary">{% trans "Use existed card" %}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h3 class="text-center">{% trans "Or a new card?" %}</h3>
+            {% endif %}
+
+            <div class="credit-card-box">
+                <div class="card-dimmer">
+                    <div class="loader-container">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+                <form role="form" id="stripe_form" method="POST" action="javascript:void(0);">
+                    <div class="card-form-header"></div>
+                    <div class="logos">
+                        <img src="{% static 'images/visa.svg' %}"  alt="visa"></img>
+                        <img src="{% static 'images/mastercard.svg' %}"  alt="mastercard"></img>
+                    </div>
+
+                   <label for="cardNumber">
+                        {% trans 'Card number' %}
+                    </label>
+                    <div id="cardNumber" class="input-container">
+
+                    </div>
+                    <ul class="errorlist cardNumber-error">
+                        <li></li>
+                    </ul>
+
+                    <div class="card-form-group">
+                        <div class="card-input-wrapper">
+                            <label for="cardExpiry">
+                                {% trans 'Expiry date' %}
+                            </label>
+                            <div id="cardExpiry" class="input-container"></div>
+                            <ul class="errorlist cardExpiry-error">
+                                <li></li>
+                            </ul>
+                        </div>
+
+                        <div class="card-input-wrapper">
+                           <label for="cardCVC">
+                                CVV
+                            </label>
+                            <div id="cardCVC" class="input-container">
+
+                            </div>
+                            <ul class="errorlist cardCVC-error">
+                                <li></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <label for="postalCode">
+                        {% trans 'ZIP/Postal code' %}
+                    </label>
+                    <div id="postalCode" class="input-container">
+
+                    </div>
+                    <ul class="errorlist postalCode-error">
+                        <li></li>
+                    </ul>
+
+
+                    <p class="errorlist payment-errors"></p>
+                </form>
+            </div>
+        </div>
+
+        <form action="{% url 'checkout:preview' %}" method="post" id="payment_method_form">
+            {% csrf_token %}
+            <input type="hidden" name="payment_method" id="id_payment_method">
+        </form>
+
+
+        <button id="view_preview" type="button" data-next-url="{% url 'checkout:preview' %}" class="btn btn-primary btn-lg">{% trans "GO TO PLACE ORDER" %}</button>
+
+        <div class="col-sm-12 text-center back-link">
+            <a href="{% url 'checkout:index' %}" title="{% trans "back to address" %}">{% trans "back to address" %}</a>
+        </div>
+    </div>
+    {% endblock payment_details_content %}
+{% endblock payment_details %}
+
+
+{% block extrascripts %}
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        var _radonOptions = {
+            'stripe_pk': '{{ stripe_pk }}'
+        };
+    </script>
+    <script src="{% static 'js/pages/payment.js' %}"></script>
+{% endblock %}

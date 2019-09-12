@@ -1,0 +1,27 @@
+---
+
+- name: migrate database
+  django_manage: >
+    command=migrate
+    app_path="{{ project_dir }}"
+    settings="{{ project.settings }}"
+    virtualenv="{{ project_venv_dir }}"
+  tags: migrate
+
+
+- name: makemessages
+  django_manage: >
+    command=makemessages
+    app_path="{{ project_dir }}"
+    settings="{{ project.settings }}"
+    virtualenv="{{ project_venv_dir }}"
+  tags: makemessages
+
+
+- name: compilemessages
+  django_manage: >
+    command=compilemessages
+    app_path="{{ project_dir }}"
+    settings="{{ project.settings }}"
+    virtualenv="{{ project_venv_dir }}"
+  tags: compilemessages

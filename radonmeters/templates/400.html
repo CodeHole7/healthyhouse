@@ -1,0 +1,14 @@
+{% extends "error.html" %}
+{% load i18n %}
+
+{% block title %}
+    {% trans 'Bad request' %} | {{ block.super }}
+{% endblock %}
+
+{% block error_heading %}
+    400
+{% endblock %}
+
+{% block error_message %}
+    <p>{% trans "You cannot view this page" %}</p>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% load i18n %}
+{% load reviews_tags %}
+{% load thumbnail %}
+{% load display_tags %}
+{% load staticfiles %}
+
+<div class="col-xs-12 col-sm-6 img-wrapper">
+    <div>
+    {% if product.primary_image.is_missing %}
+        <a href="{{ product.get_absolute_url }}">
+            <img src="{% static 'images/product_empty.png' %}" title="{{ product.get_title }}" />
+        </a>
+    {% else %}
+        {% with image=product.primary_image %}
+            {% thumbnail image.original "85x105" crop='center' upscale=False as lowres %}
+            {% thumbnail image.original "430x525" crop='center' upscale=True as thumb %}
+            <a href="{{ product.get_absolute_url }}" title="{{ product.get_title }}">
+                <img class="b-lazy" src="{{ lowres.url }}" data-src="{{ thumb.url }}" alt="{{ product.get_title }}" />
+            </a>
+                <noscript>
+                    <img src="{{ thumb.url }}" alt="{{ product.get_title }}" />
+                </noscript>
+            {% endthumbnail %}
+            {% endthumbnail %}
+        {% endwith %}
+    {% endif %}
+    </div>
+</div>
+<div class="col-xs-12 col-sm-6 product-details-wrapper">
+    <a href="{{ product.get_absolute_url }}" class="details-link-wrapper" title="{{ product.get_title }}">
+        <h3>
+            {% if product.get_title %}
+                {{ product.get_title }}
+            {% else %}
+                {% trans 'No title' %}
+            {% endif %}
+
+        </h3>
+        {% include "catalogue/partials/stock_record_availability.html" %}
+        <div class="main-text-detail">
+            {% if product.lead %}
+                {{ product.lead|striptags }}
+            {% elif product.description %}
+                {{ product.description|safe|striptags|truncatechars:450 }}
+            {% else %}
+                {% trans 'No description' %}
+            {% endif %}
+        </div>
+    </a>
+    {% include "catalogue/partials/stock_record_price.html" %}
+</div>

@@ -1,0 +1,390 @@
+{% extends 'dashboard/layout.html' %}
+{% load i18n static %}
+{% load currency_filters %}
+
+{% block body_class %}{{ block.super }} orders{% endblock %}
+
+{% block title %}
+{% endblock %}
+
+{% block extrastyles %}
+    {{ block.super }}
+    <style>
+        .intl-tel-input {width: 100%;}
+        .select2-container.select2 {width: 100%!important;}
+        .autocomplete-suggestions {
+            min-width: 170px;
+        }
+        .autocomplete-suggestion {
+            padding: 5px 20px 5px 5px;
+            position: relative;
+        }
+        .delete-word {
+            display: block;
+            font-size: 18px;
+            cursor: pointer;
+            position: absolute;
+            right: 4px;
+            top: 8px
+        }
+    </style>
+    <link rel="stylesheet" href="{% static 'bower/jquery-auto-complete/jquery.auto-complete.css' %}">
+{% endblock %}
+
+{% block breadcrumbs %}
+    <ul class="breadcrumb">
+        <li>
+            <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+        </li>
+        <li>
+            <a href="{% url 'dashboard:order-list' %}">{% trans "Orders" %}</a>
+        </li>
+        <li class="active">{% trans "Create order" %}</li>
+    </ul>
+{% endblock %}
+
+{% block headertext %}
+    {% trans "Create order" %}
+{% endblock  %}
+
+{% block dashboard_content %}
+<div class="container shipping-form">
+    <form action="{% url 'api:data_import:orders' %}" method="post" id="create-order" class="large-select2 form form-vertical" novalidate>
+        <div>
+            <div class="row">
+                    <div class="col-xs-12 col-sm-5">
+                        <div class="form-group">
+                            <label for="id_owner">
+                                {% trans "Owner" %} *
+                            </label>
+                            <div>
+                                <input
+                                    required
+                                    type="number"
+                                    name="owner" 
+                                    class="select2 js-owner-select form-control" 
+                                    data-ajax-url="/api/v1/owners/" 
+                                    data-name="true" 
+                                    id="id_owner" />
+                            </div>
+                            <span class="error-block text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_product" class="control-label">
+                                {% trans "Product" %} *
+                            </label>
+                            <div>
+                                <select 
+                                    required
+                                    name="product" 
+                                    class="form-control" 
+                                    id="id_product">
+                                    <option value="">---------</option>
+                                    {% for product in products %}
+                                        <option value="{{ product.id }}" >{{ product }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <span class="error-block text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_status" class="control-label">
+                                {% trans "Status" %}
+                            </label>
+                            <div>
+                                <select 
+                                    name="status" 
+                                    class="form-control" 
+                                    id="id_status">
+                                    {% for status in statuses %}
+                                        <option value="{{ status }}" >{{ status|title }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <span class="error-block text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_quantity" class="control-label">
+                                {% trans "Quantity" %} *
+                            </label>
+                            <div>
+                                <input 
+                                    type="number" 
+                                    step="1"
+                                    name="quantity" 
+                                    placeholder="{% trans "Enter quantity" %}" 
+                                    class="form-control" 
+                                    id="id_quantity">
+                            </div>
+                            <span class="error-block text-danger"></span>
+                        </div>
+
+                        <div class="form-group" id="serial_number_box" style="display: none;">
+                            <label for="id_serial_numbers" class="control-label">
+                                {% trans "Serial numbers" %} *
+                            </label>
+                            <div>
+                                <input 
+                                    disabled
+                                    data-type="array"
+                                    type="text" 
+                                    name="serial_numbers" 
+                                    placeholder="{% trans "Enter serial numbers (if required)" %}" 
+                                    class="form-control" 
+                                    id="id_serial_numbers">
+                            </div>
+                            <span class="error-block text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_currency" class="control-label">
+                                {% trans "Currency" %}
+                            </label>
+                            <div>
+                                <select 
+                                    name="currency" 
+                                    class="form-control" 
+                                    id="id_currency">
+                                    {% for currency in currencies %}
+                                        <option value="{{ currency }}" >{{ currency }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <span class="error-block text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_partner_code" class="control-label">
+                                {% trans "Partner code" %}
+                            </label>
+                            <div>
+                                <input 
+                                    type="text" 
+                                    name="partner_code" 
+                                    class="select2 form-control" 
+                                    data-ajax-url="/api/v1/partners/" 
+                                    data-code="true"
+                                    id="id_partner_code">
+                                <span class="error-block text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_partner_order_id" class="control-label">
+                                {% trans "Partner order id" %}
+                            </label>
+                            <div>
+                                <input 
+                                    type="text" 
+                                    name="partner_order_id" 
+                                    maxlength="255" 
+                                    placeholder="{% trans "Enter partner order id" %}" 
+                                    class="form-control" 
+                                    id="id_partner_order_id">
+                                <span class="error-block text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_total_incl_tax" class="control-label">
+                                {% trans "Total incl tax" %}
+                            </label>
+                            <div>
+                                <input 
+                                    type="number" 
+                                    step="0.01"
+                                    name="total_incl_tax" 
+                                    placeholder="{% trans "Enter total incl tax" %}" 
+                                    class="form-control" 
+                                    id="id_total_incl_tax">
+                            </div>
+                            <span class="error-block text-danger"></span>
+                        </div>
+
+                        <div class="form-group ">
+                            <label for="id_date_placed">
+                                {% trans "Date placed" %}
+                            </label>
+                            <div class="">
+                                <div class="input-group date" data-datetimeformat="dd-mm-yyyy hh:ii" data-oscarWidget="datetime">
+                                    <input type="text" name="date_placed" class="form-control" id="id_date_placed">
+                                    <span class="input-group-addon">
+                                        <i class="icon-calendar glyphicon-calendar"></i>
+                                    </span>
+                                </div>
+                                <div class="error-block text-danger"></div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-5 col-sm-offset-2">
+                        <div class="form-group">
+                            <label for="id_email" class="control-label">
+                                {% trans "Email" %} *
+                            </label>
+                            <div>
+                                <input 
+                                    type="email" 
+                                    name="email"
+                                    placeholder="{% trans "Enter email" %}" 
+                                    class="form-control autocomplete" 
+                                    id="id_email">
+                            </div>
+                            <span class="error-block text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_phone_number" class="control-label">
+                                {% trans "Phone number" %}
+                            </label>
+                            <div>
+                                <input 
+                                    type="text" 
+                                    name="phone_number" 
+                                    placeholder="{% trans "Enter phone number" %}" 
+                                    class="form-control" 
+                                    id="id_phone_number">
+                            </div>
+                            <span class="error-block text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_first_name" class="control-label">
+                                {% trans "First name" %}
+                            </label>
+                            <div>
+                                <input 
+                                    type="text" 
+                                    name="first_name" 
+                                    placeholder="{% trans "Enter first name" %}" 
+                                    class="form-control" 
+                                    id="id_first_name">
+                            </div>
+                            <span class="error-block text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_last_name" class="control-label">
+                                {% trans "Last name" %}
+                            </label>
+                            <div>
+                                <input 
+                                    type="text" 
+                                    name="last_name" 
+                                    placeholder="{% trans "Enter last name" %}" 
+                                    class="form-control" 
+                                    id="id_last_name">
+                            </div>
+                            <span class="error-block text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_line1" class="control-label">
+                                {% trans "Address" %} *
+                            </label>
+                            <div>
+                                <input 
+                                    required
+                                    type="text" 
+                                    name="line1" 
+                                    placeholder="{% trans "Enter Address" %}" 
+                                    class="form-control" 
+                                    id="id_line1">
+                            </div>
+                            <span class="error-block text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_state" class="control-label">
+                                {% trans "City" %} *
+                            </label>
+                            <div>
+                                <input 
+                                    required
+                                    type="text" 
+                                    name="state" 
+                                    placeholder="{% trans "Enter city" %}" 
+                                    class="form-control" 
+                                    id="id_state">
+                            </div>
+                            <span class="error-block text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_postcode" class="control-label">
+                                {% trans "Postcode" %} *
+                            </label>
+                            <div>
+                                <input 
+                                    required
+                                    type="text" 
+                                    name="postcode" 
+                                    placeholder="{% trans "Enter postcode" %}" 
+                                    class="form-control" 
+                                    id="id_postcode">
+                            </div>
+                            <span class="error-block text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_country" class="control-label">
+                                {% trans "Country" %} *
+                            </label>
+                            <div>
+                                <select 
+                                    required
+                                    name="country" 
+                                    class="form-control" 
+                                    id="id_country">
+                                    <option value="">---------</option>
+                                    {% for country in countries %}
+                                        <option value="{{ country.iso_3166_1_a2 }}" >{{ country }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <span class="error-block text-danger"></span>
+                        </div>
+                    </div>
+            </div>
+            <div class="row">
+                    <div class="col-xs-12">
+                        {% for field in form %}
+                            {% if forloop.counter > 10 %}
+                                {% include 'partials/form_field.html' with field=field style=style %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+            </div>
+
+
+            <div class="form-group row">
+                <div class="text-center clearfix">
+                    <button type="submit" class="btn btn-primary submit-form pull-right">{% trans "Save" %}</button>
+
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock dashboard_content %}
+
+{% block scripts %}
+{{ block.super }}
+    <script src="{% static 'js/components/csrf_ajax.js' %}?t={% now "Y-m-d-H" %}"></script>
+    <script src="{% static 'bower/jquery-auto-complete/jquery.auto-complete.min.js' %}?t={% now "Y-m-d-H" %}"></script>
+    <script src="{% static 'js/pages/order_create.js' %}?t={% now "Y-m-d-H" %}"></script>
+{% endblock %}
+
+{% block onbodyload %}
+    {{ block.super }}
+    oscar.dashboard.createOrder.createOrderInit('{% url 'dashboard:order-list' %}', "{% trans "The order was created successfully" %}");
+    oscar.dashboard.autocomplete.init('users', {
+        key: 'email',
+        getUrl: '/api/v1/users/',
+    });
+{% endblock onbodyload %}
+

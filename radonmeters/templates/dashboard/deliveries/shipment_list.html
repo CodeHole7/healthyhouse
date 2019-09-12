@@ -1,0 +1,62 @@
+{% extends 'dashboard/layout.html' %}
+
+{% load sorting_tags %}
+{% load i18n %}
+
+{% block title %}
+    {% trans "Shipments" %} | {{ block.super }}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <ul class="breadcrumb">
+        <li>
+            <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+        </li>
+        <li class="active">{% trans "Shipments" %}</li>
+    </ul>
+{% endblock %}
+
+{% block header %}
+    <div class="page-header">
+        <h1>{% trans "Shipments" %}</h1>
+    </div>
+{% endblock header %}
+
+{% block dashboard_content %}
+    <div class="well">
+        <form action="." method="get" class="form-inline">
+            {% include 'dashboard/partials/form_fields_inline.html' with form=form %}
+            <button type="submit" class="btn btn-primary" data-loading-text="{% trans 'Searching...' %}">{% trans "Search" %}</button>
+            {% if is_filtered %}
+                <a class="btn btn-default" href="{% url 'dashboard:shipment-list' %}" >{% trans "Reset" %}</a>
+            {% endif %}
+        </form>
+    </div>
+
+    <form action="." method="post" class="order_table">
+        {% csrf_token %}
+        <table class="table table-striped table-bordered">
+            <caption>
+                <i class="icon-bar-chart icon-large"></i>{{ queryset_description }}
+            </caption>
+            {% if shipments %}
+                <thead>
+                    <tr>
+                        <th>{% trans 'ID' %}</th>
+                        <th>{% trans 'Order number' %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for shipment in shipments %}
+                    <tr>
+                        <td><a href="{% url 'dashboard:shipment-update' pk=shipment.pk %}">{{ shipment.pk }}</a></td>
+                        <td><a href="{% url 'dashboard:order-detail' number=shipment.order.number %}">{{ shipment.order.number }}</a></td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr><td>{% trans "No shipments found." %}</td></tr>
+            {% endif %}
+        </table>
+        {% include "dashboard/partials/pagination.html" %}
+    </form>
+{% endblock dashboard_content %}

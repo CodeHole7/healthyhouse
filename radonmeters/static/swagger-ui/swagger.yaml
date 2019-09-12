@@ -1,0 +1,47 @@
+openapi: 3.0.0
+info:
+  title: Radonmeters API
+  description:
+  version: 1.0.0
+
+servers:
+  - url: http://radonmeters.dev.steel.kiwi/api/v1
+    description: Develop Server
+  - url: http://radonmeters.stg.steel.kiwi/api/v1
+    description: Staging Server
+  - url: http://radonmeters.steel.kiwi/api/v1
+    description: Production Server
+
+tags:
+  - name: orders
+
+
+paths:
+  /orders:
+    get:
+      parameters:
+        - in: path
+          name: status
+          schema:
+            type: string
+            enum:
+              - created
+              - issued
+              - delivery_to_client
+              - completed
+              - canceled
+          required: false
+          description: Status of order.
+      tags:
+        - orders
+      summary: Returns a list of all orders.
+      description: Paginated response with array of orders.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  type: string

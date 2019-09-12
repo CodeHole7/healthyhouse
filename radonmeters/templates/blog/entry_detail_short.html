@@ -1,0 +1,39 @@
+{% load i18n %}
+{% load thumbnail %}
+{% load staticfiles %}
+
+
+<div class="blog-item row {% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %} article-item-wrapper">
+
+    <div class="col-xs-12 col-sm-6 with-date">
+        <div class="blog-date">
+            <span>{{ object.publication_date|date:"j F Y" }}</span>
+        </div>
+        <div class="img-wrapper">
+        {% if object.image %}
+            {% with image=object.image %}
+                {% thumbnail object.image "105x70" crop='center' format="PNG" upscale=False as lowres %}
+                {% thumbnail object.image "528x350" crop='center' format="PNG" upscale=True as thumb %}
+                <a href="{{ object.get_absolute_url }}" title="{{ object.title }}">
+                    <img class="b-lazy" src="{{ lowres.url }}" data-src="{{ thumb.url }}" alt="{{ object.image_caption }}" />
+                </a>
+                    <noscript>
+                        <img src="{{ thumb.url }}" alt="{{ object.image_caption }}" />
+                    </noscript>
+                {% endthumbnail %}
+                {% endthumbnail %}
+            {% endwith %}
+        {% else %}
+            <a href="{{ object.get_absolute_url }}" title="{{ object.title }}">
+                <img src="{% static 'images/news_empty.png' %}" alt="no image"/>
+            </a>
+        {% endif %}
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 blog-details-wrapper">
+        <h3>{{ object.title }}</h3>
+        <div class="main-text-blog">{{ object.html_preview|safe|striptags|truncatechars:450 }}</div>
+        <a href="{{ object.get_absolute_url }}" title="{% trans 'read more' %}" class="btn btn-success">{% trans 'read more' %}</a>
+    </div>
+
+</div>

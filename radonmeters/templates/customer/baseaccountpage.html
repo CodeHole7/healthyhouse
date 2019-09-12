@@ -1,0 +1,91 @@
+{% extends "layout.html" %}
+
+{% load i18n %}
+
+{% block title %}
+    {{ page_title }} | {% trans 'Profile' %} | {{ block.super }}
+{% endblock %}
+
+{% block body_class %}account-profile{% endblock %}
+
+{% block extrastyles %}
+    {{ block.super }}
+{% endblock %}
+
+{% block mini_basket %}
+    {{ block.super }}
+{% endblock %}
+
+{% block accounts_block %}
+    {{ block.super }}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <ul class="breadcrumb">
+        <li>
+            <a href="{{ homepage_url }}">{% trans 'Home' %}</a>
+        </li>
+        <li>
+            <a href="{% url 'customer:summary' %}">{% trans 'Account' %}</a>
+        </li>
+        {% block extra_breadcrumbs %}{% endblock %}
+        <li class="active">{% trans "Your orders" %}</li>
+    </ul>
+{% endblock %}
+
+{% block customer_profile_nav %}
+<div class="customer-profile-nav">
+    <ul class="customer-profile-nav-list">
+        {% block standard_tabs %}
+            <li{% if active_tab == 'profile' %} class="active"{% endif %}>
+                <a href="{% url 'customer:profile-view' %}">{% trans "Profile settings" %}</a>
+            </li>
+            <li{% if active_tab == 'addresses' %} class="active"{% endif %}>
+                <a href="{% url 'customer:address-list' %}">{% trans "Shipping Address" %}</a>
+            </li>
+            <li{% if active_tab == 'orders' %} class="active"{% endif %}>
+                <a href="{% url 'customer:order-list' %}">{% trans "Your orders" %}</a>
+            </li>
+        {% endblock %}
+    </ul>
+</div>
+{% endblock %}
+
+{% block headertext %}{{ page_title }}{% endblock %}
+
+{% block column_left %}
+    {% comment %}
+    <ul class="nav nav-pills nav-stacked">
+        {% block standard_tabs %}
+            <li{% if active_tab == 'profile' %} class="active"{% endif %}>
+                <a href="{% url 'customer:profile-view' %}">{% trans "Profile" %}</a>
+            </li>
+            <li{% if active_tab == 'orders' %} class="active"{% endif %}>
+                <a href="{% url 'customer:order-list' %}">{% trans "Order History" %}</a>
+            </li>
+            <li{% if active_tab == 'addresses' %} class="active"{% endif %}>
+                <a href="{% url 'customer:address-list' %}">{% trans "Address Book" %}</a>
+            </li>
+            <li{% if active_tab == 'emails' %} class="active"{% endif %}>
+                <a href="{% url 'customer:email-list' %}">{% trans "Email History" %}</a>
+            </li>
+            <li{% if active_tab == 'alerts' %} class="active"{% endif %}>
+                <a href="{% url 'customer:alerts-list' %}">{% trans "Product Alerts" %}</a>
+            </li>
+            <li{% if active_tab == 'notifications' %} class="active"{% endif %}>
+                <a href="{% url 'customer:notifications-inbox' %}">{% trans "Notifications" %}</a>
+            </li>
+            <li{% if active_tab == 'wishlists' %} class="active"{% endif %}>
+                <a href="{% url 'customer:wishlists-list' %}">{% trans "Wish Lists" %}</a>
+            </li>
+        {% endblock %}
+    </ul>
+    {% endcomment %}
+{% endblock %}
+
+{% block content_wrapper %}
+    {% block tabcontent %}{% endblock tabcontent %}
+{% endblock content_wrapper %}
+
+{% block extrascripts %}
+{% endblock %}

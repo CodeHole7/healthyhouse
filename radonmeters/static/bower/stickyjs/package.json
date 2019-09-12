@@ -1,0 +1,30 @@
+{
+  "name": "stickyjs",
+  "version": "1.0.1",
+  "description": "jQuery plugin to make any DOM element(s) remain in view while scrolling the page.",
+  "main": "stickyjs.min.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dawidziak/stickyjs.git"
+  },
+  "keywords": [
+    "ui",
+    "dom",
+    "jquery",
+    "sticky",
+    "stickyjs"
+  ],
+  "author": "Sebastian Dawidziak <sebastian@dawidziak.eu>",
+
+  "licenses": [{
+    "type": "MIT",
+    "url": "http://jquery.com/blob/master/MIT-LICENSE.txt"
+  }, {
+    "type": "GPL",
+    "url": "http://jquery.com/blob/master/GPL-LICENSE.txt"
+  }],
+  "bugs": {
+    "url": "https://github.com/dawidziak/stickyjs/issues"
+  },
+  "homepage": "https://github.com/dawidziak/stickyjs"
+}

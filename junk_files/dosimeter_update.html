@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+
+{% load i18n %}
+{% load static %}
+
+{% block title %}
+    {% trans "Dosimeter Status" %} | {{ block.super }}
+{% endblock %}
+
+{% block content_wrapper %}
+    <div class="container contact-us">
+        <h1 class="text-center">{% trans "Dosimeter Status" %}</h1>
+        <div class="row">
+            <div class="col-xs-12 col-sm-4">
+				<form enctype="multipart/form-data" action="{% url 'deliveries:update_dosimeter_status' %}" data-submit-to-server="false" method="post" id="update-desimeter-status-form" class="form form-vertical" novalidate>
+                    {% csrf_token %}
+                    {% for field in form %}
+                        {% include 'partials/form_field.html' with field=field style=style rows=2 %}
+                    {% endfor %}
+
+                    <button type="submit" 
+                        class="btn btn-primary btn-lg btn-block" 
+                        >{% trans 'Update Dosimeter Status' %}</button>
+                    
+                </form>          
+            </div>
+
+            <div class="col-xs-12 col-sm-6">
+                
+            </div>
+
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block extrascripts %}
+    {% if down_pdf %}
+   <script type="text/javascript">
+       location.href = "{{down_pdf}}";
+   </script>
+   {% endif %}
+{% endblock %}
+
+

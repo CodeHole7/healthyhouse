@@ -1,0 +1,29 @@
+.bootstrap-datetimepicker-widget.dropdown-menu {
+    border-radius: 0;
+    margin: 0;
+    box-shadow: none;
+    &:before,
+    &:after {
+        display: none;
+    }
+    &.top {
+        margin-bottom: -1px;
+    }
+    &.bottom {
+        margin-top: -1px;
+    }
+
+    table td.day {
+        height: 35px;
+    }
+
+    /* &.top ~ .input.form-control {
+        border-top-left-radius: 0!important;
+        border-top-right-radius: 0!important;
+    }
+
+    &.bottom ~ .input.form-control {
+        border-bottom-left-radius: 0!important;
+        border-bottom-right-radius: 0!important;
+    } */
+}

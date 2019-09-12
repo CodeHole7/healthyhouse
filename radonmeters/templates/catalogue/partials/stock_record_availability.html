@@ -1,0 +1,14 @@
+{% load i18n %}
+{% load currency_filters %}
+{% load purchase_info_tags %}
+
+{% purchase_info_for_product request product as session %}
+
+{# TODO: RETURN DISCOUNT #}
+{#<h5 class="net-dill"><span class="rm-icon-discount"></span><span>{% trans 'Net dill' %}:</span> <span>2.000,00 dkk<span></h5>#}
+
+{% if session.availability.code == 'instock' %}
+    <h5 itemprop="availability" href="http://schema.org/InStock" class="in-stock">{% trans 'Availability: In stock' %}</h5>
+{% else %}
+    <h5 itemprop="availability" href="http://schema.org/OutOfStock" class="out-stock">{% trans 'Out of stock' %}</h5>
+{% endif %}

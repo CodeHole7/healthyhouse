@@ -1,0 +1,23 @@
+.error-page {
+    max-width: 515px;
+    h1 {
+        color: $brand-info;
+        font-size: 200px;
+        font-weight: bold;
+        letter-spacing: 15px;
+        line-height: 244px;
+    }
+    p {
+        font-size: $font-size-medium;
+        margin-bottom: 5px;
+    }
+    .btn {
+        margin-top: 30px;
+    }
+    @media (max-width: $dev-xs) {
+        h1 {
+            font-size: 30vw;
+            line-height: 32vw;
+        }
+    }
+}

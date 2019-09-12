@@ -1,0 +1,28 @@
+{% load i18n %}
+{% load currency_filters %}
+{% load purchase_info_tags %}
+{% load basket_tags %}
+
+{% purchase_info_for_product request product as session %}
+
+{# TODO: Add first price and price with discount #}
+{#<p class="product-sale">2.400,00 DKK</p>#}
+
+{% if not product.is_parent %}
+    <div class="product-price-block" >
+        <meta itemprop="priceCurrency" content="{% if session.price.exists %}{{session.price.currency}}{% else %}{% trans "Undefined" %}{% endif %}" />
+        <meta itemprop="price" content="{% if session.price.exists %}{% if session.price.excl_tax == 0 %}{% trans "Free" %}{% elif session.price.is_tax_known %}{{ session.price.incl_tax }}{% else %}{{ session.price.excl_tax }}{% endif %}{% else %}{% trans "Undefined" %}{% endif %}" />
+
+        {% if session.price.exists %}
+            {% if session.price.excl_tax == 0 %}
+                {% trans "Free" %}
+            {% elif session.price.is_tax_known %}
+                {{ session.price.incl_tax|currency:session.price.currency }}
+            {% else %}
+                {{ session.price.excl_tax|currency:session.price.currency }}
+            {% endif %}
+        {% else %}
+            {% trans "Undefined" %}
+        {% endif %}
+    </div>
+{% endif %}

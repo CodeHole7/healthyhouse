@@ -1,0 +1,76 @@
+{% extends "customer/baseaccountpage.html" %}
+{% load staticfiles %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}
+<div class="breadcrumb-container">
+    <ul class="breadcrumb">
+        <li>
+            <a href="{{ homepage_url }}">{% trans 'Home' %}</a>
+        </li>
+        <li>
+            <a href="{% url 'customer:summary' %}">{% trans 'Profile' %}</a>
+        </li>
+    </ul>
+</div>
+{% endblock %}
+
+
+{% block tabcontent %}
+    <div class="container profile-page">
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-5 profile_form">
+                <h2>{% trans 'Your profile' %}</h2>
+                <form id="profile_form" class="form form-vertical" method="post" action="{% url 'customer:profile-update' %}" novalidate="">
+                    {% csrf_token %}
+
+                    {{ profile_form.non_field_errors.as_ul }}
+
+                    {% for hidden in profile_form.hidden_fields %}{{ hidden }}{% endfor %}
+
+                    {% for field in profile_form.visible_fields %}
+                        <div class="form-group  {% if field.errors %}has-error{% endif %}">
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            <input name="{{ field.name }}" id="{{ field.id }}" {% if field.field.max_length %}maxlength="{{field.field.max_length}}"{% endif %}  class="form-control" value="{{ field.value }}" placeholder="{{ field.field.widget.attrs.placeholder }}" {% if field.field.required %}required{% endif %} >
+                            {% for error in field.errors %}
+                                <span class="errorlist"><i class="icon-exclamation-sign"></i> {{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                    <button class="btn btn-lg btn-primary" type="submit">{% trans "Update" %}</button>
+                </form>
+            </div>
+            <div class="col-xs-12 col-sm-5 col-sm-offset-2 password_form">
+                <h2>{% trans 'Change password' %}</h2>
+                <form id="password_form" method="post" class="form form-vertical" action="{% url 'customer:change-password' %}" novalidate="">
+                    {% csrf_token %}
+
+                    {% for hidden in password_form.hidden_fields %}{{ hidden }}{% endfor %}
+
+                    {% for field in password_form.visible_fields %}
+                        <div class="form-group">
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            <input name="{{ field.name }}" id="{{ field.id }}" class="form-control" {% if field.field.max_length %}maxlength="{{field.field.max_length}}"{% endif %} type="password" placeholder="{{ field.label }}" required="">
+                            {% if field.help_text %}<p>{{ field.help_text }}</p>{% endif %}
+                        </div>
+                    {% endfor %}
+                    <button class="btn btn-lg btn-primary" type="submit">{% trans "Change Password" %}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock tabcontent %}
+
+{% block extrascripts %}
+    <script>
+        var _radonOptions = {
+            'requiredError': "<ul class=\"errorlist\"><li>{% trans 'This field is required.' %}</li></ul>",
+            'invalidEmailError': "<ul class=\"errorlist\"><li>{% trans 'Enter a valid email address.' %}</li></ul>",
+            'invalidPhoneError': "<ul class=\"errorlist\"><li>{% trans 'Enter a valid phone number' %}</li></ul>",
+        };
+    </script>
+    <script src="{% static 'js/pages/profile_page.js' %}"></script>
+{% endblock %}

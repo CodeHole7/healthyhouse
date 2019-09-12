@@ -1,0 +1,88 @@
+{% extends "zinnia/base.html" %}
+{% load i18n %}
+{% load zinnia %}
+{% load comments static %}
+{% load thumbnail %}
+
+{% block title %}{{ object.title }}{% endblock title %}
+
+{% block meta-description %}
+    {{ object.excerpt|safe }}{% endblock meta-description %}
+
+{% block meta-keywords %}{% if object.tags %}{{ object.tags }}{% else %}
+    {{ block.super }}{% endif %}{% endblock meta-keywords %}
+
+{% block description %}{{ object.html_preview|safe|default:""|striptags|truncatechars:80 }}{% endblock %}
+
+{% block social_tags %}
+     {% with image=object.image %}
+
+    <!-- Schema.org markup for Google+ -->
+    <meta itemprop="name" content="{{object.title}}" />
+    <meta itemprop="description" content="{{ object.html_preview|safe|default:""|striptags|truncatechars:450 }}" />
+    <meta itemprop="image" content="{{ request.scheme }}://{{ request.get_host }}{% thumbnail image "528x350" crop="center" as thumb %}{{ thumb.url }}{% endthumbnail %}" />
+
+    <!-- Twitter Card data -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="{{ config.SOCIAL_ACCOUNT_TWITTER }}" />
+    <meta name="twitter:title" content="{{object.title}}" />
+    <meta name="twitter:description" content="{{ object.html_preview|safe|default:""|striptags|truncatechars:80 }}" />
+    <meta name="twitter:creator" content="{{ config.SOCIAL_ACCOUNT_TWITTER }}" />
+    <!-- Twitter summary card with large image must be at least 280x150px -->
+    <meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{% thumbnail image "528x350" crop="center" as thumb %}{{ thumb.url }}{% endthumbnail %}" />
+    <!-- Open Graph data -->
+    <meta property="og:title" content="{{object.title}}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% thumbnail image "528x350" crop="center" as thumb %}{{ thumb.url }}{% endthumbnail %}" />
+    <meta property="og:description" content="{{ object.html_preview|safe|default:""|striptags|truncatechars:450 }}" />
+    <meta property="og:site_name" content="Radonmeters" />
+    {% endwith %}
+{% endblock %}
+
+{% block link %}
+    {{ block.super }}
+    {% with previous_entry=object.previous_entry %}{% if previous_entry %}
+        <link rel="prev" title="{{ previous_entry.title }}"
+              href="{{ previous_entry.get_absolute_url }}"/>
+    {% endif %}{% endwith %}
+    {% with next_entry=object.next_entry %}{% if next_entry %}
+        <link rel="next" title="{{ next_entry.title }}"
+              href="{{ next_entry.get_absolute_url }}"/>
+    {% endif %}{% endwith %}
+    <link rel="shortlink" href="{{ object.short_url }}"/>
+    <link rel="canonical" href="{{ object.get_absolute_url }}"/>
+    {% with year=object.publication_date|date:"Y" month=object.publication_date|date:"m" day=object.publication_date|date:"d" %}
+        <link rel="alternate" type="application/rss+xml"
+              title="{% blocktrans with object=object.title %}RSS feed of discussions on {{ object }}{% endblocktrans %}"
+              href="{% url 'zinnia:entry_discussion_feed' year month day object.slug %}"/>
+        <link rel="alternate" type="application/rss+xml"
+              title="{% blocktrans with object=object.title %}RSS feed of comments on {{ object }}{% endblocktrans %}"
+              href="{% url 'zinnia:entry_comment_feed' year month day object.slug %}"/>
+        <link rel="alternate" type="application/rss+xml"
+              title="{% blocktrans with object=object.title %}RSS feed of pingbacks on {{ object }}{% endblocktrans %}"
+              href="{% url 'zinnia:entry_pingback_feed' year month day object.slug %}"/>
+        <link rel="alternate" type="application/rss+xml"
+              title="{% blocktrans with object=object.title %}RSS feed of trackbacks on {{ object }}{% endblocktrans %}"
+              href="{% url 'zinnia:entry_trackback_feed' year month day object.slug %}"/>
+    {% endwith %}
+{% endblock link %}
+
+{% block body-class %}entry entry-
+    {{ object.pk }}{% if object.featured %} featured{% endif %} year-
+    {{ object.publication_date|date:"Y" }} month-
+    {{ object.publication_date|date:"m" }} week-
+    {{ object.publication_date|date:"W" }} day-
+    {{ object.publication_date|date:"d" }}{% endblock body-class %}
+
+{% block content %}
+    <h1 class="text-center clearfix blog-details-page-header">{{object.title}}</h1>
+    {% block entry-content %}
+        {% include object.content_template with object_content=object.html_content details=True %}
+    {% endblock entry-content %}
+{% endblock content %}
+
+{% block extrascripts %}
+    <script src="{% static 'bower/jssocials/dist/jssocials.min.js' %}"></script>
+    <script src="{% static 'js/common/social_sharing.js' %}"></script>
+{% endblock %}

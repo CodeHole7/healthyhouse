@@ -1,0 +1,147 @@
+.footer {
+    background-color: $footer-bg-color;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    .footer-logo-link {
+        max-width: 230px;
+        margin-bottom: 15px;
+        display: inline-block;
+        img {
+            width: 100%;
+        }
+    }
+    .trustpilot-widget {
+        margin-top: 40px;
+    }
+    .third-part-logo {
+        padding: 5px 10px;
+        max-width: 230px;
+        background-color: white;
+        margin-bottom: 10px;
+        img {
+            display: block;
+            width: 100%;
+        }
+    }
+    p {
+        color: $white;
+        font-size: 12px;
+        line-height: 19px;
+    }
+    ul{
+        @extend .list-unstyled;
+    }
+    .link-list {
+        li {
+            margin-bottom: 30px;
+        }
+        li:last-child {
+            margin-bottom: 0;
+        }
+    }
+    h3 {
+        color: $white;
+        text-transform: uppercase;
+        margin-top: 0;
+        margin-bottom: 40px;
+        font-size: 14px;
+        white-space: nowrap;
+    }
+    .container {
+        display: flex;
+        & > div {
+            max-width:330px;
+            padding: 0 30px;
+        }
+        & > div:first-child {
+            padding-left: 0;
+        }
+        & > div:last-child {
+            padding-right: 0;
+        }
+    }
+    .sep {
+        border-right: 1px solid rgba(202, 202, 202, .2);
+    }
+    .social-link-list {
+        white-space: nowrap;
+        li {
+            display: inline-block;
+
+            margin-right: 13px;
+            margin-bottom: 13px;
+            &:last-child {
+                margin-right: 0;
+            }
+            a {
+                display: block;
+                font-size: $font-size-small;
+                color: $footer-bg-color;
+                width: 22px;
+                height: 22px;
+                border-radius: 50%;
+                line-height: 22px;
+                text-align: center;
+                background-color: $white;
+                transition: background-color .3s;
+                &:focus,
+                &:hover {
+                    text-decoration: none;
+                    color: $white;
+                }
+                &.fb:hover, &.fb:focus{
+                    background-color: $soc-facebook-color;
+                }
+
+                &.yt:hover, &.yt:focus{
+                    background-color: $soc-yt-color;
+                }
+                &.tw:hover, &.tw:focus{
+                    background-color: $soc-twitter-color;
+                }
+
+            }
+        }
+    }
+    .subscribe-form {
+        .form-control + .errorlist {
+                position: relative;
+                padding-left: 0;
+            }
+    }
+}
+
+@media (max-width: $dev-sm)  {
+    .footer {
+        text-align: center;
+        .container {
+            display: block;
+            & > div {
+                max-width:100%;
+                padding: 0;
+            }
+        }
+        .third-part-logo {
+            margin: 0 auto 10px;
+        }
+        .sep {
+            border: none;
+        }
+        h3 {
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+        .link-list {
+            li {
+                margin-bottom: 10px;
+            }
+            li:last-child {
+                margin-bottom: 0;
+            }
+        }
+        .form-control {
+            max-width: 300px;
+            margin: 0 auto;
+        }
+    }
+}

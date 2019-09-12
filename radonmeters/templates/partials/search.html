@@ -1,0 +1,9 @@
+{% load i18n %}
+
+<form method="get" action="{% url 'search:search' %}" class="navbar-search-form">
+    {{ search_form.q }}
+    <i class="presentaition-border"></i>
+    <button type="submit" class="btn btn-search">
+        <span class="rm-icon-search"></span>
+    </button>
+</form>

@@ -1,0 +1,29 @@
+{% load thumbnail staticfiles %}
+
+<div id="{{ category_section.slug }}_s" class="measure-article-item row {% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}">
+        <div class="col-xs-12 col-sm-6">
+            <div class="img-wrapper">
+                {% if category_section.image %}
+                        {% thumbnail category_section.image "105x70" crop='center' format="PNG" upscale=False as lowres %}
+                        {% thumbnail category_section.image "528x350" crop='center' format="PNG" upscale=True as thumb %}
+                            <img class="b-lazy" src="{{ lowres.url }}" data-src="{{ thumb.url }}" alt="{{ category_section.title }}" />
+                            <noscript>
+                                <img src="{{ thumb.url }}" alt="{{ category_section.title }}" />
+                            </noscript>
+                        {% endthumbnail %}
+                        {% endthumbnail %}
+                {% else %}
+                    <img src="{% static 'images/news_empty.png' %}" alt="no image"/>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 measure-article-details-wrapper">
+            <h3>
+                <span class="article-number">{{ forloop.counter }}</span>
+                {{ category_section.title }}
+            </h3>
+            <div class="measure-main-text">
+                {{ category_section.content|safe }}
+            </div>
+        </div>
+</div>

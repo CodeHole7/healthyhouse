@@ -1,0 +1,80 @@
+media/
+
+### OSX ###
+.DS_Store
+.AppleDouble
+.LSOverride
+
+### SublimeText ###
+# cache files for sublime text
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+
+# workspace files are user-specific
+*.sublime-workspace
+
+# project files should be checked into the repository, unless a significant
+# proportion of contributors will probably not be using SublimeText
+# *.sublime-project
+
+# sftp configuration file
+sftp-config.json
+
+# Basics
+*.py[cod]
+*.pyc
+__pycache__
+
+# Logs
+*.log
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+nosetests.xml
+htmlcov
+
+# Translations
+*.mo
+*.pot
+
+# Pycharm
+.idea
+
+# Vim
+
+*~
+*.swp
+*.swo
+
+# npm
+node_modules/
+
+# Bower
+bower_components/
+
+# Compass
+.sass-cache
+
+# virtual environments
+.env
+
+# User-uploaded media
+radonmeters/media/
+staticfiles/
+
+#vagrant
+.vagrant
+/dump.rdb
+
+#ansible
+*.retry
+
+celerybeat.pid
+celerybeat-schedule
+celerybeat-schedule.dir
+
+# locale
+locale/

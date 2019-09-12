@@ -1,0 +1,142 @@
+{% load i18n %}
+{% load currency_filters %}
+{% load category_tags static %}
+
+{% load flatpages %}
+{% get_flatpages as flatpages %}
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header pull-right">
+            {# This is used in mobile view #}
+            <a class="btn btn-default navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navbar">
+                <span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar center"></span>
+                    <span class="icon-bar"></span>
+                </span>
+            </a>
+        </div>
+
+
+        {% if request.resolver_match.url_name != 'summary' %}
+        <span class="navbar-right visible-xs-inline-block">
+            {% include "partials/mini_basket.html" %}
+        </span>
+        {% endif %}
+
+        <div class="collapse navbar-collapse" id="main-navbar">
+            <ul class="nav navbar-nav">
+
+                {# Static section #1 #}
+                <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                    <a href="{% url 'common:home' %}">
+                        {% trans "Home" %}
+                    </a>
+                </li>
+
+                <li class="{% if request.resolver_match.url_name == 'promo_radon' %}active{% endif %}">
+                    <a href="{% url 'common:promo_radon' %}">
+                        {% trans "Radon" %}
+                    </a>
+                </li>
+                <li class="{% if request.resolver_match.namespace == 'catalogue' %}active{% endif %}">
+                    <a href="{% url 'catalogue:index' %}">
+                        {% trans "Shop" %}
+                    </a>
+                </li>
+
+
+
+                {# Flatpages "B2B" part #}
+                {#{% if fp_b2b %}#}
+                {#    <li class="flat-parent">#}
+                {#        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "B2B" %}<span class="caret visible-xs-inline-block"></span></a>#}
+                {#        <ul class="dropdown-menu">#}
+                {#            {% for flatpage in fp_b2b %}#}
+                {#                <li class="{% if flatpage.url == request.path %}active{% endif %}">#}
+                {#                    <a href="{{ flatpage.get_absolute_url }}">{{ flatpage.title|lower|capfirst|lower|capfirst }}</a>#}
+                {#                </li>#}
+                {#            {% endfor %}#}
+                {#        </ul>#}
+                {#    </li>#}
+                {#{% endif %}#}
+
+                {# Flatpages "Legal" part #}
+                {% for flatpage in fp_legal %}
+                    <li class="{% if flatpage.url == request.path %}active{% endif %}">
+                        <a href="{{ flatpage.get_absolute_url }}">{{ flatpage.title|lower|capfirst }}</a>
+                    </li>
+                {% endfor %}
+
+                <li class="{% if request.resolver_match.url_name == 'fp__about_us' %}active{% endif %}">
+                    <a href="{% url 'fp__about_us' %}">
+                        {% trans "About us" %}
+                    </a>
+                </li>
+
+                <li class="{% if request.resolver_match.url_name == 'contact_us_request' %}active{% endif %}">
+                    <a href="{% url 'common:contact_us_request' %}">
+                        {% trans "Contact us" %}
+                    </a>
+                </li>
+
+                {#<li class="hidden-xs"><a href="#" class="search-wrapper-toggle"><span class="rm-icon-search"></span>Search</a></li>#}
+
+
+                {% if user.is_authenticated %}
+                    <li class="visible-xs">
+                        <a href="{% url 'customer:summary' %}">
+                            {% if user.get_full_name %}
+                                {{ user.get_full_name|default:'-' }}
+                            {% else %}
+                                <span>{% trans 'Profile' %}</span>
+                            {% endif %}
+                        </a>
+                    </li>
+                    <li class="visible-xs">
+                        <a href="{% url 'customer:logout' %}">
+                            <span>{% trans "Log out" %}</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="visible-xs">
+                        <a href="{% url 'customer:login' %}">
+                            <span>{% trans "Sign in / Sign up" %}</span>
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% if LANGUAGES|length > 1 %}
+                <li class="visible-xs language-link">
+                    {% get_language_info_list for LANGUAGES as languages %}
+                    {% for language in languages %}
+                        {% if language.code == LANGUAGE_CODE%}
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ language.name_local|lower|capfirst }}<span class="caret "></span></a>
+                        {% endif %}
+                    {% endfor %}
+                    {% csrf_token %}
+                    <input name="next" type="hidden" value="{{ language_neutral_url_path }}" />
+                    {% get_language_info_list for LANGUAGES as languages %}
+                        <ul class="dropdown-menu" id="language_selector">
+                            {% for language in languages %}
+                            <li class="{% if language.code == LANGUAGE_CODE%}active{% endif %}">
+                                <a href="#" data-lang-code="{{ language.code }}" data-name="language">{{ language.name_local|lower|capfirst }}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                </li>
+                {% endif %}
+            </ul>
+
+            {#<div class="navbar-search-wrapper">#}
+            {#    {% include "partials/search.html" %}#}
+            {#</div>#}
+
+            {% block nav_extra %}
+            {% endblock %}
+
+        </div>
+    </div>
+</nav><!-- /navbar -->
+

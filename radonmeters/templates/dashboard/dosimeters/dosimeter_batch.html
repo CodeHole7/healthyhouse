@@ -1,0 +1,52 @@
+{% extends 'dashboard/layout.html' %}
+
+
+
+{% load sorting_tags %}
+{% load i18n %}
+
+{% block title %}
+    {% trans "Dosimeters" %} | {{ block.super }}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <ul class="breadcrumb">
+        <li>
+            <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+        </li>
+        <li class="active">{% trans "Dosimeters" %}</li>
+    </ul>
+{% endblock %}
+
+{% block header %}
+    <div class="page-header">
+        <h1>{% trans "Dosimeters" %}</h1>
+    </div>
+
+{% endblock header %}
+
+{% block dashboard_content %}
+
+
+    <div class="well">
+        <dl>
+          <dt>Serial Number</dt>
+          <dd>{{ info_data.serial_number }}</dd>
+          <dt>Status</dt>
+          <dd>{{ info_data.status }}</dd>
+          <dt>Owner Name</dt>
+          <dd>{{ info_data.owner }}</dd>
+        </dl>
+        <form action="." method="post" class="form-inline update-dosimeter-form">
+            {% csrf_token %}
+            {% include 'dashboard/partials/form_fields.html' with form=form_update %}
+            <button type="submit" class="btn btn-primary" data-loading-text="{% trans 'Updating...' %}">{% trans "Done" %}</button>
+        </form>
+    </div>
+
+
+{% endblock dashboard_content %}
+
+
+
+

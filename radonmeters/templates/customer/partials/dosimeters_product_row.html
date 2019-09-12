@@ -1,0 +1,77 @@
+{% load i18n static %}
+
+<div class="order-product-item order-product-dosimeter">
+    <div class="order-product-top-panel">
+        <div class="product-data-wrapper">
+            <div class="image-wrapper">
+                <img v-if="item.product_image" class="thumbnail" src="" alt="" :alt="item.product_title" :src="item.product_image" />
+                <div v-else="item.product_image" config="options" class="thumbnail empty"></div>
+            </div>
+            <div class="product-data product-name-container">
+                <div class="product-hint product-name"><% item.product_title || '{% trans "No title" %}' %></div>
+                <p><span>{% trans 'SN' %}:</span> <span><%item.serial_number || '{% trans "Not set yet" %}'%></span></p>
+            </div>
+            <div class="product-data">
+                <div class="product-hint">{% trans 'Concentration' %}</div>
+                <p><% item.concentration ? item.concentration + ' bq/m3' : '-' %></p>
+            </div>
+            <div class="product-data">
+                <div class="product-hint">{% trans 'Uncertainty' %}</div>
+                <p><% item.uncertainty ? item.uncertainty + ' bq/m3' : '-' %></p>
+            </div>
+            <div class="product-data">
+                <div class="product-hint">{% trans 'Yearly AVG' %}</div>
+                <p><% item.yearly_avg ? item.yearly_avg + ' bq/m3' : '-' %></p>
+            </div>
+            <div class="product-price"><%item.product_price%></div>
+        </div>
+
+    </div>
+    <div class="order-product-bottom-panel">
+        <form action="" class="form" @submit.prevent>
+            <div class="group-item">
+                <label>{% trans 'Active' %}</label>
+                <input 
+                    class="form-control"
+                    aria-label="{% trans 'Use dosimeter in calculation' %}"
+                    title="{% trans 'Use dosimeter in calculation' %}"
+                    type="checkbox" 
+                    name="is_active" 
+                    :disabled="!enableEdit"
+                    v-model="is_active"
+                    >
+            </div>
+            <div class="group-item">
+                <label>{% trans 'Measurement start date' %}</label>
+                <date-picker ref="start_date" v-model="date_start" id="id_start_date" placeholder="{% trans 'Enter date' %}" @dp-change="changeEndField" :config="datePickerConfigStart" :disabled="!enableEdit" data-name="{% trans 'Measurement start date' %}"></date-picker>
+            </div>
+            <div class="group-item">
+                <label>{% trans 'Measurement end date' %}</label>
+                <date-picker ref="end_date" v-model="date_end" placeholder="{% trans 'Enter date' %}" id="id_end_date" :config="datePickerConfigEnd" :disabled="!enableEdit" data-name="{% trans 'Measurement end date' %}"></date-picker>
+            </div>
+            <div class="group-item">
+                <label>{% trans 'Floor' %}</label>
+                <select2 :disabled="!enableEdit" v-model="selected" class="form-control" type="text" :placeholder="'{% trans 'Floor' %}'" id="id_floor" >
+                    <option value="-1" selected>{% trans 'Basement' %}</option>
+                    <option value="0">{% trans 'Livingroom' %}</option>
+                    <option value="1">{% trans '1 floor' %}</option>
+                    <option value="2">{% trans '2 floor' %}</option>
+                    <option value="3">{% trans '3+ floor' %}</option>
+                </select2>
+            </div>
+            <div class="group-item">
+                <label>{% trans 'Home location' %}</label>
+                <autocomplete v-model="location" :disabled="!enableEdit" placeholder="{% trans 'Dosimeter location' %}"
+                ></autocomplete>
+            </div>
+
+        </form>
+        <button v-if="enableEdit"  @click="submitForm" class="btn btn-primary btn-xs">
+            <span>{% trans 'Update data' %}</span>
+        </button>
+        <button v-else="enableEdit"  @click="handlerEdit"  class="btn btn-primary btn-xs">
+            <span class="icon-edit rm-icon-edit"></span>
+            <span>{% trans 'Edit' %}</span>
+        </button>
+    </div>
+</div>

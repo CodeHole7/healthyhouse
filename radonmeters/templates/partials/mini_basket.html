@@ -1,0 +1,16 @@
+{% load currency_filters %}
+{% load i18n %}
+
+<div class="basket-mini">
+    <a href="{% url 'basket:summary' %}" title="{% trans "Shopping bag" %}">
+        <span class="icon rm-icon-shop-bag"></span>
+        <span class="hidden-xs">{% trans "Shopping cart:" %}</span>
+        <strong>
+        {% if request.basket.is_tax_known %}
+            {{ request.basket.total_incl_tax|currency:request.basket.currency }}
+        {% else %}
+            {{ request.basket.total_excl_tax|currency:request.basket.currency }}
+        {% endif %}
+        </strong>
+    </a>
+</div>

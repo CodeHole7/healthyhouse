@@ -1,0 +1,389 @@
+{% extends 'radosure_dashboard/layout.html' %}
+{% load currency_filters %}
+{% load sorting_tags %}
+{% load i18n %}
+{% load l10n %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block body_class %}{{ block.super }} orders{% endblock %}
+
+{% block title %}
+    {% trans "Orders" %} | {{ block.super }}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <ul class="breadcrumb">
+        <li>
+            <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+        </li>
+        <li class="active">{% trans "Orders" %}</li>
+    </ul>
+{% endblock %}
+
+{% block header %}
+    <div class="page-header">
+        <h1>{% trans "Orders" %}</h1>
+    </div>
+{% endblock header %}
+
+{% block dashboard_content %}
+    <div class="table-header">
+        <h3><i class="icon-search icon-large"></i>{% trans "Search" %}</h3>
+    </div>
+    <div class="well">
+        <form action="." method="get" class="form-inline" id="search_form">
+            {% for field in form %}
+                {% if "order" in field.id_for_label %}
+                    {% if field.is_hidden %}
+                        {% render_field field class+='form-control' %}
+                    {% else %}
+                        <span class="form-group{% if field.errors %} has-error{% endif %}">
+                            {{ field.label_tag }}
+                            {% render_field field class+='form-control' %}
+                            {% for error in field.errors %}
+                                <ul class="error-block">
+                                    <li>{{ error }}</li>
+                                </ul>
+                            {% endfor %}
+                        </span>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            <input type="submit" value="{% trans "Search" %}" class="btn btn-primary" />
+{#            <a data-toggle="modal" data-target="#SearchModal" href="#">{% trans "Advanced Search" %}</a>#}
+        </form>
+
+        {# Search modal, if there are form errors the form is automatically openend #}
+        <div class="modal fade" data-show="true" id="SearchModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h3>{% trans "Advanced Search" %}</h3>
+                    </div>
+                    <form action="." method="get" class="form-horizontal">
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                            {% csrf_token %}
+                            {% include "dashboard/partials/form_fields.html" with form=form style='horizontal' %}
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</a>
+                            <button type="submit" class="btn btn-primary" data-loading-text="{% trans 'Searching...' %}">{% trans "Search" %}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        {% if search_filters %}
+        <div class="search-filter-list">
+            <label>Filters:</label>
+            {% for filter in search_filters %}
+            <span class="label label-success">{{ filter }}</span>
+            {% endfor %}
+        </div>
+
+        {% endif %}
+    </div>
+
+    {% if orders %}
+        <div class="progress hidden">
+            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+              0%
+        </div>
+          </div>
+        <form action="." method="post" class="order_table" id="orders_form">
+            {% csrf_token %}
+            {% include "dashboard/orders/partials/bulk_edit_form.html" with status=active_status %}
+
+            {% block order_list %}
+{#            <table class="table table-striped table-bordered table-hover">#}
+            <table class="table table-bordered">
+                <caption>
+                    <h3 class="pull-left"><i class="icon-shopping-cart icon-large"></i>
+                        {% if search_filters %}
+                        {% trans "Order Search Results" %}
+                        {% else %}
+                        {% trans "All Orders" %}
+                        {% endif %}
+                    </h3>
+
+                    <div class="pull-right">
+                        <div class="form-inline">
+                            <label>{% trans "Download reports for selected orders:" %}</label>
+                            <button type="button" data-type="bulk" data-object="report" class="btn btn-primary btn-sm  js-order-download" name="action" style="margin: 2px;">
+                                {% trans "Download" %}
+                            </button>
+                        </div>
+                    </div>
+                </caption>
+
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>{% anchor 'number' _("Order number") %}</th>
+{#                        <th>{% anchor 'total_incl_tax' _("Total inc tax") %}</th>#}
+{#                        <th>{% trans "Number of items" %}</th>#}
+{#                        <th>{% trans "Status" %}</th>#}
+                        <th>{% trans "Customer" %}</th>
+{#                        <th>{% trans "Shipping address" %}</th>#}
+{#                        <th>{% trans "Billing address" %}</th>#}
+                        <th>{% trans "Date of purchase" %}</th>
+                        <th>{% trans "Partner order ID" %}</th>
+                        <th>{% trans "PDF Report" %}</th>
+{#                        <th>{% trans "Shipment" %}</th>#}
+                        <th>{% trans "Is Approved" %}</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                {% for order in orders %}
+                    <tr style="background-color: #f9f9f9" class="order-row" data-target="dosimeters-row-{{ order.id }}">
+                        <td><input type="checkbox" name="selected_order" class="selected_order" value="{{ order.id }}" data-number="{{ order.number }}" /></td>
+                        <td>{{ order.number }}</td>
+{#                        <td>{{ order.total_incl_tax|currency:order.currency }}</td>#}
+{#                        <td>{{ order.num_items }} {% if order.dosimeters_line %}({{order.dosimeters_line.quantity}} {% trans "Dosimeters" %}){% endif %}</td>#}
+{#                        <td>{{ order.status|default:"-" }}</td>#}
+                        <td>
+                            {% if order.guest_email %}
+                                {{ order.guest_email }}
+                            {% elif order.user %}
+                                {{ order.user.get_full_name|default:"-" }}
+                            {% else %}
+                                &lt;{% trans "Deleted" %}&gt;
+                            {% endif %}
+                        </td>
+{#                        <td>{{ order.shipping_address|default:"-" }}</td>#}
+{#                        <td>{{ order.billing_address|default:"-" }}</td>#}
+                        <td>{{ order.date_placed }}</td>
+                        <td>{{ order.partner_order_id|default:"-" }}</td>
+                        <th>
+                            <button type="button" data-type="single" data-order-id="{{ order.number }}" data-object="report" class="btn btn-default js-order-download btn-sm" name="action" value="download_selected_orders" style="margin: 2px;">
+                                {% trans "Download" %}
+                            </button>
+                        </th>
+{#                        <td>#}
+{#                            {% if order.shipment %}#}
+{#                                <a class="btn btn-default" href="{% url 'dashboard:shipment-update' order.shipment.id %}">{% trans "View Shipment" %}</a>#}
+{#                            {% else %}#}
+{#                                <button class="btn btn-primary js-create-shipment" data-order-id="{{order.id}}" data-url="{% url 'dashboard:shipment-create' %}" data-loading-text="{% trans 'Loading...' %}" type="button">#}
+{#                                    {% trans "Create Shipment" %}#}
+{#                                </button>#}
+{#                            {% endif %}#}
+{#                        </td>#}
+                        <td>
+                            {% if order.is_approved %}
+                                <button
+                                    type="button"
+                                    class="btn btn-success send-invoice-dosimeter"
+                                    data-url="{% url 'api:orders:order-send-report' pk=order.pk %}">{% trans 'Approved' %}
+                                </button>
+                            {% else %}
+                                <button
+                                    type="button"
+                                    class="btn btn-primary approve-dosimeter"
+                                    data-id="{{order.pk}}"
+                                    data-url="{% url 'api:orders:order-approve' pk=order.pk %}">{% trans 'Approve' %}
+                                </button>
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                    {# Include additional table with dosimeters #}
+                    {% if order.dosimeters_line %}
+                        <tr class="dosimeters-row hidden" dosimeters-row-{{ order.id }} >
+                            <td colspan="14">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>{% trans 'Serial #' %}</th>
+
+                                            <th>{% trans 'Yearly AVG Visual' %}</th>
+                                            <th>{% trans 'Concentration Visual' %}</th>
+                                            <th>{% trans 'Uncertainty Visual' %}</th>
+
+                                            <th>{% trans 'Concentration' %}</th>
+                                            <th>{% trans 'Uncertainty' %}</th>
+                                            <th>{% trans 'Start date' %}</th>
+                                            <th>{% trans 'End date' %}</th>
+                                            <th>{% trans 'Floor' %}</th>
+                                            <th>{% trans 'Location' %}</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for l in order.lines.all %}
+                                            {% for d in l.dosimeters.all %}
+                                            <tr data-url="{% url 'api:dosimeters:dosimeter-detail' pk=d.pk %}" data-id="{{d.pk}}" class="dosimeter-item">
+                                                <td>{{ d.serial_number|default:"-" }}</td>
+
+                                                <td class="yearly-avg-visual">
+                                                    {{ d.avg_concentration_visual|default:"-" }}
+                                                </td>
+                                                <td class="concentration-visual">
+                                                    {{ d.concentration_visual|default:"-" }}
+                                                </td>
+                                                <td class="uncertainty-visual">
+                                                    {{ d.uncertainty_visual|default:"-" }}
+                                                </td>
+
+                                                <td>
+                                                    <input type="number"
+                                                        id="dosimeter-concentration-{{d.pk}}"
+                                                        disabled
+                                                        class="form-control"
+                                                        value="{{ d.concentration|unlocalize|default:"" }}"
+                                                        placeholder="{% trans 'Concentration Raw' %}">
+                                                </td>
+                                                <td>
+                                                    <input type="number"
+                                                        id="dosimeter-uncertainty-{{d.pk}}"
+                                                        disabled
+                                                        class="form-control"
+                                                        value="{{ d.uncertainty|unlocalize|default:"" }}"
+                                                        placeholder="{% trans 'Uncertainty Raw' %}">
+                                                </td>
+                                                <td>
+                                                    <div class="date" data-dateformat="dd-mm-yyyy" data-oscarwidget="datepicker">
+                                                        <input type="text" name="date_from" class="form-control" id="dosimeter_date_from-{{d.pk}}" data-inputmask="'mask': 'd-m-y'" disabled value="{{ d.measurement_start_date|default:""|date:"d-m-Y" }}">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="date" data-dateformat="dd-mm-yyyy" data-oscarwidget="datepicker">
+                                                        <input type="text" name="date_to" class="form-control" id="dosimeter_date_to-{{d.pk}}" data-inputmask="'mask': 'd-m-y'" disabled value="{{ d.measurement_end_date|default:""|date:"d-m-Y>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <select name="dosimeter-floor"
+                                                        id="dosimeter-floor-{{d.pk}}"
+                                                        placeholder="{% trans 'Floor' %}"
+                                                        data-value="{{ d.get_floor_display }}"
+                                                        disabled
+                                                        class="initial-select2-width">
+                                                        <option value="null"{% if not d.floor %}selected{% endif %}>{% trans 'Select floor' %}</option>
+                                                        <option value="-1" {% if d.floor|stringformat:"i" == '-1' %}selected{% endif %}>{% trans 'Basement' %}</option>
+                                                        <option value="0" {% if d.floor|stringformat:"i" == '0' %}selected{% endif %}>{% trans 'Livingroom' %}</option>
+                                                        <option value="1" {% if d.floor|stringformat:"i" == '1' %}selected{% endif %}>{% trans '1 floor' %}</option>
+                                                        <option value="2" {% if d.floor|stringformat:"i" == '2' %}selected{% endif %}>{% trans '2 floor' %}</option>
+                                                        <option value="3" {% if d.floor|stringformat:"i" == '3' %}selected{% endif %}>{% trans '3+ floor' %}</option>
+                                                    </select>
+                                                    {% comment %} {{ d.get_floor_display }}
+                                                    {{ d.get_floor_display|default:"null" }} {% endcomment %}
+                                                </td>
+                                                <td>
+                                                    <input type="text"
+                                                        id="dosimeter-location-{{d.pk}}"
+                                                        disabled
+                                                        class="form-control"
+                                                        value="{{ d.location }}"
+                                                        placeholder="{% trans 'Dosimeter location' %}">
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-default edit-dosimeter">{% trans 'Edit' %}</button>
+                                                    <button type="button" class="btn btn-primary hidden update-dosimeter">{% trans 'Update' %}</button>
+                                                </td>
+                                            </tr>
+                                              {% endfor %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+
+
+                    {% endif %}
+
+                {% endfor %}
+                </tbody>
+            </table>
+            {% endblock order_list %}
+
+{#            {% block order_actions %}#}
+{#                <div class="well">#}
+{#                    <h3><i class="icon-warning-sign"></i> {% trans "Change order status" %}:</h3>#}
+{#                    {% if order_statuses %}#}
+{#                        <div class="form-group">#}
+{#                            <div class="controls">#}
+{##}
+{#                            <select name="new_status">#}
+{#                                <option value=""> -- {% trans "choose new status" %} -- </option>#}
+{#                                {% for status in order_statuses %}#}
+{#                                    <option>{{ status }}</option>#}
+{#                                {% endfor %}#}
+{#                            </select>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <button type="submit" name="action" value="change_order_statuses" class="btn btn-primary" data-loading-text="{% trans 'Changing...' %}">{% trans "Change status" %}</button>#}
+{#                    {% else %}#}
+{#                        {% trans "This order can't have its status changed." %}#}
+{#                    {% endif %}#}
+{#                </div>#}
+{#            {% endblock %}#}
+
+            {% include "dashboard/orders/partials/bulk_edit_form.html" with status=active_status %}
+            {% include "dashboard/partials/pagination.html" %}
+        </form>
+
+
+        <div class="modal fade" data-show="true" id="ResentMailModal" role="dialog">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h3>{% trans "Resend Report to Customer?" %}</h3>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" class="btn btn-default" data-dismiss="modal">{% trans "Cancel" %}</a>
+                        <button type="button" class="btn btn-primary submit-resend">{% trans "Yes" %}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% else %}
+        <table class="table table-striped table-bordered">
+            <caption><i class="icon-shopping-cart icon-large"></i>
+                {% if search_filters %}
+                {% trans "Order Search Results" %}
+                {% else %}
+                {% trans "All Orders" %}
+                {% endif %}
+            </caption>
+            <tr><td>{% trans "No orders found." %}</td></tr>
+        </table>
+    {% endif %}
+
+    {% endblock dashboard_content %}
+
+    {% block scripts %}
+        {{ block.super }}
+        <script src="{% static 'js/components/csrf_ajax.js' %}"></script>
+    {% endblock %}
+
+    {% block onbodyload %}
+        {{ block.super }}
+        oscar.dashboard.orders.csrf_token = '{{ csrf_token }}';
+        oscar.dashboard.orders.initTable();
+        oscar.dashboard.orders.bindCreateShipment(
+            '<a class="btn btn-info" href="#">{% trans "View shipment" %}</a>',
+            '{{ csrf_token }}'
+        );
+        oscar.dashboard.orders.bindDownload(
+            {
+                invoice:'/api/v1/orders/generate_invoices_pdf/',
+                report:'/api/v1/orders/generate_reports_pdf/'
+            }
+        );
+        oscar.dashboard.orders.approveDosimeter(
+            '<button type="button" class="btn btn-success send-invoice-dosimeter" data-url="{% url 'api:orders:order-send-report' pk=-1 %}">{% trans 'Approved' %}</button>'
+        );
+        oscar.dashboard.search.init();
+        {% if form.errors %}
+        $('#SearchModal').modal('show');
+        {% endif %}
+    {% endblock onbodyload %}

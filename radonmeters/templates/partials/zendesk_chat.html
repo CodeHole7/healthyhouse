@@ -1,0 +1,23 @@
+<!-- Start of radonmeters Zendesk Widget script -->
+{# add timeout to prevent lags #}
+{% load base_context %}
+<script>/*<![CDATA[*/
+    setTimeout(function() {
+        {% base_config as config %}
+        {{ config.SERVICES_ZENDESK_SCRIPT|safe }}
+        if(window.zE) {
+            zE(function() { zE.setLocale('{{LANGUAGE_CODE}}'); });
+            {% if user.is_authenticated %}
+                zE(function() {
+                    zE.identify({
+                        {% if user.first_name or user.last_name %} name: '{{user.first_name}} {{user.last_name}}',{% endif %}
+                        email: '{{user.email}}'
+                    });
+                });
+            {% endif %}
+        }
+    }, 1000);
+
+
+
+/*]]>*/</script>

@@ -1,0 +1,29 @@
+---
+
+# - name: create postgresql database
+#   postgresql_db: >
+#     name="{{ project.database }}"
+#     login_user="{{ user }}"
+#     state=present
+#   become: no
+#   tags: database
+
+- name: Check settings.DATABASES
+  command: "{{ project_venv_dir }}/bin/python -c \"import os; os.chdir('{{ project_dir }}'); from django.conf import settings; name = settings.DATABASES; print(name)\""
+  register: result
+  environment:
+    DJANGO_SETTINGS_MODULE: "{{project.settings}}"
+  tags: database
+
+- set_fact:
+    dictionary: "{{ result.stdout }}"
+  tags: database
+
+- debug: var=dictionary.default
+  tags: database
+  
+- name: backup postgresql database
+  shell: "/usr/bin/pg_dump --no-owner --host={{ dictionary.default.HOST }} --port={{ dictionary.default.PORT }} --username={{ dictionary.default.USER }} --no-password {{ dictionary.default.NAME }} | gzip > {{ project_base_dir }}/backup/db/{{ project.database }}-$(date +%Y-%m-%d-%H%M%S).sql.gz"
+  environment:
+    PGPASSWORD: "{{dictionary.default.PASSWORD}}"
+  tags: database

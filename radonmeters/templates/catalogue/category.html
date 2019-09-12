@@ -1,0 +1,77 @@
+{% extends "catalogue/browse.html" %}
+
+{% load i18n %}
+{% load basket_tags static %}
+{% load promotion_tags %}
+{% load category_tags %}
+{% load product_tags %}
+{% load thumbnail %}
+
+
+{% block title %}
+    {{ category.name }} | {{ block.super }}
+{% endblock %}
+
+{% block description %}
+    {{ category.description|default:""|striptags }}
+{% endblock %}
+
+{% block header%}
+    <div class="page-header action">
+        {% if user.is_staff %}
+            <a class="pull-right hidden-xs" href="{% url 'dashboard:catalogue-category-update' pk=category.id %}"><small><i class="icon-edit"></i> {% trans "Edit this category" %}</small></a>
+        {% endif %}
+        <h1>{% block headertext %}{{ category.name }}{% endblock %}</h1>
+    </div>
+{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumb-container">
+    <ul class="breadcrumb">
+        <li>
+            <a href="{{ homepage_url }}">{% trans "Home" %}</a>
+        </li>
+        {% for category in category.get_ancestors %}
+            <li>
+                <a href="{{ category.get_absolute_url }}">{{ category.name|lower|capfirst }}</a>
+            </li>
+        {% endfor %}
+        <li class="active">{{ category.name|lower|capfirst }}</li>
+    </ul>
+</div>
+{% endblock breadcrumbs %}
+
+{% block content_wrapper %}
+    <div class="content catalogue">
+        <div class="container">
+            <div class="row">
+                <aside class="col-xs-12 col-sm-3 category-aside">
+                    {% include 'catalogue/partials/category_aside.html' %}
+                </aside>
+                <div class="col-xs-12 col-sm-9">
+                    <div class="category-header clearfix">
+                        <h1 class="no-margin pull-left">{{ category.name }}</h1>
+                        <div class="sorting-container pull-right">
+                            {% include 'partials/sorting_dropdown.html' %}
+                        </div>
+                    </div>
+                    {# Render product list #}
+                    {% if products %}
+                        <div class="products-card-section">
+                                {% for product in products %}
+                                    <div class="products-wrapper">
+                                        <div class="product-card-item">
+                                            {% include 'catalogue/partials/product_card.html' %}
+                                        </div>
+                                    </div>
+                                {% empty %}
+                                    <p class="nonefound">{% trans "No products found." %}</p>
+                                {% endfor %}
+                                {% include "partials/pagination.html" %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

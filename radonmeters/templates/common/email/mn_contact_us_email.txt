@@ -1,0 +1,7 @@
+{% load i18n %}
+
+{% trans "New Contact Request." %}
+{% trans "Name:" %} {{ name }}
+{% trans "E-mail:" %} {{ email }}
+{% trans "See in admin:" %} {{ admin_url }}
+{% trans "Message:" %} {{ message }}

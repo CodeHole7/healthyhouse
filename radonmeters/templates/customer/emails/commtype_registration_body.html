@@ -1,0 +1,13 @@
+{% extends "customer/emails/base.html" %}
+{% load i18n %}
+
+{% block header %}
+    {% trans 'Registration' %}
+{% endblock %}
+{% block body %}
+    <p>{% trans 'Thank you for registering.' %}</p>
+
+    {% if password %}
+        <p>{% trans 'We have generated password for you:' %} {{ password }}</p>
+    {% endif %}
+{% endblock %}

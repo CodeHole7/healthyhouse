@@ -1,0 +1,13 @@
+{% extends "customer/emails/base.html" %}
+{% load i18n %}
+
+{% block header %}{% trans "Please, check your shipment" %}{% endblock %}
+
+{% block body %}{% autoescape off %}
+<p>
+    {% blocktrans %}
+    Please, check your shipment.
+    {% endblocktrans %}
+</p>
+
+{% endautoescape %}{% endblock %}

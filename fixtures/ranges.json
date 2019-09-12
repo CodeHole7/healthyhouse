@@ -1,0 +1,181 @@
+[
+    {
+        "pk": 1,
+        "model": "offer.range",
+        "fields": {
+            "name": "OUR TOP PRODUCTS",
+            "slug": "our_top_products",
+            "proxy_class": null,
+            "excluded_products": [],
+            "classes": [],
+            "date_created": "2017-10-01 00:00Z",
+            "is_public": true,
+            "includes_all_products": false,
+            "included_categories": []
+        }
+    },
+    {
+        "pk": 2,
+        "model": "offer.range",
+        "fields": {
+            "name": "HOME PAGE SLIDER",
+            "slug": "home_page_slider",
+            "proxy_class": null,
+            "excluded_products": [],
+            "classes": [],
+            "date_created": "2017-10-01 00:00Z",
+            "is_public": true,
+            "includes_all_products": false,
+            "included_categories": []
+        }
+    },
+    {
+        "pk": 3,
+        "model": "offer.range",
+        "fields": {
+            "name": "PRODUCTS FOR FOOTER",
+            "slug": "products_for_footer",
+            "proxy_class": null,
+            "excluded_products": [],
+            "classes": [],
+            "date_created": "2017-10-01 00:00Z",
+            "is_public": true,
+            "includes_all_products": false,
+            "included_categories": []
+        }
+    },
+    {
+        "pk": 4,
+        "model": "offer.range",
+        "fields": {
+            "name": "DOSIMETERS",
+            "slug": "dosimeters",
+            "proxy_class": null,
+            "excluded_products": [],
+            "classes": [],
+            "date_created": "2017-10-01 00:00Z",
+            "is_public": true,
+            "includes_all_products": false,
+            "included_categories": []
+        }
+    },
+    {
+        "pk": 5,
+        "model": "offer.range",
+        "fields": {
+            "name": "VOUCHERS",
+            "slug": "vouchers",
+            "proxy_class": null,
+            "excluded_products": [],
+            "classes": [],
+            "date_created": "2017-10-01 00:00Z",
+            "is_public": true,
+            "includes_all_products": true,
+            "included_categories": []
+        }
+    },
+    {
+        "pk": 1,
+        "model": "offer.rangeproduct",
+        "fields": {
+            "range_id": 1,
+            "product_id": 1
+        }
+    },
+    {
+        "pk": 2,
+        "model": "offer.rangeproduct",
+        "fields": {
+            "range_id": 1,
+            "product_id": 2
+        }
+    },
+    {
+        "pk": 3,
+        "model": "offer.rangeproduct",
+        "fields": {
+            "range_id": 1,
+            "product_id": 3
+        }
+    },
+    {
+        "pk": 4,
+        "model": "offer.rangeproduct",
+        "fields": {
+            "range_id": 1,
+            "product_id": 4
+        }
+    },
+    {
+        "pk": 5,
+        "model": "offer.rangeproduct",
+        "fields": {
+            "range_id": 2,
+            "product_id": 1
+        }
+    },
+    {
+        "pk": 6,
+        "model": "offer.rangeproduct",
+        "fields": {
+            "range_id": 2,
+            "product_id": 2
+        }
+    },
+    {
+        "pk": 7,
+        "model": "offer.rangeproduct",
+        "fields": {
+            "range_id": 2,
+            "product_id": 3
+        }
+    },
+    {
+        "pk": 8,
+        "model": "offer.rangeproduct",
+        "fields": {
+            "range_id": 2,
+            "product_id": 4
+        }
+    },
+    {
+        "pk": 9,
+        "model": "offer.rangeproduct",
+        "fields": {
+            "range_id": 3,
+            "product_id": 1
+        }
+    },
+    {
+        "pk": 10,
+        "model": "offer.rangeproduct",
+        "fields": {
+            "range_id": 3,
+            "product_id": 2
+        }
+    },
+    {
+        "pk": 11,
+        "model": "offer.rangeproduct",
+        "fields": {
+            "range_id": 3,
+            "product_id": 3
+        }
+    },
+    {
+        "pk": 12,
+        "model": "offer.rangeproduct",
+        "fields": {
+            "range_id": 3,
+            "product_id": 4
+        }
+    },
+    {
+        "pk": 13,
+        "model": "offer.rangeproduct",
+        "fields": {
+            "range_id": 4,
+            "product_id": 1
+        }
+    }
+]

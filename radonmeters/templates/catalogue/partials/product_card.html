@@ -1,0 +1,50 @@
+{% load i18n %}
+{% load reviews_tags %}
+{% load thumbnail %}
+{% load display_tags %}
+{% load staticfiles %}
+
+<div class="img-wrapper">
+    <div>
+    {% if product.primary_image.is_missing %}
+        <a href="{{ product.get_absolute_url }}">
+            <img src="{% static 'images/product_card_empty.png' %}" title="{{ product.get_title }}" />
+        </a>
+    {% else %}
+        {% with image=product.primary_image %}
+            {% thumbnail image.original "275x332" crop='center' upscale=True as thumb %}
+            {% thumbnail image.original "413x498" crop='center' upscale=True as thumb_x15 %}
+            <a href="{{ product.get_absolute_url }}" title="{{ product.get_title }}">
+                <picture>
+                    <source media="(max-width: 640px)" srcset="{{ thumb_x15.url }}">
+                    <img src="{{ thumb.url }}" alt="{{ product.get_title }}" />
+                </picture>
+
+            </a>
+            {% endthumbnail %}
+            {% endthumbnail %}
+        {% endwith %}
+    {% endif %}
+    </div>
+</div>
+<div class="product-details-wrapper">
+    <a href="{{ product.get_absolute_url }}" class="details-link-wrapper" title="{{ product.get_title }}">
+    <h3>{% if product.get_title %}
+            {{ product.get_title }}
+        {% else %}
+            {% trans 'No title' %}
+        {% endif %}
+    </h3>
+    {% include "catalogue/partials/stock_record_availability.html" %}
+    {% if show_description %}
+    <div class="main-text-detail">
+        {% if product.lead %}
+            {{ product.lead|striptags }}
+        {% else %}
+            {{ product.description|safe|striptags|truncatechars:450 }}
+        {% endif %}
+    </div>
+    {% endif %}
+    </a>
+    {% include "catalogue/partials/stock_record_price.html" %}
+</div>

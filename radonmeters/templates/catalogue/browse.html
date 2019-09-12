@@ -1,0 +1,113 @@
+{% extends "layout.html" %}
+
+{% load i18n %}
+{% load basket_tags static %}
+{% load promotion_tags %}
+{% load category_tags %}
+{% load product_tags %}
+{% load thumbnail %}
+
+{% block title %}
+    {% if summary %}{{ summary }} |{% endif %} {{ block.super }}
+{% endblock %}
+
+{% block headertext %}{{ summary }}{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumb-container">
+    <ul class="breadcrumb">
+        <li>
+            <a href="{{ homepage_url }}">{% trans "Home" %}</a>
+        </li>
+        <li class="active">{{ summary }}</li>
+    </ul>
+</div>
+{% endblock %}
+
+{# block column_left #}
+    {% category_tree as tree_categories %}
+    {% if tree_categories %}
+        <div class="side_categories">
+            <ul class="nav nav-list">
+                {% for tree_category, info in tree_categories %}
+                    <li>
+                        <a href="{{ tree_category.get_absolute_url }}">
+                            {% if tree_category.pk == category.pk %}
+                                <strong>{{ tree_category.name }}</strong>
+                            {% else %}
+                                {{ tree_category.name }}
+                            {% endif %}
+                        </a>
+
+                        {% if info.has_children %}<ul>{% else %}</li>{% endif %}
+                        {% for n in info.num_to_close %}
+                            </ul></li>
+                        {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+{# endblock #}
+
+{% block content_wrapper %}
+{% spaceless %}
+    <div class="content catalogue">
+        <div class="container">
+
+            <div class="row">
+                <aside class="col-xs-12 col-sm-3 category-aside">
+                    {% with all_categories=True %}
+                        {% include 'catalogue/partials/category_aside.html' %}
+                    {% endwith %}
+                </aside>
+                <div class="col-xs-12 col-sm-9">
+                    <div class="category-header clearfix">
+                        <h1 class="no-margin pull-left">{% trans 'All products' %}</h1>
+                        <div class="sorting-container pull-right">
+                            {% include 'partials/sorting_dropdown.html' %}
+                        </div>
+                    </div>
+                    {# Render product list #}
+                    {% if products %}
+                        <div class="products-card-section">
+                                {% for product in products %}
+                                    <div class="products-wrapper">
+                                        <div class="product-card-item">
+                                            {% include 'catalogue/partials/product_card.html' %}
+                                        </div>
+                                    </div>
+                                {% empty %}
+                                    <p class="nonefound">{% trans "No products found." %}</p>
+                                {% endfor %}
+
+                                {% include "partials/pagination.html" %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endspaceless %}
+{% endblock content_wrapper %}
+
+{% block popup %}
+    {% include "popup/popup_consultation_request.html" %}
+{% endblock %}
+
+{% block extrascripts %}
+    <script>
+        var _radonOptions = {
+            'requiredError': "<ul class=\"errorlist\"><li>{% trans 'This field is required.' %}</li></ul>",
+            'invalidEmailError': "<ul class=\"errorlist\"><li>{% trans 'Enter a valid email address.' %}</li></ul>",
+            'invalidPhoneError': "<ul class=\"errorlist\"><li>{% trans 'Enter a valid phone number' %}</li></ul>",
+
+        };
+    </script>
+    <script src="{% static 'js/pages/category.js' %}"></script>
+{% endblock %}
+
+
+{% block onbodyload %}
+    {{ block.super }}
+    oscar.search.init();
+{% endblock %}

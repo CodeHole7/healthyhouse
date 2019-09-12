@@ -1,0 +1,70 @@
+a.white {
+
+}
+
+a.gray {
+
+}
+
+a.gray-light {
+
+}
+
+a.undecorated {
+
+}
+
+a.with-img {
+
+};
+
+.page-header {
+    @extend .text-center;
+    border: 0;
+    font-size: $page-header-font-size;
+}
+
+.text-info {
+    color: $brand-info;
+}
+
+.header-of-section {
+    margin-bottom: 75px;
+}
+
+.btn-lg {
+    font-size: $font-size-base;
+}
+
+.btn-sm {
+    border-radius: 6px;
+}
+
+.btn {
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    transition: all 0.3s;
+}
+
+h1 {
+    font-size: $font-size-extra-large;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-bottom: 40px;
+}
+
+h3 {
+    line-height: 29px;
+}
+
+h1,h2,h3,h4,h5,h6,p{
+    word-break: break-word;
+    word-wrap: break-word;
+}
+
+
+@media (max-width: $dev-xs) {
+    .header-of-section {
+        margin-bottom: 30px;
+    }
+}

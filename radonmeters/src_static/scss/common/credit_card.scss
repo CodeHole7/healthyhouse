@@ -1,0 +1,120 @@
+.credit-card-box {
+    position: relative;
+    margin: 30px auto;
+    max-width: 740px;
+    border: 1px solid $gray-ultra-light;
+    border-radius: 53px;
+    background-color: $bg-gray;
+    padding: 65px 60px 45px 60px;
+    min-height: 315px;
+
+    label {
+        background-color: transparent;
+        margin-top:0;
+        font-size: 10px;
+        font-weight: bold;
+        letter-spacing: 1px;
+        line-height: $font-size-medium;
+        text-transform: uppercase;
+        padding-left: 30px;
+        margin-bottom: 15px;
+        p {
+            margin: 0;
+        }
+    }
+    .input-container {
+        height: $input-height-base;
+        padding: 0 30px;
+        border: 1px solid $gray-ultra-light;
+        border-radius: $input-border-radius;
+        background-color: #FFFFFF;
+        margin-bottom: 30px;
+    }
+    .errorlist {
+        margin-top: -30px;
+    }
+    .StripeElement--focus{
+        border: 1px solid $brand-default;
+    }
+    .StripeElement--invalid{
+        background-color: $white;
+        border-color: $brand-danger;
+    }
+    .card-form-group {
+        font-size: 0;
+        .card-input-wrapper{
+            vertical-align: top;
+            display: inline-block;
+        }
+
+        .card-input-wrapper:first-child{
+            width: 49%;
+            margin-right: 2%;
+        }
+        .card-input-wrapper:last-child{
+            width: 49%;
+        }
+    }
+    .payment-errors {
+        position: static;
+        margin-top: 0;
+        text-align: center;
+        margin-bottom: 0;
+        padding: 0;
+        font-size: 16px;
+    }
+    .card-dimmer {
+        background-color: rgba(255, 255, 255, .5);
+        width: 100%;
+        min-height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 7;
+        border-radius: 53px;
+        .loader-container {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            margin-top: -20px;
+        }
+    }
+    .logos{
+        position: absolute;
+        right: 60px;
+
+    }
+}
+
+@media (max-width: $dev-xs)  {
+    .credit-card-box {
+        padding: 40px 30px 45px 30px;
+        .logos{
+            position: absolute;
+            right: 60px;
+            top: 45px;
+            img {
+                width: 35px;
+            }
+        }
+        .card-form-group{
+            .card-input-wrapper:first-child{
+                width: 100%;
+                margin-right: 0;
+            }
+            .card-input-wrapper:last-child{
+                width: 100%;
+            }
+        }
+    }
+}
+@media (min-width: $dev-xs)  {
+    .credit-card-box {
+        .logos{
+            img {
+                display: inline-block;
+                margin-left: 15px;
+            }
+        }
+    }
+}

@@ -1,0 +1,298 @@
+{% load i18n %}
+{% load currency_filters %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice</title>
+    <style>
+        @font-face {
+            font-family: 'HelveticaNeue';
+            font-style: normal;
+            font-weight: 400;
+            {#src: url('../staticfiles/fonts/HelveticaNeue.woff');#}
+        }
+
+        html, body, div, span, applet, object, iframe,
+        h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+        a, abbr, acronym, address, big, cite, code,
+        del, dfn, em, img, ins, kbd, q, s, samp,
+        small, strike, strong, sub, sup, tt, var,
+        b, u, i, center,
+        dl, dt, dd, ol, ul, li,
+        fieldset, form, label, legend,
+        table, caption, tbody, tfoot, thead, tr, th, td,
+        article, aside, canvas, details, embed,
+        figure, figcaption, footer, header, hgroup,
+        menu, nav, output, ruby, section, summary,
+        time, mark, audio, video {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+            vertical-align: baseline;
+            box-sizing: border-box;
+            font-family: 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+        * {
+            color: #70819D;
+            word-wrap: break-word;
+            word-break: break-word;
+        }
+        h1, h2, h3, h4, h5, p {
+            color: #70819D;
+        }
+        @page {
+            margin: 0;
+        }
+        body {
+            color: #70819D;
+        }
+        hr {
+            margin: 30px 0 40px;
+            border: 0;
+            border-top: 1px solid #DEE3EB;
+            box-sizing: content-box;
+            height: 0;
+        }
+        table {
+            text-align: left;
+            border-collapse: collapse;
+            border-spacing: 0;
+            width: 100%;
+            table-layout: fixed;
+            line-height: 1.5em;
+            font-size: 11px;
+        }
+        table tr {
+            border: 1px solid #DEE3EB;
+        }
+        table thead th,
+        table tbody td{
+            border: 1px solid #DEE3EB;
+        }
+        table th,
+        table td{
+            padding: 10px;
+        }
+        thead {
+            background-color: #F7F9FC;
+            font-size: 10px;
+        }
+        thead th {
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+        }
+        tfoot td{
+            background-color: rgba(255,247,242,0.5);
+            padding: 10px 10px;
+        }
+        .root {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+        .logo img {
+            width: 45%;
+            margin-bottom: 15px;
+        }
+        .seller-data div{
+            width: 50%;
+            float: left;
+        }
+        .customer-data {
+            margin-bottom: 30px;
+        }
+        .customer-data dl {
+            width: 50%;
+            float: left;
+        }
+        .l-side dt{
+            width: 20%;
+        }
+        .r-side dt {
+            width: 40%;
+        }
+        .r-side dd {
+            width: 58%;
+        }
+        dd,
+        dt {
+            display: inline-block;
+            vertical-align: top;
+        }
+        dt {
+            font-weight: bold;
+            margin-bottom: 15px;
+            line-height: 1.5em;
+        }
+        dd {
+            width: 69%;
+        }
+        .clearfix::after {
+            content: '';
+            clear: both;
+            display: block;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+        h1 {
+            font-size: 26px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin: 30px 0;
+        }
+        p {
+            margin-bottom: 15px;
+            line-height: 1.5em;
+        }
+        .address p{
+            margin-bottom: 0px;
+            line-height: 1.0em;
+        }
+        .contactinfo p{
+            font-size: 10px;
+            margin-bottom: 0px;
+            line-height: 1.0em;
+        }
+        .bottomline{
+            margin: 1em;
+        }
+        .paymenttext{
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="root">
+        <div class="logo">
+            <img src="../staticfiles/images/radon_logo.svg" alt="">
+        </div>
+        <div class="customer-data clearfix">
+            <div>
+              <h1 style="width: 49%; display: inline-block">
+                {{ config.BUSINESS_NAME }}
+              </h1>
+              <h1 style="color: red; width: 49%; display: inline-block; text-align: right">
+                  {% if order.is_paid %}{% trans 'PAID' %}{% endif %}
+              </h1>
+            </div>
+            <dl class="l-side">
+                <p>{{ order.user.get_full_name }}</p>
+                {% if order.billing_address %}
+                    <div>{{order.billing_address.active_address_fields.0}}</div>
+                    <div>{{order.billing_address.active_address_fields.1}}</div>
+                    <div>{{order.billing_address.active_address_fields.4}} {{order.billing_address.active_address_fields.3}}</div>
+                    <div>{{order.billing_address.active_address_fields.5}}</div>
+                {% else %}
+                    <div>{{order.shipping_address.active_address_fields.0}}</div>
+                    <div>{{order.shipping_address.active_address_fields.1}}</div>
+                    <div>{{order.shipping_address.active_address_fields.4}} {{order.shipping_address.active_address_fields.3}}</div>
+                    <div>{{order.shipping_address.active_address_fields.5}}</div>
+
+                {% endif %}
+            </dl>
+            <dl class="r-side">
+                <dt>{% trans "Invoice number" %}</dt>
+                <dd>
+                    <p>{{ order.number }}</p>
+                </dd>
+                <dt>{% trans "Date" %}</dt>
+                <dd>
+                    <p>{{ order.date_placed|date:"d.m.Y" }}</p>
+                </dd>
+            </dl>
+
+        </div>
+
+        <hr/>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>{% trans "Title" %}</th>
+                        <th>{% trans "Quantity" %}</th>
+                        <th>{% trans "Price" %}</th>
+                        <th>{% trans "Total (excl VAT)" %}</th>
+                        <th>{% trans "Total (incl VAT)" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for line in order.lines.all %}
+                        <tr>
+                            <td>{{ line.title }}</td>
+                            <td>{{ line.quantity }}</td>
+                            <td>{{ line.unit_price_incl_tax|currency:order.currency  }}</td>
+                            <td class="bold">{{ line.line_price_before_discounts_excl_tax|currency:order.currency }}</td>
+                            <td class="bold">{{ line.line_price_before_discounts_incl_tax|currency:order.currency }}</td>
+                        <tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3"></td>
+                        <td class="tfoot-title bold">{% trans "Subtotal (excl VAT)" %}</td>
+                        <td class="tfoot-total">{{ order.total_before_discounts_excl_tax|currency:order.currency }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"></td>
+                        <td class="tfoot-title bold">{% trans "Subtotal (incl VAT)" %}</td>
+                        <td class="tfoot-total">{{ order.total_before_discounts_incl_tax|currency:order.currency }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"></td>
+                        <td class="tfoot-title bold">{% trans "Discount" %}</td>
+                        <td class="tfoot-total">{{ order.total_discount_incl_tax|currency:order.currency  }}</td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="3"></td>
+                        <td class="tfoot-title bold">{% trans "Total sum (excl VAT)" %}</td>
+                        <td class="tfoot-total">{{ order.total_excl_tax|currency:order.currency }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"></td>
+                        <td class="tfoot-title bold">{% trans "Total VAT (25%)" %}</td>
+                        <td class="tfoot-total">{{ order.total_tax|currency:order.currency }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"></td>
+                        <td class="tfoot-title bold">{% trans "Total sum" %}</td>
+                        <td class="tfoot-total">{{ order.total_incl_tax|currency:order.currency }}</td>
+                    </tr>
+
+                </tfoot>
+            </table>
+
+        </div>
+
+        <div class="seller-data clearfix">
+
+                
+        </div>
+        <div class="paymenttext">
+            Ved betaling via bankoverførsel bedes fakturanummer <b>{{ order.number }}</b> angivet i beskrivelsesfeltet
+                <div>
+                    <div>Bank: {{ config.CONTACT_INFO_BANK_NAME }}</div>
+                    <div>Reg.nr. {{config.CONTACT_INFO_REGISTRATION_NUMBER}}</div>
+                    <div>Kontonr. {{config.CONTACT_INFO_ACCOUNT_NUMBER}}</div>
+                </div>
+            </div>
+        
+
+        <hr class="bottomline"/>
+        <div class="contactinfo">
+            <p><b>{{ config.BUSINESS_NAME }}</b> / {{ config.BUSINESS_ADDRESS_LINE }} / {{ config.BUSINESS_ADDRESS_POST_CODE }} {{ config.BUSINESS_ADDRESS_CITY }}</p>
+            <p>CVR-nr: {{config.CONTACT_INFO_CVR_NUMBER}} / Tlf: {{ config.BUSINESS_PHONE_NUMBER }} / Mail: {{ config.BUSINESS_EMAIL }}</p>
+
+        </div>
+
+    </div>
+</body>
+</html>

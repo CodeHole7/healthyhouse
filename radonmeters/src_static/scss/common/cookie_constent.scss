@@ -1,0 +1,194 @@
+.cc-window {
+  opacity: 1;
+
+  -webkit-transition: opacity 1s ease;
+  -moz-transition: opacity 1s ease;
+  -ms-transition: opacity 1s ease;
+  -o-transition: opacity 1s ease;
+  transition: opacity 1s ease;
+}
+
+.cc-window.cc-banner.cc-type-opt-in  {
+  justify-content: space-between;
+    align-items: center;
+}
+.cc-window.cc-invisible {
+  opacity: 0;
+}
+
+.cc-revoke {
+  display: none!important;
+}
+
+/* only animate ifhas class 'cc-animate' */
+.cc-animate.cc-revoke {
+  -webkit-transition: transform 1s ease;
+  -moz-transition: transform 1s ease;
+  -ms-transition: transform 1s ease;
+  -o-transition: transform 1s ease;
+  transition: transform 1s ease;
+}
+.cc-animate.cc-revoke.cc-top {
+  transform: translateY(-2em);
+}
+.cc-animate.cc-revoke.cc-bottom {
+  transform: translateY(2em);
+}
+.cc-animate.cc-revoke.cc-active.cc-top {
+  transform: translateY(0);
+}
+.cc-animate.cc-revoke.cc-active.cc-bottom {
+  transform: translateY(0);
+}
+.cc-revoke:hover {
+  transform: translateY(0);
+}
+
+.cc-message {
+  color:  $brand-default;
+}
+
+
+.cc-grower {
+  /* Initially we don't want any height, and we want the contents to be hidden */
+  max-height: 0;
+  overflow: hidden;
+
+  /* Set our transitions up. */
+  -webkit-transition: max-height .3s ease 1.5s;
+  -moz-transition: max-height .3s ease 1.5s;
+  -ms-transition: max-height .3s ease 1.5s;
+  -o-transition: max-height .3s ease 1.5s;
+  transition: max-height .3s ease 1.5s;
+}
+
+
+
+/* the popup window */
+.cc-window, .cc-revoke {
+  position: fixed;
+  overflow: hidden;
+  box-sizing: border-box; /* exclude padding when dealing with width */
+  font-size: 16px; /* by setting the base font here, we can size the rest of the popup using CSS `em` */
+  line-height: 1.5em;
+
+  display: flex;
+  flex-wrap: nowrap;
+
+  /* the following are random unjustified styles - just because - should probably be removed */
+  z-index: 9999;
+}
+
+.cc-window.cc-static {
+  position: static;
+}
+
+/* 2 basic types of window - floating / banner */
+.cc-window.cc-floating {
+  padding: 2em;
+  max-width: 24em; /* 1em == 16px therefore 24em == 384px */
+  flex-direction: column;
+}
+.cc-window.cc-banner {
+  padding: 1em 1.8em;
+  width: 100%;
+  flex-direction:  row;
+}
+
+.cc-revoke {
+  padding: .5em;
+}
+.cc-revoke:hover {
+  text-decoration: underline;
+}
+
+.cc-header {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* clickable things */
+.cc-btn, .cc-link, .cc-close, .cc-revoke {
+  cursor: pointer;
+  color: $white!important;
+}
+
+.cc-link {
+  opacity: .8;
+  display: inline-block;
+  padding: .2em;
+  text-decoration: underline;
+}
+.cc-link:hover {
+  opacity: 1;
+}
+.cc-link:active, .cc-link:visited {
+  color: initial;
+}
+
+
+
+.cc-close {
+  display: block;
+  position: absolute;
+  top: .5em;
+  right: .5em;
+  font-size: 1.6em;
+  opacity: .9;
+
+  /* seeing as this contains text and not an image, the element taller than it is wide (because it is text) */
+  /*  - we want it to be a square, because it's acting as an icon */
+  /*  - setting the line height normalises the height */
+  line-height: .75;
+}
+.cc-close:hover,
+.cc-close:focus {
+  opacity: 1;
+}
+
+
+@media print {
+  .cc-window, .cc-revoke {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 900px) {
+}
+
+/* dimensions for 'iPhone6 Plus' and lower */
+@media screen and (max-width: 414px) and (orientation: portrait),
+       screen and (max-width: 736px) and (orientation: landscape) {
+  .cc-window.cc-top {top:0;}
+  .cc-window.cc-bottom {bottom:0;}
+  .cc-window.cc-banner,.cc-window.cc-right,.cc-window.cc-left {left:0;right:0;}
+
+  .cc-window.cc-banner {flex-direction: column;}
+  .cc-window.cc-banner .cc-compliance {flex: 1}
+  .cc-window.cc-floating {max-width: none;}
+  .cc-window .cc-message {margin-bottom: 1em}
+  .cc-window.cc-banner {align-items: unset;}
+}
+
+@media print {
+  .cc-window, .cc-revoke {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 900px) {
+}
+
+/* dimensions for 'iPhone6 Plus' and lower */
+@media screen and (max-width: 414px) and (orientation: portrait),
+       screen and (max-width: 736px) and (orientation: landscape) {
+  .cc-window.cc-top {top:0;}
+  .cc-window.cc-bottom {bottom:0;}
+  .cc-window.cc-banner,.cc-window.cc-right,.cc-window.cc-left {left:0;right:0;}
+
+  .cc-window.cc-banner {flex-direction: column;}
+  .cc-window.cc-banner .cc-compliance {flex: 1}
+  .cc-window.cc-floating {max-width: none;}
+  .cc-window .cc-message {margin-bottom: 1em}
+  .cc-window.cc-banner {align-items: unset;}
+}

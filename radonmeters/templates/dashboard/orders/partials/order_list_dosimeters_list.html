@@ -1,0 +1,203 @@
+{% load currency_filters %}
+{% load i18n %}
+{% load static %}
+{% load l10n %}
+
+<tr class="dosimeters-row hidden" dosimeters-row-{{ order.id }} >
+    <td colspan="18">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th style="vertical-align: top;" title="{% trans 'Active' %}"><img src="{% static 'images/orders_icons/1.svg' %}" alt="Active"></img></th>
+                    <th style="vertical-align: top; width: 10em" title="{% trans 'Serial #' %}"><img src="{% static 'images/orders_icons/2.svg' %}" alt="Serial Number"></img></th>
+                    <th style="vertical-align: top;" title="{% trans 'Active Area' %}"><img src="{% static 'images/orders_icons/3.svg' %}" alt="Active Area"></img></th>
+
+                    <th style="vertical-align: top;" title="{% trans 'Yearly AVG Visual' %}"><img src="{% static 'images/orders_icons/4.svg' %}" alt="Yearly AVG Visual"></img></th>
+                    <th style="vertical-align: top;" title="{% trans 'Use Active Concentration Visual' %}"><img src="{% static 'images/orders_icons/5.svg' %}" alt="Use Active Concentration Visual"></img></th>
+                    <th style="vertical-align: top;" title="{% trans 'Concentration Visual' %}"><img src="{% static 'images/orders_icons/6.svg' %}" alt="Concentration Visual"></img></th>
+                    <th style="vertical-align: top;" title="{% trans 'Uncertainty Visual' %}"><img src="{% static 'images/orders_icons/7.svg' %}" alt="Uncertainty Visual"></img></th>
+
+                    <th style="vertical-align: top; width: 5em">{% trans 'Concentration' %}</th>
+                    <th style="vertical-align: top; width: 5em">{% trans 'Uncertainty' %}</th>
+                    <th style="vertical-align: top;">
+                        {% trans 'Start date' %}
+                        <div class="date" data-dateformat="dd-mm-yyyy" style="margin: 5px 0;" data-oscarwidget="datepicker">
+                            <input
+                                type="text"
+                                class="form-control mask mask-ignore no-disable"
+                                data-target="[name='date_from']"
+                                data-inputmask="'mask': 'd-m-y'">
+                        </div>
+                        <button class="btn btn-default btn-xs btn-block js-set-all-btn"
+                            type="button">
+                            {% trans 'set to all fields' %}
+                        </button>
+                        <button class="btn btn-default btn-xs btn-block js-set-all-active-btn"
+                            type="button">
+                            {% trans 'set to all active fields' %}
+                        </button>
+                    </th>
+                    <th style="vertical-align: top;">
+                        {% trans 'End date' %}
+                        <div class="date" style="margin: 5px 0;" data-dateformat="dd-mm-yyyy" data-oscarwidget="datepicker">
+                            <input
+                                type="text"
+                                class="form-control mask mask-ignore no-disable"
+                                data-target="[name='date_to']"
+                                data-inputmask="'mask': 'd-m-y'">
+                        </div>
+                        <button class="btn btn-default btn-xs btn-block js-set-all-btn"
+                            type="button">
+                            {% trans 'set to all fields' %}
+                        </button>
+                        <button class="btn btn-default btn-xs btn-block js-set-all-active-btn"
+                            type="button">
+                            {% trans 'set to all active fields' %}
+                        </button>
+                    </th>
+                    <th style="vertical-align: top;">{% trans 'Floor' %}</th>
+                    <th style="vertical-align: top;">{% trans 'Location' %}</th>
+                    <th style="vertical-align: top;">
+                        <button class="btn btn-primary edit-all-dosimeter">Edit all</button>
+                        <button style="margin-top: 10px" class="btn btn-primary save-all-dosimeter hidden">Save all</button>
+                    </th>
+                    <th style="vertical-align: top;" title="{% trans 'Last modified (time and user)' %}"><img src="{% static 'images/orders_icons/8.svg' %}" alt="Last modified (time and user)"></img></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for l in order.lines.all %}
+                    {% for d in l.dosimeters.all %}
+                    <tr data-url="{% url 'api:dosimeters:dosimeter-detail' pk=d.pk %}" data-id="{{d.pk}}" class="dosimeter-item">
+                        <td>
+                            <input
+                                disabled
+                                aria-label="{% trans 'Use dosimeter in calculation' %}"
+                                title="{% trans 'Use dosimeter in calculation' %}"
+                                type="checkbox"
+                                name="is_active"
+                                id="id_is_active-{{d.pk}}"
+                                class="dosimeter-editing"
+                                {% if d.is_active %}checked=""{% endif %}>
+                        </td>
+                        <td>
+                            <input type="text"
+                                id="dosimeter_serial_number-{{d.pk}}"
+                                disabled
+                                name="serial_number"
+                                class="form-control dosimeter-editing"
+                                value="{{ d.serial_number }}"
+                                placeholder="{% trans 'Serial number' %}">
+                        </td>
+
+                        <td>
+                            <input
+                                disabled
+                                aria-label="{% trans 'Active Area' %}"
+                                type="checkbox"
+                                name="active_area"
+                                id="id_active_area-{{d.pk}}"
+                                class="dosimeter-editing"
+                                {% if d.active_area %}checked=""{% endif %}>
+                        </td>
+
+                        <td class="yearly-avg-visual">
+                            {{ d.avg_concentration_visual|default:"-" }}
+                        </td>
+
+
+                        <td>
+                            <input
+                                disabled
+                                aria-label="{% trans 'Use Active Concentration and Uncertainty Visual' %}"
+                                type="checkbox"
+                                name="use_raw_concentration"
+                                id="id_use_raw_concentration-{{d.pk}}"
+                                class="dosimeter-editing"
+                                {% if d.use_raw_concentration %}checked=""{% endif %}>
+                        </td>
+
+                        <td class="concentration-visual">
+                            {{ d.concentration_visual|default:"-" }}
+                        </td>
+                        <td class="uncertainty-visual">
+                            {{ d.uncertainty_visual|default:"-" }}
+                        </td>
+
+                        <td>
+                            <input type="number"
+                                id="dosimeter-concentration-{{d.pk}}"
+                                disabled
+                                class="form-control dosimeter-editing"
+                                value="{{ d.concentration|default_if_none:""|unlocalize }}"
+                                placeholder="{% trans 'Concentration Raw' %}">
+                        </td>
+                        <td>
+                            <input type="number"
+                                id="dosimeter-uncertainty-{{d.pk}}"
+                                disabled
+                                class="form-control dosimeter-editing"
+                                value="{{ d.uncertainty|default_if_none:""|unlocalize }}"
+                                placeholder="{% trans 'Uncertainty Raw' %}">
+                        </td>
+                        <td>
+                            <div class="date" data-dateformat="dd-mm-yyyy" data-oscarwidget="datepicker">
+                                <input type="text" name="date_from" class="form-control mask mask-ignore dosimeter-editing" data-name="measurement_start_date" id="dosimeter_date_from-{{d.pk}}" data-inputmask="'mask': 'd-m-y'" disabled value="{{ d.measurement_start_date|default:""|date:"d-m-Y" }}">
+                                <span class="error-block hidden"><i class="icon-exclamation-sign"></i>{% trans 'Date has wrong format.' %}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="date" data-dateformat="dd-mm-yyyy" data-oscarwidget="datepicker">
+                                <input type="text" name="date_to" class="form-control mask mask-ignore dosimeter-editing" data-name="measurement_end_date"  id="dosimeter_date_to-{{d.pk}}" data-inputmask="'mask': 'd-m-y'" disabled value="{{ d.measurement_end_date|default:""|date:"d-m-Y" }}">
+                                <span class="error-block hidden"><i class="icon-exclamation-sign"></i>{% trans 'Date has wrong format.' %}</span>
+                            </div>
+                        </td>
+                        <td class="no-widget-init">
+                            <select name="dosimeter-floor"
+                                id="dosimeter-floor-{{d.pk}}"
+                                placeholder="{% trans 'Floor' %}"
+                                data-value="{{ d.get_floor_display }}"
+                                disabled
+                                class="form-control dosimeter-editing">
+                                <option value="null"{% if not d.floor %}selected{% endif %}>{% trans 'Select floor' %}</option>
+                                <option value="-1" {% if d.floor|stringformat:"i" == '-1' %}selected{% endif %}>{% trans 'Basement' %}</option>
+                                <option value="0" {% if d.floor|stringformat:"i" == '0' %}selected{% endif %}>{% trans 'Livingroom' %}</option>
+                                <option value="1" {% if d.floor|stringformat:"i" == '1' %}selected{% endif %}>{% trans '1 floor' %}</option>
+                                <option value="2" {% if d.floor|stringformat:"i" == '2' %}selected{% endif %}>{% trans '2 floor' %}</option>
+                                <option value="3" {% if d.floor|stringformat:"i" == '3' %}selected{% endif %}>{% trans '3+ floor' %}</option>
+                            </select>
+                            {% comment %} {{ d.get_floor_display }}
+                            {{ d.get_floor_display|default:"null" }} {% endcomment %}
+                        </td>
+                        <td>
+                            <div class="input-group" style="min-width: 140px;">
+                                <input type="text"
+                                    id="dosimeter-location-{{d.pk}}"
+                                    disabled
+                                    class="form-control autocomplete dosimeter-editing"
+                                    value="{{ d.location }}"
+                                    placeholder="{% trans 'Dosimeter location' %}">
+                                <span class="input-group-btn">
+                                    <button
+                                        class="btn btn-default js-save-word"
+                                        style="padding: 7px 5px; line-height: 18px;"
+                                        type="button"
+                                        title="{% trans 'Location' %}">
+                                        <i class="fa fa-save"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-default edit-dosimeter">{% trans 'Edit' %}</button>
+                            <button type="button" class="btn btn-primary hidden update-dosimeter">{% trans 'Update' %}</button>
+                        </td>
+                        <td title="{{ d.last_modified_by|default:'-' }}">
+                            {{ d.last_modified_date|date:'d-m-Y'|default:'-' }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </td>
+</tr>

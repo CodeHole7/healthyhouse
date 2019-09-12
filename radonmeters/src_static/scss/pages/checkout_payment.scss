@@ -1,0 +1,26 @@
+.payment-form-page {
+    #view_preview {
+        display: block;
+        max-width: 345px;
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    .credit-card-box {
+        margin-bottom: 70px;
+    }
+    .back-link {
+        text-decoration: underline;
+        margin-top: 28px;
+        font-size: 16px;
+        text-underline-position: under;
+    }
+}
+@media (max-width: $dev-xs)  {
+    .payment-form-page {
+        .credit-card-box {
+            margin-bottom: 30px;
+        }
+    }
+}
+

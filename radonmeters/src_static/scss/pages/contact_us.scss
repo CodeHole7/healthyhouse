@@ -1,0 +1,18 @@
+.contact-us {
+    p,
+    h3 {
+        margin-bottom: 30px;
+        font-size: $font-size-medium;
+    }
+    h1 {
+        margin-bottom: 70px;
+    }
+}
+
+@media (max-width: $dev-sm) {
+    .contact-us {
+        h1 {
+            margin-bottom: 40px;
+        }
+    }
+}

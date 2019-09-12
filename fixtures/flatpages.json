@@ -1,0 +1,77 @@
+[
+    {
+        "pk": 1,
+        "model": "flatpages.flatpage",
+        "fields": {
+            "registration_required": false,
+            "title": "ABOUT US",
+            "url": "/about_us/",
+            "template_name": "flatpages/about_us",
+            "sites": [
+                1
+            ],
+            "content": "<h1>About Us and Corporate Social Responsibility Page</h1><h2>Sub Title #1</h2>Lorem ipsum dolor sit amet</h2><p>Consectetur adipisicing elit. At aut blanditiis dolor illum maxime non. Alias debitis dicta, dignissimos eaque, est illum nemo nihil odit quas recusandae reiciendis rerum velit.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab at consectetur consequuntur eius facilis ipsam iure odit perspiciatis, quaerat, quam quis, ratione rem repellat reprehenderit saepe sint totam velit voluptate? Ab at consectetur consequuntur eius facilis ipsam iure odit perspiciatis, quaerat, quam quis, ratione rem repellat reprehenderit saepe sint totam velit voluptate?</p><h2>Sub Title #2</h2><ul> <li>Item #1</li> <li>Item #2</li> <li>Item #3</li></ul><h2>Sub Title #3</h2><ol> <li>Item #1</li> <li>Item #2</li> <li>Item #3</li></ol><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab at consectetur consequuntur eius facilis ipsam iure odit perspiciatis, quaerat, quam quis, ratione rem repellat reprehenderit saepe sint totam velit voluptate? Ab at consectetur consequuntur eius facilis ipsam iure odit perspiciatis, quaerat, quam quis, ratione rem repellat reprehenderit saepe sint totam velit voluptate?</p><p>Ratione rem repellat reprehenderit saepe sint totam velit voluptate? Quaerat, quam quis, ratione rem repellat reprehenderit saepe sint totam velit voluptate?</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium autem deleniti deserunt, dignissimos dolorem eum excepturi ipsa ipsum maxime natus neque odio perspiciatis, placeat voluptatem voluptatibus. Facere incidunt quam voluptas.</p>",
+            "enable_comments": false
+        }
+    },
+    {
+        "pk": 2,
+        "model": "flatpages.flatpage",
+        "fields": {
+            "registration_required": false,
+            "title": "PUBLIC (municipalities)",
+            "url": "/b2b/public_municipalities/",
+            "template_name": "",
+            "sites": [
+                1
+            ],
+            "content": "<h1>PUBLIC (municipalities) PAGE</h1><h2>Sub Title #1</h2>Lorem ipsum dolor sit amet</h2><p>Consectetur adipisicing elit. At aut blanditiis dolor illum maxime non. Alias debitis dicta, dignissimos eaque, est illum nemo nihil odit quas recusandae reiciendis rerum velit.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab at consectetur consequuntur eius facilis ipsam iure odit perspiciatis, quaerat, quam quis, ratione rem repellat reprehenderit saepe sint totam velit voluptate? Ab at consectetur consequuntur eius facilis ipsam iure odit perspiciatis, quaerat, quam quis, ratione rem repellat reprehenderit saepe sint totam velit voluptate?</p><h2>Sub Title #2</h2><ul> <li>Item #1</li> <li>Item #2</li> <li>Item #3</li></ul><h2>Sub Title #3</h2><ol> <li>Item #1</li> <li>Item #2</li> <li>Item #3</li></ol><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab at consectetur consequuntur eius facilis ipsam iure odit perspiciatis, quaerat, quam quis, ratione rem repellat reprehenderit saepe sint totam velit voluptate? Ab at consectetur consequuntur eius facilis ipsam iure odit perspiciatis, quaerat, quam quis, ratione rem repellat reprehenderit saepe sint totam velit voluptate?</p><p>Ratione rem repellat reprehenderit saepe sint totam velit voluptate? Quaerat, quam quis, ratione rem repellat reprehenderit saepe sint totam velit voluptate?</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium autem deleniti deserunt, dignissimos dolorem eum excepturi ipsa ipsum maxime natus neque odio perspiciatis, placeat voluptatem voluptatibus. Facere incidunt quam voluptas.</p>",
+            "enable_comments": false
+        }
+    },
+    {
+        "pk": 3,
+        "model": "flatpages.flatpage",
+        "fields": {
+            "registration_required": false,
+            "title": "COMPANIES",
+            "url": "/b2b/companies/",
+            "template_name": "",
+            "sites": [
+                1
+            ],
+            "content": "<h1>COMPANIES PAGE</h1><h2>Sub Title #1</h2>Lorem ipsum dolor sit amet</h2><p>Consectetur adipisicing elit. At aut blanditiis dolor illum maxime non. Alias debitis dicta, dignissimos eaque, est illum nemo nihil odit quas recusandae reiciendis rerum velit.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab at consectetur consequuntur eius facilis ipsam iure odit perspiciatis, quaerat, quam quis, ratione rem repellat reprehenderit saepe sint totam velit voluptate? Ab at consectetur consequuntur eius facilis ipsam iure odit perspiciatis, quaerat, quam quis, ratione rem repellat reprehenderit saepe sint totam velit voluptate?</p><h2>Sub Title #2</h2><ul> <li>Item #1</li> <li>Item #2</li> <li>Item #3</li></ul><h2>Sub Title #3</h2><ol> <li>Item #1</li> <li>Item #2</li> <li>Item #3</li></ol><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab at consectetur consequuntur eius facilis ipsam iure odit perspiciatis, quaerat, quam quis, ratione rem repellat reprehenderit saepe sint totam velit voluptate? Ab at consectetur consequuntur eius facilis ipsam iure odit perspiciatis, quaerat, quam quis, ratione rem repellat reprehenderit saepe sint totam velit voluptate?</p><p>Ratione rem repellat reprehenderit saepe sint totam velit voluptate? Quaerat, quam quis, ratione rem repellat reprehenderit saepe sint totam velit voluptate?</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium autem deleniti deserunt, dignissimos dolorem eum excepturi ipsa ipsum maxime natus neque odio perspiciatis, placeat voluptatem voluptatibus. Facere incidunt quam voluptas.</p>",
+            "enable_comments": false
+        }
+    },
+    {
+        "pk": 4,
+        "model": "flatpages.flatpage",
+        "fields": {
+            "registration_required": false,
+            "title": "HOUSING ASSOCIATIONS",
+            "url": "/b2b/housing_associations/",
+            "template_name": "",
+            "sites": [
+                1
+            ],
+            "content": "<h1>HOUSING ASSOCIATIONS PAGE</h1><h2>Sub Title #1</h2>Lorem ipsum dolor sit amet</h2><p>Consectetur adipisicing elit. At aut blanditiis dolor illum maxime non. Alias debitis dicta, dignissimos eaque, est illum nemo nihil odit quas recusandae reiciendis rerum velit.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab at consectetur consequuntur eius facilis ipsam iure odit perspiciatis, quaerat, quam quis, ratione rem repellat reprehenderit saepe sint totam velit voluptate? Ab at consectetur consequuntur eius facilis ipsam iure odit perspiciatis, quaerat, quam quis, ratione rem repellat reprehenderit saepe sint totam velit voluptate?</p><h2>Sub Title #2</h2><ul> <li>Item #1</li> <li>Item #2</li> <li>Item #3</li></ul><h2>Sub Title #3</h2><ol> <li>Item #1</li> <li>Item #2</li> <li>Item #3</li></ol><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab at consectetur consequuntur eius facilis ipsam iure odit perspiciatis, quaerat, quam quis, ratione rem repellat reprehenderit saepe sint totam velit voluptate? Ab at consectetur consequuntur eius facilis ipsam iure odit perspiciatis, quaerat, quam quis, ratione rem repellat reprehenderit saepe sint totam velit voluptate?</p><p>Ratione rem repellat reprehenderit saepe sint totam velit voluptate? Quaerat, quam quis, ratione rem repellat reprehenderit saepe sint totam velit voluptate?</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium autem deleniti deserunt, dignissimos dolorem eum excepturi ipsa ipsum maxime natus neque odio perspiciatis, placeat voluptatem voluptatibus. Facere incidunt quam voluptas.</p>",
+            "enable_comments": false
+        }
+    },
+    {
+        "pk": 5,
+        "model": "flatpages.flatpage",
+        "fields": {
+            "registration_required": false,
+            "title": "DELIVERY/RETURNS",
+            "url": "/legal/delivery_and_returns/",
+            "template_name": "",
+            "sites": [
+                1
+            ],
+            "content": "<h1>DELIVERY/RETURNS PAGE</h1><h2>Sub Title #1</h2>Lorem ipsum dolor sit amet</h2><p>Consectetur adipisicing elit. At aut blanditiis dolor illum maxime non. Alias debitis dicta, dignissimos eaque, est illum nemo nihil odit quas recusandae reiciendis rerum velit.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab at consectetur consequuntur eius facilis ipsam iure odit perspiciatis, quaerat, quam quis, ratione rem repellat reprehenderit saepe sint totam velit voluptate? Ab at consectetur consequuntur eius facilis ipsam iure odit perspiciatis, quaerat, quam quis, ratione rem repellat reprehenderit saepe sint totam velit voluptate?</p><h2>Sub Title #2</h2><ul> <li>Item #1</li> <li>Item #2</li> <li>Item #3</li></ul><h2>Sub Title #3</h2><ol> <li>Item #1</li> <li>Item #2</li> <li>Item #3</li></ol><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab at consectetur consequuntur eius facilis ipsam iure odit perspiciatis, quaerat, quam quis, ratione rem repellat reprehenderit saepe sint totam velit voluptate? Ab at consectetur consequuntur eius facilis ipsam iure odit perspiciatis, quaerat, quam quis, ratione rem repellat reprehenderit saepe sint totam velit voluptate?</p><p>Ratione rem repellat reprehenderit saepe sint totam velit voluptate? Quaerat, quam quis, ratione rem repellat reprehenderit saepe sint totam velit voluptate?</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium autem deleniti deserunt, dignissimos dolorem eum excepturi ipsa ipsum maxime natus neque odio perspiciatis, placeat voluptatem voluptatibus. Facere incidunt quam voluptas.</p>",
+            "enable_comments": false
+        }
+    }
+]

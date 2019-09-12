@@ -1,0 +1,157 @@
+{% extends 'dashboard/layout.html' %}
+
+
+{% load i18n staticfiles %}
+{% block body_class %}{{ block.super }} create-page{% endblock %}
+
+{% block title %}
+{% trans "Report Template" %} | {{ block.super }}
+{% endblock %}
+
+{% block breadcrumbs %}
+{% endblock %}
+
+{% block header %}
+{% endblock header %}
+
+{% block extrastyles %}
+{{ block.super }}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.woff2">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.svg">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.eot">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.ttf">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="{% static 'codemirror/lib/codemirror.css' %}">
+<style>
+    .CodeMirror {
+            height: 600px;
+        }
+    </style>
+{% endblock %}
+
+
+{% block dashboard_content %}
+
+<form id="report-form" method="post" action="." class="form-stacked" enctype="multipart/form-data" novalidate>
+
+    <div class="{% if preview %}tab-content{% else %}well{% endif %}">
+        <div class="tab-pane {% if not preview %}active{% endif %}" id="email_form">
+            {% csrf_token %}
+            <div class="table-header">
+                <h3>{% trans "Content" %}</h3>
+            </div>
+            <div class="well">
+                <p>{% trans "These fields are rendered using Django's template system." %}</p>
+                <p>{% trans "You can use the following variables:" %}</p>
+                <dl>
+                    <dt><code>{% templatetag openvariable %} user.get_full_name {% templatetag closevariable %}</code></dt>
+                    <dd>{% trans "The full name of the user (if they have one)" %}</dd>
+                    <dt><code>{% templatetag openvariable %} user.email {% templatetag closevariable %}</code></dt>
+                    <dd>{% trans "The user's email address" %}</dd>
+                    <dt><code>{% templatetag openvariable %} line.order.number {% templatetag closevariable %}</code></dt>
+                    <dd>{% trans "Order number" %}</dd>
+                    <dt><code>{% templatetag openvariable %} order {% templatetag closevariable %}</code></dt>
+                    <dd>{% trans "Order itself" %}</dd>
+                    <dt><code>{% templatetag openvariable %} logo {% templatetag closevariable %}</code></dt>
+                    <dd>{% trans "Owner's logo or default constance logo" %}</dd>
+                    <dt><code>
+                          {% templatetag openvariable %} line.order.get_measurement_date_min {% templatetag closevariable %}
+                          and
+                          {% templatetag openvariable %} line.order.get_measurement_date_max {% templatetag closevariable %}
+                        </code></dt>
+                    <dd></dd>
+                    <dt><code>{% templatetag openvariable %} line.dosimeters.all {% templatetag closevariable %}</code></dt>
+                    <dd>{% trans "List of dosimeters" %}</dd>
+
+                    <dt><code>{% templatetag openvariable %} line.order.dosimeters_avg_concentration {% templatetag closevariable %}</code></dt>
+                    <dd>{% trans "The average radon concentration" %}</dd>
+
+                    <dt><code>{% templatetag openvariable %} dosimeter_description {% templatetag closevariable %}</code></dt>
+                    <dd>{% trans "Description according to average concentration" %}</dd>
+                </dl>
+            </div>
+            {% include 'dashboard/partials/form_field.html' with field=form.logo %}
+            <div class="row">
+                <div class="col-xs-12 editor-side">
+                    <div class="highlighted-editor">
+                        {% include 'dashboard/partials/form_field.html' with field=form.pdf_template %}
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6 hidden preview-side" style="margin-bottom: 23px">
+                    <div class="fa-3x hidden spinner" style="position: absolute;left: 50%;transform: translate(-50%, -50%);top: 50%;">
+                        <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                    </div>
+                    <a href="#" class="close-preview btn-link" style="position:absolute;left:0;top:100%;">
+                        {% trans "close preview" %}
+                    </a>
+                    <div style="overflow: auto; height: 100%; height: 620px;" class="preview-image-wrapper">
+                    </div>
+                </div>
+            </div>
+
+            {% include 'dashboard/partials/form_field.html' with field=form.owner %}
+
+            <div class="table-header">
+                <h3>{% trans "Preview" %}</h3>
+            </div>
+            <div class="well">
+                <p>{% trans "View a preview of this email using order:" %}</p>
+                {% include 'dashboard/partials/form_field.html' with field=form.preview_order_number %}
+
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label for="id_is_autorefresh" class="checkbox">
+                            <input 
+                                type="checkbox" 
+                                name="is_autorefresh" 
+                                id="id_is_autorefresh" >
+                            {% trans "Automatically refreshing preview" %}
+                        </label>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary btn-lg" name="render_preview" type="button">{% trans "Check pdf" %}</button>
+            </div>
+        </div>
+        <div class="tab-pane {% if preview %}active{% endif %}" id="email_preview">
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary btn-lg" data-loading-text="{% trans 'Saving...' %}">{% trans "Save" %}</button>
+                {% trans "or" %} <a href="{% url 'dashboard:owner-report-template-list' %}">{% trans "cancel" %}</a>.
+            </div>
+        </div>
+
+    </div>
+</form>
+
+{% endblock dashboard_content %}
+
+
+{% block extrascripts %}
+{{ block.super }}
+
+<script src="{% static 'codemirror/lib/codemirror.js' %}"></script>
+<script src="{% static 'codemirror/addon/mode/overlay.js' %}"></script>
+<script src="{% static 'codemirror/mode/xml/xml.js' %}"></script>
+<script src="{% static 'codemirror/mode/htmlmixed/htmlmixed.js' %}"></script>
+<script src="{% static 'codemirror/mode/django/django.js' %}"></script>
+<script src="{% static 'codemirror/mode/css/css.js' %}"></script>
+
+{% endblock %}
+
+{% block onbodyload %}
+    {{ block.super }}
+
+    oscar.dashboard.templatePreview.init({
+        postUrl: '.',
+        dataFields: {
+            csrfmiddlewaretoken: $('[name="csrfmiddlewaretoken"]'),
+            owner: $('[name="owner"]'),
+            preview_order_number: $('[name="preview_order_number"]'),
+            pdf_template: $('[name="pdf_template"]'),
+            render_preview: true
+        },
+        autoRefreshField: $('#id_is_autorefresh'),
+        refreshDebounceTime: 600
+    });
+{% endblock %}

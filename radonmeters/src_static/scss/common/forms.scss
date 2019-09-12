@@ -1,0 +1,218 @@
+.input-sm {
+    font-size: $font-size-base;
+}
+
+.form-control {
+    box-shadow: none;
+    &:focus {
+        border: 1px solid $brand-default;
+        box-shadow: none;
+    }
+
+    &.success {
+        background-color: $brand-success
+    }
+}
+
+.has-error {
+    .form-control {
+        box-shadow: none;
+        color:$brand-danger;
+        &:focus {
+            box-shadow: none;
+        }
+    }
+}
+
+.intl-tel-input {
+    width: 100%;
+}
+
+
+textarea.form-control {
+    padding: 20px 30px;
+    resize: none;
+}
+
+
+.form-control[readonly="readonly"] {
+    &:focus {
+        border-color: $gray-lighter;
+    }
+}
+
+
+.error-block,
+.errorlist:not(.nonfield) {
+    list-style-type: none;
+    padding-left: 30px;
+    color: $brand-danger;
+    position: absolute;
+    font-size: $font-size-small;
+}
+
+.errorlist.nonfield {
+    color: $brand-danger;
+    font-size: $font-size-base
+}
+
+.form-group {
+    box-shadow: none;
+    background-clip: padding-box;
+    &:focus {
+        box-shadow: none;
+    }
+}
+
+.form-inline .form-control {
+    width: inherit;
+}
+
+
+.form-inline {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    label,
+    input {
+        display: block;
+    }
+
+    label {
+        font-size: 12px;
+        font-weight: bold;
+        letter-spacing: 1px;
+        line-height: 16px;
+        text-transform: uppercase;
+        padding-left: 30px;
+        margin-bottom: 15px;
+    }
+
+    .form-group {
+        max-width: 283px;
+        width: 100%;
+        margin-right: 0.5em;
+    }
+}
+
+.form {
+    label {
+        position: relative;
+        font-size: 12px;
+        font-weight: bold;
+        letter-spacing: 1px;
+        line-height: 16px;
+        text-transform: uppercase;
+        padding-left: 30px;
+        margin-bottom: 15px;
+    }
+}
+
+.form-vertical {
+    .form-group {
+        position: relative;
+        margin-bottom: 30px;
+    }
+}
+
+
+.quantity {
+    width: 105px;
+    position: relative;
+    .form-control {
+        height: 47px;
+        width: 105px;
+        padding-right: 52.5px;
+        color: $brand-info;
+        border-radius: 8px;
+        padding-left: $padding-base-vertical;
+        padding-right: $padding-base-vertical;
+
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        -moz-appearance: textfield;
+    }
+    .quantity-incr,
+    .quantity-decr {
+        position: absolute;
+        right: 1px;
+        height: 23px;
+        width: 51.5px;
+        border-color: transparent;
+        border-left: 1px solid $input-border;
+        text-align: center;
+        line-height: 23px;
+        text-decoration: none;
+        color: $brand-default;
+        transition: none;
+        font-size: 10px;
+        &:hover {
+            color: $white;
+            background-color: $brand-info;
+        }
+    }
+    .quantity-incr{
+        top: 1px;
+        border-radius: 0 8px 0 0;
+        border-bottom: 1px solid $input-border;
+    }
+    .quantity-decr {
+        bottom: 1px;
+        border-radius: 0 0 8px 0;
+        border-top: 1px solid $input-border;
+    }
+}
+
+.form-control {
+    padding-left: 30px;
+    padding-right: 30px;
+    font-size: $font-size-medium;
+}
+
+.form-control.input-sm {
+    padding-left: $padding-small-horizontal;
+    padding-right: $padding-small-horizontal;
+    font-size: $font-size-base;
+}
+
+.asteriskField {
+    font-size: 17px;
+    text-transform: lowercase;
+    font-weight: normal;
+    vertical-align: top;
+    position: absolute;
+    left: 103%;
+    top: 1px;
+}
+
+select,
+textarea,
+input {
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus {
+        -moz-box-shadow: 0 0 0 100px #fff inset;
+        box-shadow: 0 0 0 100px #fff inset;
+    }
+}
+
+@media (max-width: $dev-xs)  {
+    .form-inline {
+        display: block;
+        .form-group {
+            max-width: 100%;
+            width: 100%;
+            margin-right: 0;
+        }
+    }
+    .quantity {
+        width: 105px;
+        .form-control {
+             width: 105px;
+        }
+    }
+}

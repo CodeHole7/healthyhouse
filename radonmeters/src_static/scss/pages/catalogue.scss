@@ -1,0 +1,116 @@
+.what-is-section {
+    @extend .clearfix;
+    margin-bottom: 25px;
+    text-align: left;
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    h2, h3, h4, h5 {
+        margin: 30px 0 10px;
+    }
+    ul, ol {
+        margin: 30px auto 10px;
+    }
+    p {
+        font-size: 16px;
+        line-height: 29px;
+        margin: 0 auto;
+    }
+}
+
+
+.catalogue {
+    .category-header {
+        margin-bottom: 20px;
+    }
+}
+
+#consultation-form {
+    padding: 0 20px;
+    input {
+        text-align: center;
+    }
+    label {
+        padding-left: 0;
+    }
+    .btn {
+        width: 100%;
+    }
+}
+
+.pagination-container {
+    display: block;
+    width: 100%;
+    margin-bottom: 100px;
+    text-align: center;
+    position: relative;
+    opacity: 0;
+    transition: opacity .5s ease-out;
+    &.show-container {
+        opacity: 1;
+    }
+
+    .devider {
+        position: absolute;
+        top: 50%;
+        transform: traslate(-50%, 0);
+        left: 0;
+        right: 0;
+        border-top: 1px solid $gray-ultra-light;
+
+        &:before,
+        &:after {
+            content: '';
+            display: block;
+            position: absolute;
+            height: 7px;
+            top: -4px;
+            border-left: 1px solid $gray-ultra-light;
+        }
+        &:before {
+            left: 0;
+        }
+        &:after {
+            right: 0;
+        }
+    }
+
+    div, .pager{
+        display: inline-block;
+    }
+
+    div {
+        background-color: $white;
+        padding: 0 30px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .current {
+        padding: 0 30px;
+    }
+
+    .pager .next>a, .pager .next>span {
+        float:none;
+    }
+
+    .pager .previous>a, .pager .previous>span {
+        float:none;
+    }
+
+    .pager a {
+        min-width: 102px;
+        height: 34px;
+        color: $white;
+        text-transform: uppercase;
+        line-height: 22px;
+        transition: all .3s ease;
+    }
+}
+
+@media (max-width: 560px)  {
+    #consultation-form {
+        padding: 0;
+    }
+}

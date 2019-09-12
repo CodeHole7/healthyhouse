@@ -1,0 +1,93 @@
+.nav-checkout {
+    background-color: $bg-gray;
+    border-bottom: 1px solid $gray-ultra-light;
+    border-top: 1px solid $gray-ultra-light;
+    text-transform: uppercase;
+
+    .navbar-text {
+        margin: 0;
+        float: none;
+        padding: 28px 0;
+        display: inline-block;
+        width: 100%;
+        position: relative;
+    }
+
+    .navbar-nav {
+        margin: 0;
+        float: none;
+        -ms-text-justify: distribute-all-lines;
+        text-justify: distribute-all-lines;
+        user-select: none;
+        font-size: 0;
+        white-space: nowrap;
+        li {
+            font-size: $font-size-small;
+            letter-spacing: 1px;
+            line-height: 14px;
+            float: none;
+            display: inline-block;
+            width: 33.333333%;
+            text-align: center;
+            position: relative;
+            a {
+                padding: 0;
+                line-height: 14px;
+                transition: transform .3s;
+                &:hover,
+                &:focus {
+                    background-color: transparent;
+                    transform: scale(1.1);
+                }
+            }
+        }
+        .step3.disabled {
+            a:hover {
+                cursor: initial;
+            }
+        }
+        .triangle-right {
+            width: 0;
+            height: 0;
+            border-top: 36px solid transparent;
+            border-bottom: 36px solid transparent;
+            border-left: 36px solid $gray-ultra-light;
+            position: absolute;
+            right: 0;
+            top: -1px;
+        }
+
+        .triangle-right:after{
+            content:'';
+            width: 0;
+            height: 0;
+            border-top: 35px solid transparent;
+            border-bottom: 35px solid transparent;
+            border-left: 35px solid $bg-gray;
+            position:absolute;
+            top:-35px;
+            right:1px;
+        }
+
+        li.active {
+            color: $brand-info;
+        }
+    }
+}
+
+@media (max-width: $dev-xs)  {
+    .nav-checkout {
+        .triangle-right {
+            display: none;
+        }
+        .navbar-nav {
+            li.current {
+                width: 100%;
+            }
+            li:not(.current) {
+                display: none;
+            }
+        }
+    }
+
+}

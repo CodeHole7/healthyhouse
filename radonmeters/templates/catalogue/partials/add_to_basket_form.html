@@ -1,0 +1,46 @@
+{% load basket_tags %}
+{% load display_tags %}
+{% load i18n %}
+{% load purchase_info_tags %}
+
+{% purchase_info_for_product request product as session %}
+
+{% if session.availability.is_available_to_buy %}
+    {% basket_form request product as basket_form %}
+    <form id="add_to_basket_form" action="{% url 'basket:add' pk=product.pk  %}" method="post" class="add-to-basket {% if inline %}form-inline{% endif %}">
+        {% csrf_token %}
+        {% comment %}
+        {% include "partials/form_fields.html" with form=basket_form %}
+        {% endcomment %}
+
+        {{basket_form.quantity.errors}}
+
+        <label for="id_{{basket_form.quantity.name}}">{% trans 'Quantity:' %}</label>
+        <div class="quantity">
+            <input id="id_{{basket_form.quantity.name}}" name="{{basket_form.quantity.name}}" class="form-control" type="number" min="{{ product.min_num_for_order|default:'1' }}" max="{{ product.total_net_stock_level }}" step="1" value="{{ product.min_num_for_order|default:'1' }}">
+            <a href="#" class="quantity-incr rm-icon-arrow-top"></a>
+            <a href="#" class="quantity-decr rm-icon-arrow-bottom"></a>
+        </div>
+        <button type="submit" class="btn btn-primary btn-add-to-basket" value="{% trans "Add to basket" %}" data-loading-text="{% trans 'Adding...' %}">{% trans "Buy" %}</button>
+    </form>
+    {% comment %}
+    {% iffeature "wishlists" %}
+        {% include "catalogue/partials/add_to_wishlist.html" %}
+    {% endiffeature %}
+    {% endcomment %}
+{% endif %}
+{% comment %}
+    {% if has_active_alert %}
+        <p>{% trans "You have an active stock alert for this product." %}</p>
+    {% else %}
+        <form id="alert_form" method="post" action="{% url 'customer:alert-create' pk=product.id %}" class="add-to-basket">
+            {% csrf_token %}
+            <p>{% trans "You can get an email alert when this product is back in stock." %}</p>
+            {% include "partials/form_fields.html" with form=alert_form %}
+            <button type="submit" class="btn btn-info btn-add-to-basket" data-loading-text="{% trans 'Submitting...' %}">{% trans "Notify me" %}</button>
+        </form>
+    {% endif %}
+    {% iffeature "wishlists" %}
+        {% include "catalogue/partials/add_to_wishlist.html" %}
+    {% endiffeature %}
+{% endcomment %}

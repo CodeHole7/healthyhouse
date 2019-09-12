@@ -1,0 +1,52 @@
+{% load i18n %}
+{% load currency_filters %}
+{% load purchase_info_tags %}
+{% load basket_tags %}
+
+{% purchase_info_for_product request product as session %}
+
+{% if not product.is_parent %}
+    {% if session.availability.is_available_to_buy %}
+        <div class="product-btn-group">
+            <a href="{{ product.get_absolute_url }}" class="btn btn-primary">
+                {% if session.price.exists %}
+                    {% if session.price.excl_tax == 0 %}
+                        {% trans "Free" %}
+                    {% elif session.price.is_tax_known %}
+                        {{ session.price.incl_tax|currency:session.price.currency }}
+                    {% else %}
+                        {{ session.price.excl_tax|currency:session.price.currency }}
+                    {% endif %}
+                {% else %}
+                    {% trans "Undefined" %}
+                {% endif %}
+            </a>
+            <a href="{% url 'basket:add' pk=product.pk %}" type="submit" class="btn btn-info cart-link" data-quantity="{{ product.min_num_for_order|default:'1' }}">
+                {% csrf_token %}
+                <span class="shop-bg-title">{% trans 'Buy' %}&nbsp;</span>
+                <span class="rm-icon-shop-bag"></span>
+            </a>
+        </div>
+    {% else %}
+        <div class="product-btn-group">
+            <a href="{{ product.get_absolute_url }}" class="btn btn-primary disabled">
+                {% if session.price.exists %}
+                    {% if session.price.excl_tax == 0 %}
+                        {% trans "Free" %}
+                    {% elif session.price.is_tax_known %}
+                        {{ session.price.incl_tax|currency:session.price.currency }}
+                    {% else %}
+                        {{ session.price.excl_tax|currency:session.price.currency }}
+                    {% endif %}
+                {% else %}
+                    {% trans "Undefined" %}
+                {% endif %}
+            </a>
+            <a href="{% url 'basket:add' pk=product.pk %}" class="btn btn-info cart-link disabled" data-quantity="{{ product.min_num_for_order|default:'1' }}">
+                {% csrf_token %}
+                <span class="shop-bg-title">{% trans 'Buy' %}&nbsp;</span>
+                <span class="rm-icon-shop-bag"></span>
+            </a>
+        </div>
+    {% endif %}
+{% endif %}

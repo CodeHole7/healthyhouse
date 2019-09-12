@@ -1,0 +1,192 @@
+.products-card-section {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -6px 30px;
+
+    .products-wrapper {
+        width: 33.33%;
+        padding: 6px;
+        margin-bottom: 50px;
+        position: relative;
+        top: 40px;
+        opacity: 0;
+        transition: all .4s ease-out;
+        &.show-card {
+            opacity: 1;
+            top: 0px;
+        }
+    }
+}
+.product-card-item {
+    background-color: $white;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: box-shadow .3s ease-out;
+    &:focus,
+    &:hover {
+        box-shadow: 0 0 32px 0 #EAEFF5;
+    }
+    .img-wrapper{
+        overflow: hidden;
+        img {
+            display: block;
+            width: 100%;
+        }
+        div{
+            margin: 0 auto;
+            display: block;
+            width: 100%;
+            overflow: hidden;
+            min-height: 332.5px;
+        }
+    }
+
+    .product-details-wrapper {
+        padding: 30px 15px 90px;
+        position: relative;
+        flex: 1 0 auto;
+        .details-link-wrapper {
+            color: inherit;
+            text-decoration: none;
+        }
+    }
+
+    h3 {
+        margin: 0;
+    }
+    h5 {
+        font-weight: 400;
+    }
+    .out-stock {
+        text-transform: uppercase;
+        color: #FF9A8A;
+        font-size: 13px;
+    }
+    .main-text-detail {
+        font-size: $font-size-medium;
+        line-height: 29px;
+        margin: 40px 0;
+        word-wrap: break-word;
+    }
+    .product-sale {
+        text-transform: uppercase;
+        text-decoration:line-through;
+        color: $gray-light;
+        line-height: 29px;
+        font-size: $font-size-medium;
+    }
+    .net-dill {
+        span {
+            vertical-align: middle;
+        }
+        .rm-icon-discount {
+            font-size: $font-size-small * 2;
+            margin-right: 5px;
+        }
+    }
+    .product-btn-group {
+        position: absolute;
+        bottom: 20px;
+        left: 15px;
+        white-space: nowrap;
+        .btn{
+            letter-spacing: initial;
+            padding-right: $padding-large-horizontal;
+            padding-left: $padding-large-horizontal;
+            position: relative;
+            border: 2px solid $white;
+        }
+        .btn:first-child {
+            z-index: 2;
+            &.disabled {
+                pointer-events: auto;
+                cursor: pointer;
+            }
+        }
+        .cart-link {
+            left: -45px;
+            z-index: 1;
+            padding-left: 50px;
+            text-transform: initial;
+            .shop-bg-title {
+                display: none;
+                margin-right: 2px;
+            }
+            &.disabled {
+                background-color: $gray;
+            }
+            &:hover {
+                .shop-bg-title {
+                    display: inline;
+                }
+                padding-right: 40px;
+                padding-left: 70px;
+            }
+        }
+    }
+}
+
+@media  (max-width: $dev-sm) {
+    .product-card-item {
+         .product-btn-group{
+            .cart-link:not(.disabled){
+                .shop-bg-title {
+                    display: inline;
+                }
+                padding-right: 40px;
+                padding-left: 70px;
+            }
+         }
+    }
+}
+
+@media (min-width: $dev-xs) and (max-width: $dev-sm)  {
+    .products-card-section {
+
+        .products-wrapper {
+            width: 50%;
+        }
+    }
+}
+
+@media (min-width: 640px) and (max-width: $dev-xs) {
+    .products-card-section {
+        .products-wrapper {
+            width: 50%;
+        }
+    }
+}
+
+@media (max-width: 640px) {
+    .products-card-section {
+        .products-wrapper {
+            width: 100%;
+        }
+    }
+
+    .product-card-item {
+        box-shadow: 0 0 32px 0 #EAEFF5;
+    }
+}
+
+
+
+/* @media (max-width: $dev-xs)  {
+    .product-item {
+        display: block;
+        margin-bottom: 30px;
+        .img-wrapper div{
+            max-width: 100%;
+            height: 100%;
+        }
+    }
+}
+@media (min-width: $dev-xs)  {
+    .product-item {
+        .product-details-wrapper {
+            padding: 0 30px;
+        }
+    }
+}
+ */

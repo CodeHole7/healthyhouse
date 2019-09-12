@@ -1,0 +1,35 @@
+{% load i18n %}
+{% load category_tags %}
+
+{% category_tree as tree_categories %}
+{% if tree_categories %}
+    <div class="side-categories">
+        <div class="all-categories">
+            {% if all_categories %}
+                {% trans "All categories" %}
+            {% else %}
+                <a href="/catalogue/">
+                    {% trans "All categories" %}
+                </a>
+            {% endif %}
+        </div>
+        <ul class="side-categories-list">
+            {% for tree_category, info in tree_categories %}
+                <li class="{% if tree_category.pk == category.pk %}active{% endif %}">
+                    <a href="{{ tree_category.get_absolute_url }}">
+                        {{ tree_category.name|lower|capfirst }}
+                    </a>
+
+                    {% if info.has_children %}<ul>{% else %}</li>{% endif %}
+                    {% for n in info.num_to_close %}
+                        </ul></li>
+                    {% endfor %}
+            {% endfor %}
+        </ul>
+        <div class="consultation-btn-wrapper">
+            <button class="btn btn-primary open-consultation-popup">
+                {% trans "Consultation" %}
+            </button>
+        </div>
+    </div>
+{% endif %}

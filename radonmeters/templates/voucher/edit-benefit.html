@@ -1,0 +1,30 @@
+{% extends 'dashboard/layout.html' %}
+
+{% load i18n %}
+
+{% block title %}
+{#    {{ description }} | {{ block.super }}#}
+{% endblock %}
+
+{% block breadcrumbs %}
+
+{% endblock %}
+
+{% block header %}
+{% endblock header %}
+
+
+{% block dashboard_content %}
+    {% block page_head %}
+        <div class="well">
+            <form method="post" action="{% url 'voucher:edit_benefit' pk=benefit.id %}" class="form-inline">
+                {% csrf_token %}
+                {% include 'dashboard/partials/form_fields_inline.html' with form=form %}
+                <button type="submit" class="btn btn-default">Edit</button>
+            </form>
+        <p></p>
+        </div>
+
+    {% endblock page_head %}
+    {% include "dashboard/partials/pagination.html" %}
+{% endblock dashboard_content %}

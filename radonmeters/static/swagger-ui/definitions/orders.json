@@ -1,0 +1,65 @@
+{
+    "values": {
+        "OrderStatuses": {
+            "type": "string",
+            "enum": [
+                "created",
+                "issued",
+                "delivery_to_client",
+                "completed",
+                "canceled"
+            ]
+        }
+    },
+
+    "definitions": {
+        "OrderListObject": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "number": {
+                    "type": "integer"
+                },
+                "quantity": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "date_placed": {
+                    "type": "string",
+                    "format": "2017-10-17T08:46:11.958090Z"
+                }
+            }
+        },
+        "OrderDetailObject": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "number": {
+                    "type": "integer"
+                },
+                "quantity": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "date_placed": {
+                    "type": "string",
+                    "format": "2017-10-17T08:46:11.958090Z"
+                }
+            }
+        },
+        "OrderList": {
+            "type": "array",
+            "items": {
+                "$ref": "#/OrderMainData"
+            }
+        }
+    }
+}

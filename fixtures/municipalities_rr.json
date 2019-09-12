@@ -1,0 +1,2279 @@
+[
+    {
+        "pk": 0,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 31,
+            "level": 0,
+            "municipality": "brovst"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 59,
+            "level": 2,
+            "municipality": "brædstrup"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 87,
+            "level": 3,
+            "municipality": "brøndby"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 46,
+            "level": 2,
+            "municipality": "brønderslev"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 44,
+            "level": 1,
+            "municipality": "brørup"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 82,
+            "level": 3,
+            "municipality": "børkop"
+        }
+    },
+    {
+        "pk": 6,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 59,
+            "level": 3,
+            "municipality": "christiansfeld"
+        }
+    },
+    {
+        "pk": 7,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 110,
+            "level": 4,
+            "municipality": "dianalund"
+        }
+    },
+    {
+        "pk": 8,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 76,
+            "level": 3,
+            "municipality": "dragsholm"
+        }
+    },
+    {
+        "pk": 9,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 62,
+            "level": 2,
+            "municipality": "dragør"
+        }
+    },
+    {
+        "pk": 10,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 38,
+            "level": 1,
+            "municipality": "dronninglund"
+        }
+    },
+    {
+        "pk": 11,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 80,
+            "level": 3,
+            "municipality": "ebeltoft"
+        }
+    },
+    {
+        "pk": 12,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 105,
+            "level": 4,
+            "municipality": "egebjerg"
+        }
+    },
+    {
+        "pk": 13,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 49,
+            "level": 2,
+            "municipality": "egtved"
+        }
+    },
+    {
+        "pk": 14,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 21,
+            "level": 0,
+            "municipality": "egvad"
+        }
+    },
+    {
+        "pk": 15,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 57,
+            "level": 2,
+            "municipality": "ejby"
+        }
+    },
+    {
+        "pk": 16,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 27,
+            "level": 0,
+            "municipality": "esbjerg"
+        }
+    },
+    {
+        "pk": 17,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 94,
+            "level": 4,
+            "municipality": "fakse"
+        }
+    },
+    {
+        "pk": 18,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 10,
+            "level": 0,
+            "municipality": "fanø"
+        }
+    },
+    {
+        "pk": 19,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 54,
+            "level": 2,
+            "municipality": "farsø"
+        }
+    },
+    {
+        "pk": 20,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 69,
+            "level": 3,
+            "municipality": "farum"
+        }
+    },
+    {
+        "pk": 21,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 31,
+            "level": 0,
+            "municipality": "fjends"
+        }
+    },
+    {
+        "pk": 22,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 34,
+            "level": 1,
+            "municipality": "fjerritslev"
+        }
+    },
+    {
+        "pk": 23,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 97,
+            "level": 3,
+            "municipality": "fladså"
+        }
+    },
+    {
+        "pk": 24,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 51,
+            "level": 2,
+            "municipality": "fredensborg-humlebæk"
+        }
+    },
+    {
+        "pk": 25,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 73,
+            "level": 3,
+            "municipality": "fredericia"
+        }
+    },
+    {
+        "pk": 26,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 28,
+            "level": 1,
+            "municipality": "frederiksberg"
+        }
+    },
+    {
+        "pk": 27,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 43,
+            "level": 2,
+            "municipality": "frederikshavn"
+        }
+    },
+    {
+        "pk": 28,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 96,
+            "level": 3,
+            "municipality": "frederikssund"
+        }
+    },
+    {
+        "pk": 29,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 45,
+            "level": 1,
+            "municipality": "frederiksværk"
+        }
+    },
+    {
+        "pk": 30,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 87,
+            "level": 3,
+            "municipality": "fuglebjerg"
+        }
+    },
+    {
+        "pk": 31,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 92,
+            "level": 3,
+            "municipality": "faaborg"
+        }
+    },
+    {
+        "pk": 32,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 56,
+            "level": 2,
+            "municipality": "galten"
+        }
+    },
+    {
+        "pk": 33,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 60,
+            "level": 2,
+            "municipality": "gedved"
+        }
+    },
+    {
+        "pk": 34,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 53,
+            "level": 2,
+            "municipality": "gentofte"
+        }
+    },
+    {
+        "pk": 35,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 33,
+            "level": 1,
+            "municipality": "give"
+        }
+    },
+    {
+        "pk": 36,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 59,
+            "level": 2,
+            "municipality": "gjern"
+        }
+    },
+    {
+        "pk": 37,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 29,
+            "level": 1,
+            "municipality": "gladsaxe"
+        }
+    },
+    {
+        "pk": 38,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 73,
+            "level": 3,
+            "municipality": "glamsbjerg"
+        }
+    },
+    {
+        "pk": 39,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 66,
+            "level": 3,
+            "municipality": "glostrup"
+        }
+    },
+    {
+        "pk": 40,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 59,
+            "level": 2,
+            "municipality": "gram"
+        }
+    },
+    {
+        "pk": 41,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 61,
+            "level": 2,
+            "municipality": "grenaa"
+        }
+    },
+    {
+        "pk": 42,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 67,
+            "level": 3,
+            "municipality": "greve"
+        }
+    },
+    {
+        "pk": 43,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 38,
+            "level": 1,
+            "municipality": "grindsted"
+        }
+    },
+    {
+        "pk": 44,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 39,
+            "level": 1,
+            "municipality": "græsted-gilleleje"
+        }
+    },
+    {
+        "pk": 45,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 65,
+            "level": 3,
+            "municipality": "gråsten"
+        }
+    },
+    {
+        "pk": 46,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 69,
+            "level": 3,
+            "municipality": "gudme"
+        }
+    },
+    {
+        "pk": 47,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 75,
+            "level": 3,
+            "municipality": "gundsø"
+        }
+    },
+    {
+        "pk": 48,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 92,
+            "level": 3,
+            "municipality": "gørlev"
+        }
+    },
+    {
+        "pk": 49,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 63,
+            "level": 3,
+            "municipality": "haderslev"
+        }
+    },
+    {
+        "pk": 50,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 60,
+            "level": 3,
+            "municipality": "hadsten"
+        }
+    },
+    {
+        "pk": 51,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 50,
+            "level": 2,
+            "municipality": "hadsund"
+        }
+    },
+    {
+        "pk": 52,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 29,
+            "level": 0,
+            "municipality": "hals"
+        }
+    },
+    {
+        "pk": 53,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 81,
+            "level": 3,
+            "municipality": "hammel"
+        }
+    },
+    {
+        "pk": 54,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 42,
+            "level": 1,
+            "municipality": "hanstholm"
+        }
+    },
+    {
+        "pk": 55,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 95,
+            "level": 3,
+            "municipality": "hashøj"
+        }
+    },
+    {
+        "pk": 56,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 103,
+            "level": 4,
+            "municipality": "hasle"
+        }
+    },
+    {
+        "pk": 57,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 79,
+            "level": 3,
+            "municipality": "haslev"
+        }
+    },
+    {
+        "pk": 58,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 112,
+            "level": 4,
+            "municipality": "hedensted"
+        }
+    },
+    {
+        "pk": 59,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 40,
+            "level": 1,
+            "municipality": "helle"
+        }
+    },
+    {
+        "pk": 60,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 41,
+            "level": 1,
+            "municipality": "helsinge"
+        }
+    },
+    {
+        "pk": 61,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 36,
+            "level": 1,
+            "municipality": "helsingør"
+        }
+    },
+    {
+        "pk": 62,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 46,
+            "level": 2,
+            "municipality": "herlev"
+        }
+    },
+    {
+        "pk": 63,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 50,
+            "level": 2,
+            "municipality": "herning"
+        }
+    },
+    {
+        "pk": 64,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 53,
+            "level": 2,
+            "municipality": "hillerød"
+        }
+    },
+    {
+        "pk": 65,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 82,
+            "level": 3,
+            "municipality": "hinnerup"
+        }
+    },
+    {
+        "pk": 66,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 30,
+            "level": 0,
+            "municipality": "hirtshals"
+        }
+    },
+    {
+        "pk": 67,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 35,
+            "level": 1,
+            "municipality": "hjørring"
+        }
+    },
+    {
+        "pk": 68,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 52,
+            "level": 2,
+            "municipality": "hobro"
+        }
+    },
+    {
+        "pk": 69,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 91,
+            "level": 3,
+            "municipality": "holbæk"
+        }
+    },
+    {
+        "pk": 70,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 73,
+            "level": 3,
+            "municipality": "holeby"
+        }
+    },
+    {
+        "pk": 71,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 93,
+            "level": 3,
+            "municipality": "holmegaard"
+        }
+    },
+    {
+        "pk": 72,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 19,
+            "level": 0,
+            "municipality": "holmsland"
+        }
+    },
+    {
+        "pk": 73,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 44,
+            "level": 1,
+            "municipality": "holstebro"
+        }
+    },
+    {
+        "pk": 74,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 37,
+            "level": 1,
+            "municipality": "holsted"
+        }
+    },
+    {
+        "pk": 75,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 69,
+            "level": 3,
+            "municipality": "horsens"
+        }
+    },
+    {
+        "pk": 76,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 65,
+            "level": 2,
+            "municipality": "hundested"
+        }
+    },
+    {
+        "pk": 77,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 84,
+            "level": 3,
+            "municipality": "hvalsø"
+        }
+    },
+    {
+        "pk": 78,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 106,
+            "level": 4,
+            "municipality": "hvidebæk"
+        }
+    },
+    {
+        "pk": 79,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 66,
+            "level": 3,
+            "municipality": "hvidovre"
+        }
+    },
+    {
+        "pk": 80,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 57,
+            "level": 2,
+            "municipality": "hvorslev"
+        }
+    },
+    {
+        "pk": 81,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 36,
+            "level": 1,
+            "municipality": "højer"
+        }
+    },
+    {
+        "pk": 82,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 102,
+            "level": 3,
+            "municipality": "høje-taastrup"
+        }
+    },
+    {
+        "pk": 83,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 96,
+            "level": 4,
+            "municipality": "højreby"
+        }
+    },
+    {
+        "pk": 84,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 90,
+            "level": 3,
+            "municipality": "høng"
+        }
+    },
+    {
+        "pk": 85,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 76,
+            "level": 3,
+            "municipality": "hørning"
+        }
+    },
+    {
+        "pk": 86,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 39,
+            "level": 1,
+            "municipality": "hørsholm"
+        }
+    },
+    {
+        "pk": 87,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 68,
+            "level": 3,
+            "municipality": "haarby"
+        }
+    },
+    {
+        "pk": 88,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 40,
+            "level": 1,
+            "municipality": "ikast"
+        }
+    },
+    {
+        "pk": 89,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 49,
+            "level": 2,
+            "municipality": "ishøj"
+        }
+    },
+    {
+        "pk": 90,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 57,
+            "level": 2,
+            "municipality": "jelling"
+        }
+    },
+    {
+        "pk": 91,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 94,
+            "level": 3,
+            "municipality": "jernløse"
+        }
+    },
+    {
+        "pk": 92,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 43,
+            "level": 2,
+            "municipality": "juelsminde"
+        }
+    },
+    {
+        "pk": 93,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 71,
+            "level": 2,
+            "municipality": "jægerspris"
+        }
+    },
+    {
+        "pk": 94,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 77,
+            "level": 3,
+            "municipality": "kalundborg"
+        }
+    },
+    {
+        "pk": 95,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 78,
+            "level": 3,
+            "municipality": "karlebo"
+        }
+    },
+    {
+        "pk": 96,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 49,
+            "level": 1,
+            "municipality": "karup"
+        }
+    },
+    {
+        "pk": 97,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 49,
+            "level": 2,
+            "municipality": "kerteminde"
+        }
+    },
+    {
+        "pk": 98,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 45,
+            "level": 2,
+            "municipality": "kjellerup"
+        }
+    },
+    {
+        "pk": 99,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 67,
+            "level": 3,
+            "municipality": "kolding"
+        }
+    },
+    {
+        "pk": 100,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 64,
+            "level": 3,
+            "municipality": "korsør"
+        }
+    },
+    {
+        "pk": 101,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 47,
+            "level": 2,
+            "municipality": "københavn"
+        }
+    },
+    {
+        "pk": 102,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 44,
+            "level": 2,
+            "municipality": "køge"
+        }
+    },
+    {
+        "pk": 103,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 96,
+            "level": 3,
+            "municipality": "langebæk"
+        }
+    },
+    {
+        "pk": 104,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 84,
+            "level": 3,
+            "municipality": "langeskov"
+        }
+    },
+    {
+        "pk": 105,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 72,
+            "level": 3,
+            "municipality": "langå"
+        }
+    },
+    {
+        "pk": 106,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 62,
+            "level": 3,
+            "municipality": "ledøje-smørum"
+        }
+    },
+    {
+        "pk": 107,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 96,
+            "level": 3,
+            "municipality": "lejre"
+        }
+    },
+    {
+        "pk": 108,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 61,
+            "level": 2,
+            "municipality": "lemvig"
+        }
+    },
+    {
+        "pk": 109,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 56,
+            "level": 2,
+            "municipality": "lunderskov"
+        }
+    },
+    {
+        "pk": 110,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 63,
+            "level": 2,
+            "municipality": "lundtoft"
+        }
+    },
+    {
+        "pk": 111,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 41,
+            "level": 1,
+            "municipality": "lyngby-taarbæk"
+        }
+    },
+    {
+        "pk": 112,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 18,
+            "level": 0,
+            "municipality": "læsø"
+        }
+    },
+    {
+        "pk": 113,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 42,
+            "level": 2,
+            "municipality": "løgstør"
+        }
+    },
+    {
+        "pk": 114,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 73,
+            "level": 2,
+            "municipality": "løgumkloster"
+        }
+    },
+    {
+        "pk": 115,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 32,
+            "level": 1,
+            "municipality": "løkken-vrå"
+        }
+    },
+    {
+        "pk": 116,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 72,
+            "level": 2,
+            "municipality": "mariager"
+        }
+    },
+    {
+        "pk": 117,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 100,
+            "level": 4,
+            "municipality": "maribo"
+        }
+    },
+    {
+        "pk": 118,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 83,
+            "level": 3,
+            "municipality": "marstal"
+        }
+    },
+    {
+        "pk": 119,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 71,
+            "level": 3,
+            "municipality": "middelfart"
+        }
+    },
+    {
+        "pk": 120,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 68,
+            "level": 3,
+            "municipality": "midtdjurs"
+        }
+    },
+    {
+        "pk": 121,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 54,
+            "level": 2,
+            "municipality": "morsø"
+        }
+    },
+    {
+        "pk": 122,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 100,
+            "level": 3,
+            "municipality": "munkebo"
+        }
+    },
+    {
+        "pk": 123,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 48,
+            "level": 2,
+            "municipality": "møldrup"
+        }
+    },
+    {
+        "pk": 124,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 104,
+            "level": 4,
+            "municipality": "møn"
+        }
+    },
+    {
+        "pk": 125,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 59,
+            "level": 2,
+            "municipality": "nakskov"
+        }
+    },
+    {
+        "pk": 126,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 119,
+            "level": 4,
+            "municipality": "nexø"
+        }
+    },
+    {
+        "pk": 127,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 40,
+            "level": 1,
+            "municipality": "nibe"
+        }
+    },
+    {
+        "pk": 128,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 109,
+            "level": 4,
+            "municipality": "nordborg"
+        }
+    },
+    {
+        "pk": 129,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 89,
+            "level": 3,
+            "municipality": "nr. alslev"
+        }
+    },
+    {
+        "pk": 130,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 51,
+            "level": 2,
+            "municipality": "nr. djurs"
+        }
+    },
+    {
+        "pk": 131,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 40,
+            "level": 1,
+            "municipality": "nr. rangstrup"
+        }
+    },
+    {
+        "pk": 132,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 78,
+            "level": 2,
+            "municipality": "nr. snede"
+        }
+    },
+    {
+        "pk": 133,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 93,
+            "level": 3,
+            "municipality": "nr. aaby"
+        }
+    },
+    {
+        "pk": 134,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 64,
+            "level": 3,
+            "municipality": "nyborg"
+        }
+    },
+    {
+        "pk": 135,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 58,
+            "level": 3,
+            "municipality": "nykøbing falster"
+        }
+    },
+    {
+        "pk": 136,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 35,
+            "level": 1,
+            "municipality": "nykøbing-rørvig"
+        }
+    },
+    {
+        "pk": 137,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 71,
+            "level": 3,
+            "municipality": "nysted"
+        }
+    },
+    {
+        "pk": 138,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 77,
+            "level": 3,
+            "municipality": "næstved"
+        }
+    },
+    {
+        "pk": 139,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 57,
+            "level": 2,
+            "municipality": "nørager"
+        }
+    },
+    {
+        "pk": 140,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 77,
+            "level": 3,
+            "municipality": "nørhald"
+        }
+    },
+    {
+        "pk": 141,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 50,
+            "level": 2,
+            "municipality": "odder"
+        }
+    },
+    {
+        "pk": 142,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 54,
+            "level": 2,
+            "municipality": "odense"
+        }
+    },
+    {
+        "pk": 143,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 45,
+            "level": 2,
+            "municipality": "otterup"
+        }
+    },
+    {
+        "pk": 144,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 61,
+            "level": 2,
+            "municipality": "pandrup"
+        }
+    },
+    {
+        "pk": 145,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 93,
+            "level": 3,
+            "municipality": "præstø"
+        }
+    },
+    {
+        "pk": 146,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 77,
+            "level": 3,
+            "municipality": "purhus"
+        }
+    },
+    {
+        "pk": 147,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 101,
+            "level": 4,
+            "municipality": "ramsø"
+        }
+    },
+    {
+        "pk": 148,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 92,
+            "level": 3,
+            "municipality": "randers"
+        }
+    },
+    {
+        "pk": 149,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 116,
+            "level": 4,
+            "municipality": "ravnsborg"
+        }
+    },
+    {
+        "pk": 150,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 28,
+            "level": 0,
+            "municipality": "ribe"
+        }
+    },
+    {
+        "pk": 151,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 168,
+            "level": 4,
+            "municipality": "ringe"
+        }
+    },
+    {
+        "pk": 152,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 27,
+            "level": 0,
+            "municipality": "ringkøbing"
+        }
+    },
+    {
+        "pk": 153,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 101,
+            "level": 4,
+            "municipality": "ringsted"
+        }
+    },
+    {
+        "pk": 154,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 61,
+            "level": 3,
+            "municipality": "rosenholm"
+        }
+    },
+    {
+        "pk": 155,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 80,
+            "level": 3,
+            "municipality": "roskilde"
+        }
+    },
+    {
+        "pk": 156,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 62,
+            "level": 2,
+            "municipality": "rougsø"
+        }
+    },
+    {
+        "pk": 157,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 76,
+            "level": 3,
+            "municipality": "rudbjerg"
+        }
+    },
+    {
+        "pk": 158,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 69,
+            "level": 3,
+            "municipality": "rudkøbing"
+        }
+    },
+    {
+        "pk": 159,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 61,
+            "level": 2,
+            "municipality": "ry"
+        }
+    },
+    {
+        "pk": 160,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 105,
+            "level": 4,
+            "municipality": "ryslinge"
+        }
+    },
+    {
+        "pk": 161,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 99,
+            "level": 4,
+            "municipality": "rødby"
+        }
+    },
+    {
+        "pk": 162,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 91,
+            "level": 3,
+            "municipality": "rødding"
+        }
+    },
+    {
+        "pk": 163,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 99,
+            "level": 3,
+            "municipality": "rødekro"
+        }
+    },
+    {
+        "pk": 164,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 59,
+            "level": 3,
+            "municipality": "rødovre"
+        }
+    },
+    {
+        "pk": 165,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 64,
+            "level": 3,
+            "municipality": "rønde"
+        }
+    },
+    {
+        "pk": 166,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 62,
+            "level": 3,
+            "municipality": "rønne"
+        }
+    },
+    {
+        "pk": 167,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 78,
+            "level": 3,
+            "municipality": "rønnede"
+        }
+    },
+    {
+        "pk": 168,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 77,
+            "level": 3,
+            "municipality": "sakskøbing"
+        }
+    },
+    {
+        "pk": 169,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 40,
+            "level": 1,
+            "municipality": "sallingsund"
+        }
+    },
+    {
+        "pk": 170,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 74,
+            "level": 3,
+            "municipality": "samsø"
+        }
+    },
+    {
+        "pk": 171,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 47,
+            "level": 1,
+            "municipality": "sejlflod"
+        }
+    },
+    {
+        "pk": 172,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 32,
+            "level": 1,
+            "municipality": "silkeborg"
+        }
+    },
+    {
+        "pk": 173,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 27,
+            "level": 0,
+            "municipality": "sindal"
+        }
+    },
+    {
+        "pk": 174,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 8,
+            "level": 0,
+            "municipality": "skagen"
+        }
+    },
+    {
+        "pk": 175,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 45,
+            "level": 2,
+            "municipality": "skanderborg"
+        }
+    },
+    {
+        "pk": 176,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 73,
+            "level": 3,
+            "municipality": "skibby"
+        }
+    },
+    {
+        "pk": 177,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 52,
+            "level": 2,
+            "municipality": "skive"
+        }
+    },
+    {
+        "pk": 178,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 3,
+            "level": 1,
+            "municipality": "skjern"
+        }
+    },
+    {
+        "pk": 179,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 100,
+            "level": 4,
+            "municipality": "skovbo"
+        }
+    },
+    {
+        "pk": 180,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 86,
+            "level": 3,
+            "municipality": "skælskør"
+        }
+    },
+    {
+        "pk": 181,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 29,
+            "level": 0,
+            "municipality": "skærbæk"
+        }
+    },
+    {
+        "pk": 182,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 81,
+            "level": 3,
+            "municipality": "skævinge"
+        }
+    },
+    {
+        "pk": 183,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 30,
+            "level": 0,
+            "municipality": "skørping"
+        }
+    },
+    {
+        "pk": 184,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 66,
+            "level": 3,
+            "municipality": "slagelse"
+        }
+    },
+    {
+        "pk": 185,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 94,
+            "level": 3,
+            "municipality": "slangerup"
+        }
+    },
+    {
+        "pk": 186,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 43,
+            "level": 2,
+            "municipality": "solrød"
+        }
+    },
+    {
+        "pk": 187,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 87,
+            "level": 3,
+            "municipality": "sorø"
+        }
+    },
+    {
+        "pk": 188,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 71,
+            "level": 3,
+            "municipality": "spøttrup"
+        }
+    },
+    {
+        "pk": 189,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 87,
+            "level": 3,
+            "municipality": "stenlille"
+        }
+    },
+    {
+        "pk": 190,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 89,
+            "level": 3,
+            "municipality": "stenløse"
+        }
+    },
+    {
+        "pk": 191,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 82,
+            "level": 3,
+            "municipality": "stevns"
+        }
+    },
+    {
+        "pk": 192,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 39,
+            "level": 1,
+            "municipality": "struer"
+        }
+    },
+    {
+        "pk": 193,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 96,
+            "level": 3,
+            "municipality": "stubbekøbing"
+        }
+    },
+    {
+        "pk": 194,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 42,
+            "level": 1,
+            "municipality": "støvring"
+        }
+    },
+    {
+        "pk": 195,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 93,
+            "level": 4,
+            "municipality": "sundeved"
+        }
+    },
+    {
+        "pk": 196,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 59,
+            "level": 2,
+            "municipality": "sundsøre"
+        }
+    },
+    {
+        "pk": 197,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 86,
+            "level": 3,
+            "municipality": "suså"
+        }
+    },
+    {
+        "pk": 198,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 107,
+            "level": 4,
+            "municipality": "svendborg"
+        }
+    },
+    {
+        "pk": 199,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 111,
+            "level": 4,
+            "municipality": "svinninge"
+        }
+    },
+    {
+        "pk": 200,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 97,
+            "level": 3,
+            "municipality": "sydals"
+        }
+    },
+    {
+        "pk": 201,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 80,
+            "level": 3,
+            "municipality": "sydfalster"
+        }
+    },
+    {
+        "pk": 202,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 74,
+            "level": 2,
+            "municipality": "sydlangeland"
+        }
+    },
+    {
+        "pk": 203,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 56,
+            "level": 2,
+            "municipality": "sydthy"
+        }
+    },
+    {
+        "pk": 204,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 39,
+            "level": 1,
+            "municipality": "sæby"
+        }
+    },
+    {
+        "pk": 205,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 44,
+            "level": 2,
+            "municipality": "søllerød"
+        }
+    },
+    {
+        "pk": 206,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 64,
+            "level": 3,
+            "municipality": "sønderborg"
+        }
+    },
+    {
+        "pk": 207,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 51,
+            "level": 2,
+            "municipality": "sønderhald"
+        }
+    },
+    {
+        "pk": 208,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 74,
+            "level": 3,
+            "municipality": "søndersø"
+        }
+    },
+    {
+        "pk": 209,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 45,
+            "level": 1,
+            "municipality": "them"
+        }
+    },
+    {
+        "pk": 210,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 77,
+            "level": 3,
+            "municipality": "thisted"
+        }
+    },
+    {
+        "pk": 211,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 28,
+            "level": 0,
+            "municipality": "thyborøn-harboøre"
+        }
+    },
+    {
+        "pk": 212,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 75,
+            "level": 3,
+            "municipality": "thyholm"
+        }
+    },
+    {
+        "pk": 213,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 58,
+            "level": 2,
+            "municipality": "tinglev"
+        }
+    },
+    {
+        "pk": 214,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 70,
+            "level": 3,
+            "municipality": "tjele"
+        }
+    },
+    {
+        "pk": 215,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 92,
+            "level": 3,
+            "municipality": "tommerup"
+        }
+    },
+    {
+        "pk": 216,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 82,
+            "level": 3,
+            "municipality": "tornved"
+        }
+    },
+    {
+        "pk": 217,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 92,
+            "level": 3,
+            "municipality": "tranekær"
+        }
+    },
+    {
+        "pk": 218,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 37,
+            "level": 1,
+            "municipality": "trehøje"
+        }
+    },
+    {
+        "pk": 219,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 103,
+            "level": 3,
+            "municipality": "trundholm"
+        }
+    },
+    {
+        "pk": 220,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 92,
+            "level": 3,
+            "municipality": "tølløse"
+        }
+    },
+    {
+        "pk": 221,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 32,
+            "level": 1,
+            "municipality": "tønder"
+        }
+    },
+    {
+        "pk": 222,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 69,
+            "level": 3,
+            "municipality": "tørring-uldum"
+        }
+    },
+    {
+        "pk": 223,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 55,
+            "level": 2,
+            "municipality": "tårnby"
+        }
+    },
+    {
+        "pk": 224,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 39,
+            "level": 1,
+            "municipality": "ulfborg-vemb"
+        }
+    },
+    {
+        "pk": 225,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 62,
+            "level": 3,
+            "municipality": "ullerslev"
+        }
+    },
+    {
+        "pk": 226,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 51,
+            "level": 2,
+            "municipality": "vallensbæk"
+        }
+    },
+    {
+        "pk": 227,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 107,
+            "level": 4,
+            "municipality": "vallø"
+        }
+    },
+    {
+        "pk": 228,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 48,
+            "level": 2,
+            "municipality": "vamdrup"
+        }
+    },
+    {
+        "pk": 229,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 33,
+            "level": 1,
+            "municipality": "varde"
+        }
+    },
+    {
+        "pk": 230,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 66,
+            "level": 3,
+            "municipality": "vejen"
+        }
+    },
+    {
+        "pk": 231,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 66,
+            "level": 3,
+            "municipality": "vejle"
+        }
+    },
+    {
+        "pk": 232,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 73,
+            "level": 3,
+            "municipality": "viborg"
+        }
+    },
+    {
+        "pk": 233,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 35,
+            "level": 1,
+            "municipality": "videbæk"
+        }
+    },
+    {
+        "pk": 234,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 55,
+            "level": 1,
+            "municipality": "vinderup"
+        }
+    },
+    {
+        "pk": 235,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 54,
+            "level": 2,
+            "municipality": "vissenbjerg"
+        }
+    },
+    {
+        "pk": 236,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 85,
+            "level": 3,
+            "municipality": "vojens"
+        }
+    },
+    {
+        "pk": 237,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 77,
+            "level": 3,
+            "municipality": "vordingborg"
+        }
+    },
+    {
+        "pk": 238,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 60,
+            "level": 2,
+            "municipality": "værløse"
+        }
+    },
+    {
+        "pk": 239,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 99,
+            "level": 3,
+            "municipality": "ærøskøbing"
+        }
+    },
+    {
+        "pk": 240,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 41,
+            "level": 1,
+            "municipality": "ølgod"
+        }
+    },
+    {
+        "pk": 241,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 65,
+            "level": 3,
+            "municipality": "ølstykke"
+        }
+    },
+    {
+        "pk": 242,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 60,
+            "level": 3,
+            "municipality": "ørbæk"
+        }
+    },
+    {
+        "pk": 243,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 69,
+            "level": 3,
+            "municipality": "aabenraa"
+        }
+    },
+    {
+        "pk": 244,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 29,
+            "level": 0,
+            "municipality": "aabybro"
+        }
+    },
+    {
+        "pk": 245,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 110,
+            "level": 4,
+            "municipality": "aakirkeby"
+        }
+    },
+    {
+        "pk": 246,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 43,
+            "level": 1,
+            "municipality": "aalborg"
+        }
+    },
+    {
+        "pk": 247,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 62,
+            "level": 3,
+            "municipality": "aalestrup"
+        }
+    },
+    {
+        "pk": 248,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 73,
+            "level": 3,
+            "municipality": "århus"
+        }
+    },
+    {
+        "pk": 249,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 50,
+            "level": 2,
+            "municipality": "aars"
+        }
+    },
+    {
+        "pk": 250,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 90,
+            "level": 3,
+            "municipality": "årslev"
+        }
+    },
+    {
+        "pk": 251,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 74,
+            "level": 3,
+            "municipality": "aarup"
+        }
+    },
+    {
+        "pk": 252,
+        "model": "address.municipalityradonrisk",
+        "fields": {
+            "avglevel": 29,
+            "level": 0,
+            "municipality": "aaskov"
+        }
+    }
+]

@@ -1,0 +1,116 @@
+.slider-section {
+    .slider {
+        white-space: nowrap;
+        overflow: hidden;
+        font-size: 0;
+        margin-bottom: 0;
+    }
+    .slider-item {
+        height: 435px;
+        transition: height 0.3s;
+        display: inline-block;
+        width: 100%;
+        margin: 0 auto;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        cursor: grab;
+        &:focus {
+            outline: none;
+        }
+        &:active {
+            cursor: grabbing;
+        }
+    }
+    .slick-prev {
+        left: 0;
+        &::before {
+            content: url('../images/left.svg');
+        }
+    }
+    .slick-next {
+        right: 0;
+        &::before {
+            content: url('../images/right.svg');
+        }
+    }
+    .slick-prev, .slick-next {
+        position: absolute;
+        display: block;
+        height: 100%;
+        width: 50px;
+        line-height: 0px;
+        z-index: 1;
+        transition: opacity .3s;
+        &::before {
+            height: 48px;
+            width: 30px;
+            display: block;
+            margin: 0 auto;
+        }
+    }
+
+    .slick-dots-custom {
+        position: relative;
+        margin-top: 10px;
+        height: 19px;
+    }
+    .slick-dots-inner {
+        position: relative;
+        list-style: none;
+        display: block;
+        text-align: center;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+
+        li {
+            position: relative;
+            display: inline-block;
+            height: 2px;
+            width: 20px;
+            margin: 0 15px;
+            padding: 0;
+            cursor: pointer;
+
+            &.slick-active button{
+                background-color: $brand-info;
+            }
+        }
+
+        li button {
+            border: 0;
+            background-color: $gray-light;
+            display: block;
+            height: 2px;
+            width: 20px;
+            outline: none;
+            line-height: 0px;
+            font-size: 0px;
+            color: transparent;
+            cursor: pointer;
+            transition: background-color .5s;
+        }
+    }
+}
+
+@media (max-width: $dev-xs)  {
+    .slider-section {
+        .slick-arrow {
+            display: none!important;
+        }
+    }
+}
+
+@media (max-width: $dev-sm)  {
+    .slider-section {
+        .slider-item {
+            height: 36vw;
+        }
+
+        .slick-dots-custom {
+            display: none;
+        }
+    }
+}
+

@@ -1,0 +1,33 @@
+{% load i18n %}
+
+<div class="sorting-dropdown">
+    <form action="." method="get">
+        <span class="dropdown-label">
+            {% trans "Sort by" %}:
+        </span>
+        <span class="hidden">{{form.sort_by}}</span>
+        {% for v, t in form.sort_by.field.choices  %}
+            {% if v == form.sort_by.value %}
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ t }}</a>
+                {% if v == '-stockrecords__price_excl_tax' or v == 'title' %}
+                    <span class="rm-icon-arrow-dropdown-bottom arrows"></span>
+                {% endif %}
+                {% if v == 'stockrecords__price_excl_tax' or v == '-title' %}
+                    <span class="rm-icon-arrow-dropdown-top arrows"></span>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        {% if form.sort_by.value == None %}
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{form.sort_by.field.choices.0.1}}</a>
+        {% endif %}
+        <ul class="dropdown-menu" id="sort_selector">
+            {% for v, t in form.sort_by.field.choices  %}
+                {% if v != 'rating' %}
+                    <li class="{% if v == form.sort_by.value %}active{% endif %}">
+                        <a href="#" data-value="{{ v }}" data-name="sort_by">{{ t }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </form>
+</div>

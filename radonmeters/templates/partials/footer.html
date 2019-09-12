@@ -1,0 +1,82 @@
+{% load i18n static %}
+<footer class="footer container-fluid">
+
+    <div class="container">
+        <div class="sep">
+            <a href="/" class="footer-logo-link">
+                <img src="{% static 'images/radon_logo_inverse.svg' %}" alt="logo">
+            </a>
+            <p>{% trans "We sell radon meters for any purpose. Get started quickly with a radon measurement." %}</p>
+            <div class="third-part-logo ">
+                <img src="{% static 'images/dansk-radonforening-logo2.png' %}" alt="{% trans 'Medlem af Dansk Radonforening' %}">
+            </div>
+            <p>{% trans 'Medlem af Dansk Radonforening' %}</p>
+        </div>
+        <div class="sep">
+            <h3>{% trans 'PRODUCTS' %}</h3>
+            <ul class="link-list">
+                {% for product in footer_products %}
+                    <li>
+                        <a class="white-link" href="{{ product.get_absolute_url }}">{{ product.get_title }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="sep">
+            <h3>{% trans 'INFORMATION' %}</h3>
+            <ul class="link-list">
+                {% for flatpage in fp_legal %}
+                    <li>
+                        <a class="white-link" href="{{ flatpage.get_absolute_url }}">{{ flatpage.title }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="sep">
+            <h3>{% trans 'NEWSLETTER' %}</h3>
+            <p>{% trans 'Sign up for our newsletter' %}</p>
+            <form class="subscribe-form" method="POST" action="{% url 'common:create_subscribe_request' %}" novalidate="">
+                {% csrf_token %}
+                <input class="form-control input-sm" id="id_email" name="email" placeholder="{% trans 'Enter E-mail' %}" type="email">
+                <ul class="errorlist">
+                    <li class="invalid hidden">{% trans 'Enter valid e-mail' %}</li>
+                    <li class="blank hidden">{% trans 'This field may not be blank' %}</li>
+                </ul>
+                <button type="submit" class="btn btn-primary btn-sm">
+                    {% trans 'Confirm' %}
+                </button>
+            </form>
+        </div>
+
+        <div>
+            {% if config.SOCIAL_LINK_FACEBOOK or config.SOCIAL_LINK_TWITTER or config.SOCIAL_LINK_YOUTUBE %}
+                <h3>{% trans 'FOLLOW US' %}</h3>
+                <ul class="social-link-list">
+                    {% if config.SOCIAL_LINK_FACEBOOK %}
+                        <li>
+                            <a class="white-link fa fa-facebook fb" href="{{ config.SOCIAL_LINK_FACEBOOK }}" title="{% trans 'facebook' %}"></a>
+                        </li>
+                    {% endif %}
+                    {% if config.SOCIAL_LINK_YOUTUBE %}
+                        <li>
+                            <a class="white-link fa fa-youtube-play yt" href="{{ config.SOCIAL_LINK_YOUTUBE }}" title="{% trans 'youtube' %}"></a>
+                        </li>
+                    {% endif %}
+                    {% if config.SOCIAL_LINK_TWITTER %}
+                        <li>
+                            <a class="white-link fa fa-twitter tw" href="{{ config.SOCIAL_LINK_TWITTER }}" title="{% trans 'twitter' %}"></a>
+                        </li>
+                    {% endif %}
+                </ul>
+            {% endif %}
+        </div>
+
+    </div>
+
+        {# insert only on home, about_us #}
+        <!-- TrustBox widget - Carousel SEO OPTIMIZED -->
+        <div class="trustpilot-widget container" data-locale="da-DK" data-template-id="{{ config.SERVICES_TRUSTPILOT_TEMPLATE_ID }}" data-businessunit-id="{{ config.SERVICES_TRUSTPILOT_BUSINESSUNIT_ID }}" data-style-height="130px" data-style-width="100%" data-theme="dark" data-stars="1,2,3,4,5" {% if request.resolver_match.url_name == 'home' or request.resolver_match.url_name == 'fp__about_us' %}data-schema-type="Organization"{% endif %}>
+            <a href="{{ config.DEFAULT_SERVICES_TRUSTPILOT_LINK }}" target="_blank">Trustpilot</a>
+        </div>
+        <!-- End TrustBox widget -->
+</footer>

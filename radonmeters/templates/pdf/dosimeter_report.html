@@ -1,0 +1,228 @@
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% trans 'Dosimeter report' %}</title>
+    <style>
+        @font-face {
+            font-family: 'HelveticaNeue';
+            font-style: normal;
+            font-weight: 400;
+        }
+
+        html, body, div, span, applet, object, iframe,
+        h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+        a, abbr, acronym, address, big, cite, code,
+        del, dfn, em, img, ins, kbd, q, s, samp,
+        small, strike, strong, sub, sup, tt, var,
+        b, u, i, center,
+        dl, dt, dd, ol, ul, li,
+        fieldset, form, label, legend,
+        table, caption, tbody, tfoot, thead, tr, th, td,
+        article, aside, canvas, details, embed,
+        figure, figcaption, footer, header, hgroup,
+        menu, nav, output, ruby, section, summary,
+        time, mark, audio, video {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+            vertical-align: baseline;
+            box-sizing: border-box;
+            font-family: 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            color: #000000;
+            word-wrap: break-word;
+            word-break: break-word;
+        }
+
+        h1, h2, h3, h4, h5, p {
+            color: #000000;
+        }
+
+        .align-center {
+            text-align: center;
+        }
+        .align-left {
+            text-align: left;
+        }
+        .align-right {
+            text-align: right;
+        }
+
+        @page prefix1{
+            margin: 0;
+        }
+
+        @page prefix2 {
+          margin: 0;
+        }
+
+
+
+        body {
+            color: #000000;
+        }
+
+        hr {
+            margin: 30px 0 40px;
+            border: 0;
+            border-top: 1px solid #DEE3EB;
+            box-sizing: content-box;
+            height: 0;
+        }
+
+        table {
+            text-align: left;
+            border-collapse: collapse;
+            border-spacing: 0;
+            width: 100%;
+            table-layout: fixed;
+            line-height: 1.5em;
+        }
+
+        table thead tr {
+            border: 1px solid #000000;
+        }
+
+        table {
+            border-bottom: 1px solid #000000;
+        }
+
+        table th,
+        table td {
+            padding: 2px 5px;
+            border-left: 1px solid #000000;
+            border-right: 1px solid #000000;
+        }
+
+
+        thead th {
+            font-weight: bold;
+            background-color: #c4c1c1;
+            border: 1px solid #000000;
+            font-size: 12px;
+        }
+
+        .even {
+            background-color: rgb(247, 243, 241);
+        }
+
+        .root {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .logo img {
+            width: 100%;
+            margin: 0 auto 15px;
+        }
+
+        .seller-data div {
+            width: 50%;
+            float: left;
+        }
+
+        .customer-data {
+            margin-bottom: 30px;
+        }
+
+        .customer-data > div {
+            width: 50%;
+            float: left;
+        }
+
+
+        .clearfix::after {
+            content: '';
+            clear: both;
+            display: block;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        h1 {
+            font-size: 26px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        p {
+            margin-bottom: 15px;
+            line-height: 1.5em;
+        }
+
+        .margin-b-30 {
+            margin-bottom: 30px
+        }
+
+        .s-12 {
+            font-size: 12px;
+        }
+
+        .s-14 {
+            font-size: 14px;
+        }
+
+        .ital {
+            font-style: italic;
+        }
+
+        .b {
+            font-weight: bold;
+        }
+
+        .pull-right {
+            float: right;
+        }
+    </style>
+</head>
+<body>
+<article id="prefix1">
+    <div class="root">
+        <div class="logo align-center">
+            <img src="data:image/png;base64, {{ logo }}" alt="">
+        </div>
+        <h1 class="align-center margin-b-30">{% trans "Dosimeter Report (SN withprefix 1)" %}</h1>
+        <div class="customer-data clearfix">
+            <div class="l-side">
+                <p class="b" style="margin-bottom: 75px;">{% trans "Serial number" %}: {{ serial_number }} </p>
+                
+                <div><img src="data:image/png;base64, {{ datamatrix1 }}" alt=""></div>
+             
+            </div>
+
+        </div>
+     
+    </div>        
+</article>
+<p style="page-break-before: always"></p>
+<article id="prefix2">
+    <div class="root">
+        <div class="logo align-center">
+            <img src="data:image/png;base64, {{ logo }}" alt="">
+        </div>
+        <h1 class="align-center margin-b-30">{% trans "Dosimeter Report (SN with prefix 2)" %}</h1>
+        <div class="customer-data clearfix">
+            <div class="l-side">
+                <p class="b" style="margin-bottom: 75px;">{% trans "Serial number" %}: {{ serial_number }} </p>
+                
+                <div><img src="data:image/png;base64, {{ datamatrix2 }}" alt=""></div>
+             
+            </div>
+
+        </div>
+     
+    </div>      
+</article>
+</body>
+</html>
+

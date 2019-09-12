@@ -1,0 +1,111 @@
+{% extends "checkout/checkout.html" %}
+{% load currency_filters %}
+{% load thumbnail %}
+{% load i18n %}
+{% load staticfiles %}
+
+
+{% load purchase_info_tags %}
+
+
+{% block title %}
+    {% blocktrans with number=order.number %}
+        Order {{ number }}: confirmation
+    {% endblocktrans %} | {{ block.super }}
+{% endblock title %}
+
+{% block checkout_nav %}
+    {% include 'checkout/nav.html' with step=5 %}
+{% endblock %}
+
+{% block checkout_title %}
+    {% blocktrans with number=order.number %}
+        Order {{ number }}: confirmation
+    {% endblocktrans %}
+{% endblock %}
+
+{% block content_wrapper %}
+<div class="container">
+    {% if error %}
+        <div class="alert alert-danger">
+            {{ error }}
+        </div>
+    {% endif %}
+    <div class="row order-content-page thank-you-side">
+        <div class="col-xs-12 col-md-8 main">
+            <h1>{% trans 'THANK YOU FOR YOUR PURCHASE!' %}</h1>
+            {% if order.guest_email %}
+                <p><b>
+                    {% trans 'A confirmation was sent to' %} {{ order.guest_email }}
+                </b></p>
+            {% endif %}
+            <p class="order-number"><b>
+                {% trans 'Your order ID:' %} {{ order.number }}
+            </b></p>
+            <a href="{{ homepage_url }}" class="btn btn-primary btn-lg">{% trans "Continue shopping" %}</a>
+        </div>
+        <div class="col-xs-12 col-md-4 aside-preview">
+
+            <div class="aside-inner-wrapper">
+
+                {% for line in order.lines.all %}
+                {% purchase_info_for_line request line as session %}
+                    <div class="basket-item">
+                        <div class="item-main-info">
+                            <div class="item-image">
+                                {% with image=line.product.primary_image %}
+                                    {% if not line.product.primary_image.is_missing %}
+                                            {% thumbnail image.original "120x120" crop='center' upscale=True as thumb %}
+                                                <a href="{{ line.product.get_absolute_url }}">
+                                                    <img class="thumbnail" src="{{ thumb.url }}" alt="{{ line.product.get_title }}"/>
+                                                </a>
+                                            {% endthumbnail %}
+                                    {% else %}
+                                        <a href="{{ line.product.get_absolute_url }}">
+                                            <img class="thumbnail" src="{% static 'images/product_empty_thumb.png' %}" alt="{{ line.product.get_title }}"/>
+                                        </a>
+                                    {% endif %}
+                                {% endwith %}
+                            </div>
+
+                            <div class="item-detail ">
+                                <h3>
+                                    {% if line.product.title %}
+                                        {{ line.product.title }}
+                                    {% else %}
+                                        {% trans 'No title' %}
+                                    {% endif %}
+                                </h3>
+                                <p>
+                                    {% if line.product.lead %}
+                                        {{ line.product.lead|striptags|truncatechars:95 }}
+                                    {% elif line.product.description %}
+                                        {{line.product.description|safe|striptags|truncatechars:95}}
+                                    {% else %}
+                                        {% trans 'No description' %}
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <hr>
+                {% with order=order %}
+                {% include 'checkout/include/order_totals.html' %}
+                {% endwith %}
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+</div>
+{% endblock content_wrapper %}
+
+{% block tracking %}
+    {% if send_analytics_event %}
+        {% include "partials/google_analytics_transaction.html" %}
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,117 @@
+{% extends "layout.html" %}
+{% load i18n static %}
+
+{% block title %}
+    {% trans 'Sign in/sign up' %} | {{ block.super }}
+{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumb-container">
+    <ul class="breadcrumb">
+        <li>
+            <a href="{{ homepage_url }}">{% trans 'Home' %}</a>
+        </li>
+        <li class="active">{% trans 'Sign in/sign up' %}</li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block alert_messages %}
+    {{ block.super }}
+    {% if login_form.is_bound and not login_form.is_valid %}
+        <div class="alert alert-danger fade">
+            <a class="rm-icon-cross close" data-dismiss="alert" href="#"></a>
+            <div class="alertinner">
+                <strong>{% trans "Oops! We found some errors" %}</strong> - {% trans "please check the error messages and try again" %}
+            </div>
+        </div>
+    {% endif %}
+
+    {% if login_form.non_field_errors %}
+        {% for error in login_form.non_field_errors %}
+            <div class="alert alert-danger fade">
+                <a class="rm-icon-cross close" data-dismiss="alert" href="#"></a>
+                <div class="alertinner">
+                    <i class="icon-exclamation-sign"></i> {{ error }}
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if registration_form.is_bound and not registration_form.is_valid %}
+        <div class="alert alert-danger fade">
+            <a class="rm-icon-cross close" data-dismiss="alert" href="#"></a>
+            <div class="alertinner">
+                <strong>{% trans "Oops! We found some errors" %}</strong> - {% trans "please check the error messages and try again" %}
+            </div>
+        </div>
+    {% endif %}
+
+    {% if registration_form.non_field_errors %}
+        {% for error in registration_form.non_field_errors %}
+            <div class="alert alert-danger fade">
+                <a class="rm-icon-cross close" data-dismiss="alert" href="#"></a>
+                <div class="alertinner">
+                    <i class="icon-exclamation-sign"></i> {{ error }}
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
+
+{% block content_wrapper %}
+    <div class="container register-page login-logout">
+        <div class="tab visible-xs">
+            <a class="section-tab active" href="#sign_in">
+                {% trans 'Sign in' %}
+            </a>
+            <a class="section-tab " href="#sign_up">
+                {% trans 'Sign up' %}
+            </a>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 login_form" id="sign_in">
+                <form id="login_form" class="form form-vertical" action="{{ request.get_full_path }}" method="post" novalidate="">
+                    <h2 class="text-center hidden-xs">{% trans 'Sign in' %}</h2>
+                    {% csrf_token %}
+
+                    {% for field in login_form %}
+                        {% include 'partials/form_field.html' with field=field style=style %}
+                        {{field.errors}}
+                    {% endfor %}
+                    <input type="hidden" name="login_submit" value="Log In">
+                    <p class="text-center">
+                        <a href="{% url 'password-reset' %}" class="forgot-link">{% trans "I've forgotten my password" %}</a>
+                    </p>
+                    <button name="login_submit" type="submit" value="Log In" class="btn btn-lg btn-primary" data-loading-text="{% trans "Logging in..." %}">{% trans 'Login' %}</button>
+                </form>
+            </div>
+            <div class="col-xs-12 col-sm-6 register_form" id="sign_up">
+                <form id="register_form" class="form form-vertical" action="{{ request.get_full_path }}" method="post" novalidate="">
+                    <h2 class="text-center hidden-xs">{% trans 'Sign up' %}</h2>
+                    {% csrf_token %}
+
+                    {% for field in registration_form %}
+                        {% include 'partials/form_field.html' with field=field style=style %}
+                    {% endfor %}
+                    <input type="hidden" name="registration_submit" value="Register">
+                    <button name="registration_submit" type="submit" value="Register" class="btn btn-lg btn-primary" data-loading-text="{% trans 'Registering...' %}">{% trans 'Register' %}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock content_wrapper %}
+
+
+{% block extrascripts %}
+    <script>
+        var _radonOptions = {
+            'requiredError': "<ul class=\"errorlist\"><li>{% trans 'This field is required.' %}</li></ul>",
+            'invalidEmailError': "<ul class=\"errorlist\"><li>{% trans 'Enter a valid email address.' %}</li></ul>",
+        };
+    </script>
+    <script src="{% static 'js/pages/registration.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends 'base_email.html' %}
+{% load i18n %}
+{% block body %}
+    <h1>{% trans "New Contact Request." %}</h1>
+    <p>{% trans "Name:" %} {{ name }}</p>
+    <p>{% trans "E-mail:" %} {{ email }}</p>
+    <p>{% trans "See in admin:" %} {{ admin_url }}</p>
+    <p>{% trans "Message:" %} {{ message }}</p>
+{% endblock %}

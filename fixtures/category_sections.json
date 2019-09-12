@@ -1,0 +1,28 @@
+[
+    {
+        "model": "common.categorysection",
+        "pk": 1,
+        "fields": {
+            "slug": "section-1",
+            "title": "Section 1",
+            "icon": "",
+            "image": "",
+            "content": "<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae cumque doloremque explicabo, quasi qui soluta veritatis? Animi cumque, distinctio illo illum iure libero odio officiis perferendis perspiciatis, saepe temporibus velit.</p>",
+            "position": 0,
+            "category_id": 1
+        }
+    },
+    {
+        "model": "common.categorysection",
+        "pk": 2,
+        "fields": {
+            "slug": "section-2",
+            "title": "Section 2",
+            "icon": "",
+            "image": "",
+            "content": "<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae cumque doloremque explicabo, quasi qui soluta veritatis? Animi cumque, distinctio illo illum iure libero odio officiis perferendis perspiciatis, saepe temporibus velit.</p>",
+            "position": 1,
+            "category_id": 1
+        }
+    }
+]

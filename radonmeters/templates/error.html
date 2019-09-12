@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block layout %}
+<div class="container text-center error-page">
+        <h1>{% block error_heading %}{% trans 'Sorry!' %}{% endblock %}</h1>
+        {% block error_message %}{% endblock %}
+        <p>
+            <a class="btn btn-primary btn-lg btn-block" href="{{ homepage_url }}">{% trans "Back to homepage" %}</a>
+        </p>
+</div>
+{% endblock %}

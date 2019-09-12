@@ -1,0 +1,339 @@
+{% load currency_filters %}
+{% load i18n %}
+{% load l10n %}
+{% load static %}
+
+<tr style="background-color: #f9f9f9" class="order-row" data-target="dosimeters-row-{{ order.id }}" data-url="{% url 'api:orders:order-detail' pk=order.id %}">
+  <td><input type="checkbox" name="selected_order" class="selected_order" value="{{ order.id }}" data-number="{{ order.number }}" /></td>
+  
+  {% if is_superuser %}
+  <td><a href="{% url 'dashboard:order-detail' number=order.number %}">{{ order.number }}</a></td>
+  {% else %}
+  <td>{{ order.number }}</td>
+  {% endif %}
+
+  {% if is_superuser %}
+  <td>{{ order.total_incl_tax|currency:order.currency }}</td>
+  {% endif %}
+
+  {# <td>{{ order.num_items }} {% if order.dosimeters_line %}({{order.dosimeters_line.quantity}} {% trans "Dosimeters" %}){% endif %}</td>#}
+  <td class="order-status">{{ order.status|default:"-" }}</td>
+  <td style="max-width: 100px; overflow: hidden">
+    {% if order.guest_email %}
+    {{ order.guest_email }}
+    {% elif order.user %}
+    <a style="word-wrap: break-word;" href="{% url 'dashboard:user-detail' pk=order.user.id %}">
+      {{ order.user.get_full_name|default:"-" }}
+    </a>
+    {% else %}
+    &lt;{% trans "Deleted" %}&gt;
+    {% endif %}
+  </td>
+
+  {% if is_superuser %}
+  <td>
+    {% if order.owner_id %}
+    <a href="{% url 'dashboard:owner-detail' pk=order.owner_id %}">{{ order.owner.get_full_name|default:"-" }}</a>
+    {% else %}
+    -
+    {% endif %}
+  </td>
+  {% endif %}
+
+  <td>{{ order.shipping_address|default:"-" }}</td>
+  <td>{{ order.billing_address|default:"-" }}</td>
+  <td>{{ order.date_placed|date:'d-m-Y P' }}</td>
+  <td>{{ order.partner_order_id|default:"-" }}</td>
+  {% if is_superuser %}
+  <td>
+    <input
+    {% if not order.external_report_pdf %}disabled{% endif %}
+    aria-label="{% trans 'Use external report' %}"
+    title="{% trans 'Use external report' %}"
+    type="checkbox"
+    name="use_external_report"
+    class="toggle-external-report"
+    id="use_external_report-{{order.number}}"
+    data-order-id="{{ order.number }}"
+    data-url="{% url 'api:orders:order-change-use-external-report' pk=order.pk %}"
+    {% if order.use_external_report %}checked=""{% endif %}>
+  </td>
+  {% endif %}
+  <th  style="max-width: 110px;">
+    <div class="btn-group btn-block">
+      <button type="button" class="btn btn-default dropdown-toggle btn-block" data-toggle="dropdown">
+        <span>{% trans "Download" %}</span>
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu pull-right" role="menu">
+        {% if is_superuser %}
+        <li role="presentation" style="padding: 3px 20px">
+          <button type="button" data-type="single" data-order-id="{{ order.number }}" data-object="invoice" class="btn btn-default js-order-download btn-sm btn-block"
+            name="action" value="download_selected_orders" style="margin: 2px;">
+            {% trans "Invoice" %}
+          </button>
+        </li>
+        {% endif %}
+        <li role="presentation" style="padding: 3px 20px">
+          <button type="button" data-type="single" data-order-id="{{ order.number }}" data-object="report" class="btn btn-default js-order-download btn-sm btn-block"
+            name="action" value="download_selected_orders" style="margin: 2px;">
+            {% trans "Report" %}
+          </button>
+        </li>
+        <li role="presentation" style="padding: 3px 20px">
+          <button type="button" data-type="single" data-order-id="{{ order.number }}" class="btn btn-default js-order-download btn-sm btn-block"
+            data-object="instruction" name="action" value="download_selected_orders" style="margin: 2px;">
+            {% trans "Instruction" %}
+          </button>
+        </li>
+        <li role="presentation" style="padding: 3px 20px" class="js-create-label {% if not order.shipment %}hide{% endif %}">
+          <button type="button" data-type="single" data-order-id="{{ order.number }}" data-object="label" value="download_selected_orders"
+            class="btn btn-default js-order-download btn-sm btn-block"
+            data-loading-text="{% trans 'Loading...' %}" style="margin: 2px 0;">
+            {% trans "Label" %}
+          </button>
+        </li>
+        <li role="presentation" style="padding: 3px 20px" class="js-create-label {% if not order.shipment_return %}hide{% endif %}">
+          <button type="button" data-type="single" data-order-id="{{ order.number }}" data-object="return_label" value="download_selected_orders"
+            class="btn btn-default js-order-download btn-sm btn-block"
+            data-loading-text="{% trans 'Loading...' %}" style="margin: 2px 0;">
+            {% trans "Return Label" %}
+          </button>
+        </li>
+        <li role="presentation" style="padding: 3px 20px" class="js-create-label {% if not order.shipment or not order.shipment_return %}hide{% endif %}">
+          <button type="button" data-type="single" data-order-id="{{ order.number }}" data-object="return_composite_label"
+                  class="btn btn-default js-order-download btn-sm btn-block"
+                  style="margin: 2px 0;">
+            {% trans "Composite Label" %}
+          </button>
+        </li>
+      </ul>
+    </div>
+    <div class="btn-group btn-block">
+      <button type="button" class="btn btn-default dropdown-toggle btn-block" data-toggle="dropdown">
+        <span>{% trans "Send" %}</span>
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu pull-right" role="menu">
+        <li role="presentation" style="padding: 3px 20px">
+          <button type="button" data-type="single" data-order-id="{{ order.number }}" class="btn btn-default js-order-send btn-sm btn-block"
+            data-object="instruction" name="action" data-loading-text="{% trans 'Sending...' %}" style="margin: 2px;">
+            {% trans "Instruction" %}
+          </button>
+        </li>
+        {% if is_superuser %}
+        <li role="presentation" style="padding: 3px 20px">
+          <button type="button" data-type="single" data-order-id="{{ order.number }}" data-object="invoice" class="btn btn-default js-order-send btn-sm btn-block"
+                  name="action" style="margin: 2px;">
+            {% trans "Invoice" %}
+          </button>
+        </li>
+        {% endif %}
+        <li role="presentation" style="padding: 3px 20px">
+          <button type="button" data-type="single" data-url="{% url 'api:orders:order-send-report' pk=order.pk %}" data-order-id="{{ order.number }}" data-object="report" class="btn btn-default js-order-send btn-sm btn-block"
+                  name="action"  style="margin: 2px;">
+            {% trans "Report" %}
+          </button>
+        </li>
+        <li role="presentation" style="padding: 3px 20px" class="js-create-label {% if not order.shipment %}hide{% endif %}">
+          <button type="button" data-type="single" data-order-id="{{ order.number }}" data-object="label"
+                  class="btn btn-default js-order-send btn-sm btn-block"
+                  style="margin: 2px 0;">
+            {% trans "Label" %}
+          </button>
+        </li>
+        <li role="presentation" style="padding: 3px 20px" class="js-create-label {% if not order.shipment_return %}hide{% endif %}">
+          <button type="button" data-type="single" data-order-id="{{ order.number }}" data-object="return_label"
+                  class="btn btn-default js-order-send btn-sm btn-block"
+                  style="margin: 2px 0;">
+            {% trans "Return Label" %}
+          </button>
+        </li>
+      </ul>
+    </div>
+    <div class="btn-group btn-block">
+      <button type="button" class="btn btn-default dropdown-toggle btn-block" data-toggle="dropdown">
+        <span>{% trans "Print" %}</span>
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu pull-right" role="menu">
+        {% if is_superuser %}
+        <li role="presentation" style="padding: 3px 20px">
+          <button type="button" data-type="single" data-order-id="{{ order.number }}" data-object="invoice" class="btn btn-default js-order-print btn-sm btn-block"
+                  name="action" value="download_selected_orders" style="margin: 2px;">
+            {% trans "Invoice" %}
+          </button>
+        </li>
+        {% endif %}
+        <li role="presentation" style="padding: 3px 20px">
+          <button type="button" data-type="single" data-order-id="{{ order.number }}" class="btn btn-default js-order-print btn-sm btn-block"
+                  data-object="instruction" name="action" style="margin: 2px;">
+            {% trans "Instruction" %}
+          </button>
+        </li>
+        <li role="presentation" style="padding: 3px 20px">
+          <button type="button" data-type="single" data-order-id="{{ order.number }}" data-object="report" class="btn btn-default js-order-print btn-sm btn-block"
+                  name="action" style="margin: 2px;">
+            {% trans "Report" %}
+          </button>
+        </li>
+        <li role="presentation" style="padding: 3px 20px" class="js-create-label {% if not order.shipment %}hide{% endif %}">
+          <button type="button" data-type="single" data-order-id="{{ order.number }}" data-object="label"
+                  class="btn btn-default js-order-print btn-sm btn-block"
+                  style="margin: 2px 0;">
+            {% trans "Label" %}
+          </button>
+        </li>
+        <li role="presentation" style="padding: 3px 20px" class="js-create-label {% if not order.shipment_return %}hide{% endif %}">
+          <button type="button" data-type="single" data-order-id="{{ order.number }}" data-object="return_label"
+                  class="btn btn-default js-order-print btn-sm btn-block"
+                  style="margin: 2px 0;">
+            {% trans "Return Label" %}
+          </button>
+        </li>
+        <li role="presentation" style="padding: 3px 20px" class="js-create-label {% if not order.shipment or not order.shipment_return %}hide{% endif %}">
+          <button type="button" data-type="single" data-order-id="{{ order.number }}" data-object="return_composite_label"
+                  class="btn btn-default js-order-print btn-sm btn-block"
+                  style="margin: 2px 0;">
+            {% trans "Composite Label" %}
+          </button>
+        </li>
+      </ul>
+    </div>
+    {% if is_superuser %}
+    <div class="btn-group btn-block">
+      <button type="button" class="btn btn-default dropdown-toggle btn-block" data-toggle="dropdown">
+        <span>{% trans "Upload" %}</span>
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu pull-right" role="menu">
+        <li role="presentation" style="padding: 3px 20px">
+          <input
+              type="button"
+              style="margin: 2px 0;"
+              value="{% trans 'External report' %}"
+              data-order-id="{{ order.number }}"
+              class="btn btn-default js-order-upload btn-sm btn-block"
+          />
+          <input type="file"
+                 name="report_file"
+                 class="upload-external-report-file"
+                 data-order-id="{{ order.number }}"
+                 data-type="single"
+                 data-url="{% url 'api:orders:order-upload-external-report' pk=order.pk %}"
+                 data-order-id="{{ order.number }}"
+                 data-object="report"
+                 style="display:none" />
+        </li>
+      </ul>
+    </div>
+    {% endif %}
+  </th>
+  <td  style="max-width: 170px; word-wrap: break-word;">
+    {% if order.shipment %}
+      {% if order.shipment.current_status %}
+        {% with 'images/shipment_icons/'|add:order.shipment.current_status|add:'.png' as image_static %}
+          <img src="{% static image_static %}" alt="Shipment status: {{ order.shipment.current_status }}" title="{{ order.shipment.current_status_text }} — {{ order.shipment.current_status_registered_at }}{% if order.shipment.current_status == 'AVAILABLE_FOR_DELIVERY' %} | {% trans "Days to pick up:" %} {{ order.shipment.days_to_pick_up }}{% endif %}"></img>
+        {% endwith %}
+      {% else %}
+        <img src="{% static 'images/shipment_icons/UNKNOWN.png' %}" alt="Shipment status: unknown" title="Shipment status is unknown"></img>
+      {% endif %}
+      <a class="btn btn-default" style="margin: 2px;" href="{% url 'dashboard:shipment-update' order.shipment.id %}">{% trans "View Shipment" %}</a><br />
+    {% else %}
+      <!-- <button class="btn btn-primary btn-block js-create-shipment" data-order-id="{{order.id}}" data-url="{% url 'dashboard:shipment-create' %}"
+        data-loading-text="{% trans 'Loading...' %}" type="button">
+        {% trans "Create Shipment" %}
+      </button> -->
+    {% endif %}
+    {% if order.shipment_return %}
+{#      {% if order.shipment_return.current_status %}#}
+{#        {% with 'images/shipment_icons/'|add:order.shipment_return.current_status|add:'.png' as image_static %}#}
+{#          <img src="{% static image_static %}" alt="Shipment status: {{ order.shipment_return.current_status }}" title="{{ order.shipment_return.current_status_text }} — {{ order.shipment_return.current_status_registered_at }}{% if order.shipment_return.current_status == 'AVAILABLE_FOR_DELIVERY' %} | {% trans "Days to pick up:" %} {{ order.shipment_return.days_to_pick_up }}{% endif %}"></img>#}
+{#        {% endwith %}#}
+{#      {% else %}#}
+{#        <img src="{% static 'images/shipment_icons/UNKNOWN.png' %}" alt="Shipment status: unknown" title="Shipment status is unknown"></img>#}
+{#      {% endif %}#}
+      <a class="btn btn-default" style="margin: 2px;" href="{% url 'dashboard:shipment-return-update' order.shipment_return.id %}">{% trans "View Return Shipment" %}</a><br />
+    {% else %}
+      <!-- <button class="btn btn-primary btn-block js-create-shipment" data-order-id="{{order.id}}" data-url="{% url 'dashboard:shipment-return-create' %}"
+        data-loading-text="{% trans 'Loading...' %}" type="button" style="padding: 6px">
+        {% trans "Create Return Shipment" %}
+      </button> -->
+    {% endif %}
+  </td>
+  <td style="max-width: 110px; word-wrap: break-word;">
+    {% if is_superuser %}
+    <button {% if order.is_approved %}style="display: none;" {% endif %} type="button" class="btn btn-primary approve-dosimeter"
+      data-id="{{order.pk}}" data-url="{% url 'api:orders:order-approve' pk=order.pk %}"
+    >
+      {% trans 'Approve' %}
+    </button>
+    <br /><br />
+    {% endif %}
+
+    <div>
+      {% trans "Approved by" %}: <span class="user-who-approved"><b>
+          {% if order.is_approved %}
+          {{order.user_who_approved|default:'-'}}
+          {% else %}
+          -
+          {% endif %}
+          {% if order.not_weird %}
+          <a href="#" title="{{order.not_weird_explanation}}">*</a>
+          {% endif %}
+        </b></span>
+    </div>
+    <div class="js-approved-at {% if not order.is_approved %}hidden{% else %}{% if not order.approved_date %}hidden{% endif %}{% endif %}">
+      <br />
+      {% trans "Approved at" %}: <span>
+      <b>
+          {% if order.is_approved %}
+          {{order.approved_date|date:'d-m-Y'}}
+          {% endif %}
+        </b></span>
+    </div>
+  </td>
+  <td>
+    <div>
+      {% trans "Reported by partner" %}: {% if order.is_reported_by_partner %}
+      <i class="fa fa-check text-success"></i>
+      {% else %}
+      <i class="fa fa-times"></i>
+      {% endif %}
+    </div><br />
+    <button {% if not order.is_approved %}disabled{% endif %} type="button" class="btn btn-primary js-send-report"
+      data-id="{{order.pk}}" data-url="{% url 'api:orders:order-send-report' pk=order.pk %}">{% trans 'Send' %}
+    </button>
+    <br />
+    <div>
+      <small class="text-success js-is-report-sent" id="{% url 'api:orders:order-send-report' pk=order.pk %}">
+        {% if order.is_report_sent %}{% trans 'The report was sent' %} {{ order.sent_date|date:'d-m-Y'|default:'' }}{% endif %}
+      </small>
+    </div>
+  </td>
+
+
+
+  {% if is_superuser %}
+  <td>
+    <input
+    disabled
+    aria-label="{{ order.is_exists_accounting }}"
+    title="{{ order.is_exists_accounting }}"
+    type="checkbox"
+    {% if order.is_exists_accounting %}checked=""{% endif %}>
+  </td>
+  <td>
+    <input
+    disabled
+    aria-label="{{ order.is_paid }}"
+    title="{{ order.is_paid }}"
+    type="checkbox"
+    {% if order.is_paid %}checked=""{% endif %}>
+  </td>
+  <td style="min-width: 70px">
+    {{ order.date_payment }}
+  </td>
+  {% endif %}
+    
+  </tr>

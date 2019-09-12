@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% load i18n static %}
+
+{% block extrahead %}
+    {{ block.super }}
+
+    <meta name="robots" content="NONE,NOARCHIVE">
+    <link rel="stylesheet" href={% static 'root/css/project.css' %}>
+{% endblock %}

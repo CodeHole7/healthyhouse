@@ -1,0 +1,79 @@
+{% load i18n %}
+
+<div class="nav-checkout">
+    <div class="container">
+        <ul class="nav navbar-nav ">
+            {% spaceless %}
+                <li class="step1 {% if step == 1 %}current active{% else %}{% if step == 2 %}previous{% else %}{% if step > 1 %}visited active{% else %}disabled{% endif %}{% endif %}{% endif %} ">
+                    {% if step == 2 or step == 3 or step == 4 %}
+                        <a href="{% url 'checkout:shipping-address' %}">
+                            <span class="navbar-text">
+                                {% trans "1. Shipping address" %}
+                            </span>
+                        </a>
+                    {% else %}
+                        <span class="navbar-text">
+                            {%  trans "1. Shipping address" %}
+                        </span>
+                    {% endif %}
+                    <div class="triangle-right"></div>
+                </li>
+
+                <!-- <li class="step2 {% if step == 2 %}active{% else %}{% if step == 3 %}previous{% else %}{% if step > 2 %}visited{% else %}disabled{% endif %}{% endif %}{% endif %} ">
+                    {% if step == 3 or step == 4 %}
+                        <a href="{% url 'checkout:shipping-method' %}">
+                            <span class="visible-inline-sm icon-chevron-right"></span>
+                            <span>
+                                {% trans "2. Shipping method" %}
+                            </span>
+                        </a>
+                    {% else %}
+                        <span class="navbar-text">
+                            {%  trans "2. Shipping method" %}
+                        </span>
+                    {% endif %}
+                </li> -->
+
+                <li class="step2 {% if step == 3 %}current active{% else %}{% if step == 4 %}previous{% else %}{% if step > 3 %}visited  active{% else %}disabled{% endif %}{% endif %}{% endif %} ">
+                    {% if step == 4 %}
+                        <a href="{% url 'checkout:payment-details' %}">
+                            <span class="navbar-text">
+                                {% trans "2. Payment" %}
+                            </span>
+                        </a>
+                    {% else %}
+                        <span class="navbar-text">
+                            {%  trans "2. Payment" %}
+                        </span>
+                    {% endif %}
+                    <div class="triangle-right"></div>
+                </li>
+
+                <li class="step3 {% if step == 4 or step == 5 %}current active{% else %}disabled{% endif %} ">
+                    {% if payment_method and step != 4 and step != 5 %}
+                        <a href="{% url 'checkout:preview' %}">
+                            <span class="navbar-text">
+                                {% trans "3. Place order" %}
+                            </span>
+                        </a>
+                    {% else %}
+                    <span class="navbar-text">
+                        {% trans "3. Place order" %}
+                    </span>
+                    {% endif %}
+                    <div class="triangle-right"></div>
+                </li>
+
+                <!-- <li class="step5 {% if step == 5 %}active{% else %}disabled{% endif %} ">
+                    <span class="navbar-text">
+                        {% trans "5. Confirmation" %}
+                    </span>
+                </li> -->
+
+
+
+
+            {% endspaceless %}
+        </ul><!-- /navbar-inner -->
+    </div>
+</div><!-- /navbar -->

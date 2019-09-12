@@ -1,0 +1,195 @@
+{% load i18n %}
+{% load zinnia %}
+{% load thumbnail %}
+{% load staticfiles %}
+
+
+<article id="entry-{{ object.pk }}" class="clearfix {% if not details %}article-item-wrapper{% endif %}">
+
+    <div class="blog-item row {% if details %}odd blog-details-page{% else %}{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}{% endif %}">
+        {% if details %}
+            {% block entry-lead %}
+                {% if not continue_reading and object.lead %}
+                    <h3 class="entry-summary text-center" itemprop="headline">
+                        {{ object.html_lead|safe }}
+                    </h3>
+                {% endif %}
+            {% endblock entry-lead %}
+        {% endif %}
+        <div class="col-xs-12 {% if not details %}col-sm-6{% endif %} with-date">
+            <div class="blog-date">
+                <span datetime="{{ object.publication_date|date:"c" }}"
+                    itemprop="datePublished">{{ object.publication_date|date:"j F Y" }}</span>
+            </div>
+
+            {% if object.image %}
+            <div class="img-wrapper" itemprop="image" itemscope itemtype="http://schema.org/ImageObject">
+            {% with image=object.image %}
+                {% if details %}
+                    {% thumbnail object.image "105x70" crop='center' upscale=False as lowres %}
+                    {% thumbnail object.image "528x350" crop='center' upscale=True as thumb %}
+                        <img class="b-lazy" src="{{ lowres.url }}" alt="{{ object.image_caption|default:object.title }}" itemprop="contentUrl" data-src="{{ thumb.url }}"  />
+                        <noscript>
+                            <img src="{{ thumb.url }}" alt="{{ object.image_caption|default:object.title }}" itemprop="contentUrl" />
+                        </noscript>
+                    {% endthumbnail %}
+                    {% endthumbnail %}
+                {% else %}
+                    {% thumbnail object.image "105x70" crop='center' upscale=False as lowres %}
+                    {% thumbnail object.image "528x350" crop='center' upscale=True as thumb %}
+                        <a href="{{ object.get_absolute_url }}" title="{{ object.title }}">
+                            <img class="b-lazy" src="{{ lowres.url }}" alt="{{ object.image_caption|default:object.title }}" itemprop="contentUrl" data-src="{{ thumb.url }}" />
+                        </a>
+                        <noscript>
+                            <img src="{{ thumb.url }}" alt="{{ object.image_caption|default:object.title }}" itemprop="contentUrl" />
+                        </noscript>
+                    {% endthumbnail %}
+                    {% endthumbnail %}
+                {% endif %}
+            {% endwith %}
+            </div>
+            {% else %}
+            <div class="img-wrapper" itemprop="image" itemscope itemtype="http://schema.org/ImageObject">
+                {% if not details %}<a href="{{ object.get_absolute_url }}" title="{{ object.title }}">{% endif %}
+                    <img src="{% static 'images/news_empty.png' %}" title="{{ object.title }}" />
+                {% if not details %}</a>{% endif %}
+            </div>
+            {% endif %}
+
+
+            {% if details %}
+                <div id="share" class="text-center"></div>
+            {% endif %}
+        </div>
+        <div class="{% if not details %}col-xs-12 col-sm-6{% endif %} blog-details-wrapper">
+            {% if not details %}
+            <h3>{{ object.title }}</h3>
+            {% endif %}
+            <div class="main-text-blog">
+                {% if details %}
+                    {% block entry-content %}
+                        <div class="entry-content" itemprop="articleBody">
+                            {{ object_content|safe }}
+                        </div>
+                    {% endblock entry-content %}
+                {% else %}
+                    {{ object.html_preview|safe|striptags|truncatechars:450 }}
+                {% endif %}
+            </div>
+            {% if not details %}
+                <a href="{{ object.get_absolute_url }}" title="{% trans 'read more' %}" class="btn btn-success">{% trans 'read more' %}</a>
+            {% endif %}
+        </div>
+    </div>
+
+
+</article>
+
+{% comment %}
+<article id="entry-{{ object.pk }}">
+    {% block entry-header %}
+        <header class="entry-header">
+            {% block entry-title %}
+                <h2 class="entry-title" itemprop="name">
+                    {{ object.title|widont }}
+                </h2>
+            {% endblock entry-title %}
+            {% block entry-info %}
+                <p class="entry-info">
+                    {% block entry-published %}
+                        <time class="published"
+                              datetime="{{ object.publication_date|date:"c" }}"
+                              itemprop="datePublished">{{ object.publication_date|date:"DATE_FORMAT" }}</time>
+                    {% endblock entry-published %}
+                    {% block entry-categories %}
+                        {% with categories=object.categories.all %}
+                            {% if categories|length %}
+                                {% trans "in" %}
+                                {% for category in categories %}
+                                    <a href="{{ category.get_absolute_url }}"
+                                       title="{% blocktrans %}Show all entries in {{ category }}{% endblocktrans %}"
+                                       rel="tag category"
+                                       itemprop="articleSection">{{ category }}</a>
+                                    {% if not forloop.last %}, {% endif %}
+                                {% endfor %}{% endif %}.
+                        {% endwith %}
+                    {% endblock entry-categories %}
+                </p>
+            {% endblock entry-info %}
+            {% block entry-last-update %}
+                <p class="entry-last-update">
+                    {% trans "Last update on" %}
+                    <time class="updated"
+                          datetime="{{ object.last_update|date:"c" }}"
+                          itemprop="dateModified">{{ object.last_update|date:"DATE_FORMAT" }}</time>
+                    .
+                </p>
+            {% endblock entry-last-update %}
+            {% block entry-creation-date %}
+                <meta itemprop="dateCreated"
+                      content="{{ object.creation_date|date:"c" }}"/>
+            {% endblock entry-creation-date %}
+        </header>
+    {% endblock entry-header %}
+
+    {% block entry-body %}
+        <div class="entry-body">
+            {% block entry-word-count %}
+                <meta itemprop="wordCount" content="{{ object.word_count }}"/>
+            {% endblock entry-word-count %}
+
+            {% block entry-image %}
+                {% if object.image %}
+                    <div class="entry-image">
+                        {% if continue_reading %}
+                            <a href="{{ object.get_absolute_url }}"
+                               title="{{ object.title }}" rel="bookmark">
+                        {% endif %}
+                        <figure itemprop="image" itemscope
+                                itemtype="http://schema.org/ImageObject">
+                            <img src="{{ object.image.url }}"
+                                 alt="{{ object.image_caption|default:object.title }}"
+                                 itemprop="contentUrl"/>
+                            {% if object.image_caption %}
+                                <figcaption
+                                        itemprop="caption">{{ object.image_caption }}</figcaption>
+                            {% endif %}
+                        </figure>
+                        {% if continue_reading %}
+                            </a>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endblock entry-image %}
+
+            {% block entry-lead %}
+                {% if not continue_reading and object.lead %}
+                    <div class="entry-summary" itemprop="headline">
+                        {{ object.html_lead|safe }}
+                    </div>
+                {% endif %}
+            {% endblock entry-lead %}
+
+            {% block entry-content %}
+                <div class="entry-content" itemprop="articleBody">
+                    {{ object_content|safe }}
+                </div>
+            {% endblock entry-content %}
+
+            {% block continue-reading %}
+                {% if continue_reading and object_content.has_more %}
+                    <p class="continue-reading">
+                        <a href="{{ object.get_absolute_url }}"
+                           title="
+                                   {% blocktrans with object=object.title percent=object_content.remaining_percent|floatformat:0 %}{{ percent }}% of {{ object }} still remains to read.{% endblocktrans %}"
+                           rel="bookmark" itemprop="url">
+                            {% trans "Continue reading" %}
+                        </a>
+                    </p>
+                {% endif %}
+            {% endblock continue-reading %}
+        </div>
+    {% endblock entry-body %}
+
+</article>
+{% endcomment %}

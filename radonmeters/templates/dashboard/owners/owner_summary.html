@@ -1,0 +1,69 @@
+{% extends 'dashboard/layout.html' %}
+
+{% load sorting_tags %}
+{% load i18n %}
+
+{% block title %}
+    {% trans "Owners: Overview" %} | {{ block.super }}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <ul class="breadcrumb">
+        <li>
+            <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+        </li>
+        <li class="active">{% trans "Owners: Overview" %}</li>
+    </ul>
+{% endblock %}
+
+{% block header %}
+    <div class="page-header clearfix">
+        <a href="{% url 'dashboard:owner-create' %}" class="btn btn-lg btn-primary pull-right">
+            <i class="icon-plus"></i>
+            {% trans "Create new owner" %}
+        </a>
+        <h1>{% trans "Owners" %}</h1>
+    </div>
+{% endblock header %}
+
+{% block dashboard_content %}
+
+    <form action="." method="post" class="order_table">
+        {% csrf_token %}
+        <table class="table table-striped table-bordered">
+            <caption>
+                <i class="icon-bar-chart icon-large"></i>{% trans "Owners overview" %}
+            </caption>
+            {% if owners_summary %}
+                <thead>
+                    <tr>
+                        <th>{% trans 'ID' %}</th>
+                        <th>{% trans 'Name' %}</th>
+                        <th>{% trans 'Summary' %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for owner_summary in owners_summary %}
+                    <tr>
+                        <td><a href="{% url 'dashboard:owner-detail' pk=owner_summary.owner.pk %}?next_url={{ request.get_full_path|urlencode }}">{{ owner_summary.owner.pk }}</a></td>
+                        <td>{{ owner_summary.owner.get_full_name|default:"" }}</td>
+                        <td>
+                            {% trans "Total orders" %}: {{ owner_summary.total_orders }}<br>
+                            {% trans "Canceled orders" %}: {{ owner_summary.canceled_orders }}<br>
+                            {% trans "Ready for approval but not approved" %}: {{ owner_summary.ready_not_approved }}{% if owner_summary.ready_not_approved_reported %} ({% trans "from these, reported" %}<a href="#reported-note">*</a>: {{ owner_summary.ready_not_approved_reported }}){% endif %}<br>
+                            {% trans "Approved" %}: {{ owner_summary.approved }} ({% trans "from these, reported" %}: {{ owner_summary.approved_reported }})<br>
+                            {% trans "Not ready for approval: slip ok, but no result" %}: {{ owner_summary.slip_no_result }}{% if owner_summary.slip_no_result_reported %} ({% trans "from these, reported" %}<a href="#reported-note">*</a>: {{ owner_summary.slip_no_result_reported }}){% endif %}<br>
+                            {% trans "Not ready for approval: result ok, but no slip" %}: {{ owner_summary.result_no_slip }}{% if owner_summary.result_no_slip_reported %} ({% trans "from these, reported" %}<a href="#reported-note">*</a>: {{ owner_summary.result_no_slip_reported }}){% endif %}<br>
+                            {% trans "Empty orders" %}: {{ owner_summary.empty }}{% if owner_summary.empty_reported %} ({% trans "from these, reported" %}<a href="#reported-note">*</a>: {{ owner_summary.empty_reported }}){% endif %}<br>
+                            {% trans "Not ready for approval: partly finished orders" %}: {{ owner_summary.partial }}{% if owner_summary.partial_reported %} ({% trans "from these, reported" %}<a href="#reported-note">*</a>: {{ owner_summary.partial_reported }}){% endif %}<br>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr><td>{% trans "No owners found." %}</td></tr>
+            {% endif %}
+        </table>
+        <p id="reported-note">(*) Orders become not approved after editing, so there may be reported orders in the non-approved categories.</p>
+        {% include "dashboard/partials/pagination.html" %}
+    </form>
+{% endblock dashboard_content %}

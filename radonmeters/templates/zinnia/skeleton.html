@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% load i18n %}
+{% load staticfiles %}
+
+{#<html lang="{{ LANGUAGE_CODE }}">#}
+{#<title>{% block title %}{% endblock title %}{% block title-page %}{% endblock title-page %} - Zinnia's Weblog</title>#}
+{#<meta name="description" content="{% block meta-description %}{% trans "Just another Zinnia weblog." %}{% endblock meta-description %}{% block meta-description-page %}{% endblock meta-description-page %}" />#}
+{#<meta name="keywords" content="{% block meta-keywords %}django, blog, weblog, zinnia{% endblock meta-keywords %}" />#}
+{#{% block meta %}{% endblock meta %}#}
+
+{% block social_tags %}{% endblock social_tags %}
+
+{% block content_wrapper %}
+    <div class="container">
+        {% block content %}{% endblock content %}
+        {#{% block sidebar %}{% endblock sidebar %}#}
+    </div>
+{% endblock content_wrapper %}
+
+{% block extrascripts %}
+{% endblock %}

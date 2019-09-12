@@ -1,0 +1,2 @@
+"use strict";!function(a){var e=a(".language-link"),n=e.find('[name="csrfmiddlewaretoken"]').val(),t=e.find('[name="next"]').val();e.find('[data-name="language"]').on("click",function(i){i.preventDefault(),a(this).parent().is(".active")||a.ajax(e.data("url"),{type:"POST",data:{csrfmiddlewaretoken:n,next:t,language:a(this).data("lang-code")},success:function(a){location.reload()}})})}(jQuery);
+//# sourceMappingURL=language_switcher.js.map

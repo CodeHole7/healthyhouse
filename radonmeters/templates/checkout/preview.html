@@ -1,0 +1,150 @@
+{% extends "checkout/checkout.html" %}
+{% load currency_filters %}
+{% load thumbnail %}
+{% load i18n %}
+{% load purchase_info_tags %}
+{% load staticfiles %}
+
+{% block title %}
+    {% trans "Place order" %} | {{ block.super }}
+{% endblock %}
+
+{% block checkout_nav %}
+    {% include 'checkout/nav.html' with step=4 %}
+{% endblock %}
+
+{% block checkout_title %}
+    {% trans "Preview order" %}
+{% endblock %}
+
+{% block extrastyles %}
+<style>
+        .loader {
+           width:50px;
+           height:50px;
+           display:inline-block;
+           padding:0px;
+           opacity:0.5;
+           border:3px solid #09acfd;
+           -webkit-animation: loader 1s ease-in-out infinite alternate;
+           animation: loader 1s ease-in-out infinite alternate;
+        }
+
+        .loader:before {
+          content: " ";
+          position: absolute;
+          z-index: -1;
+          top: 5px;
+          left: 5px;
+          right: 5px;
+          bottom: 5px;
+          border: 3px solid #09acfd;
+        }
+
+        .loader:after {
+          content: " ";
+          position: absolute;
+          z-index: -1;
+          top: 15px;
+          left: 15px;
+          right: 15px;
+          bottom: 15px;
+          border: 3px solid #09acfd;
+        }
+
+        @keyframes loader {
+           from {transform: rotate(0deg) scale(1,1);border-radius:0px;}
+           to {transform: rotate(360deg) scale(0, 0);border-radius:50px;}
+        }
+        @-webkit-keyframes loader {
+           from {-webkit-transform: rotate(0deg) scale(1, 1);border-radius:0px;}
+           to {-webkit-transform: rotate(360deg) scale(0,0 );border-radius:50px;}
+        }
+</style>
+{% endblock%}
+{% block place_order %}
+
+
+<div class="aside-inner-wrapper">
+
+    {% for line in basket.all_lines %}
+    {% purchase_info_for_line request line as session %}
+        <div class="basket-item">
+            <div class="item-main-info">
+                <div class="item-image">
+                    {% with image=line.product.primary_image %}
+                        {% if not line.product.primary_image.is_missing %}
+                                {% thumbnail image.original "120x120" crop='center' upscale=True as thumb %}
+                                    <a href="{{ line.product.get_absolute_url }}">
+                                        <img class="thumbnail" src="{{ thumb.url }}" alt="{{ line.product.get_title }}"/>
+                                    </a>
+                                {% endthumbnail %}
+                        {% else %}
+                            <a href="{{ line.product.get_absolute_url }}">
+                                <img class="thumbnail" src="{% static 'images/product_empty_thumb.png' %}" alt="{{ line.product.get_title }}"/>
+                            </a>
+                        {% endif %}
+                    {% endwith %}
+                </div>
+
+                <div class="item-detail ">
+                    <h3>
+                        {% if line.product.title %}
+                            {{ line.product.title }}
+                        {% else %}
+                            {% trans 'No title' %}
+                        {% endif %}
+                    </h3>
+                    <p>
+                        {% if line.product.lead %}
+                            {{ line.product.lead|striptags|truncatechars:95 }}
+                        {% elif line.product.description %}
+                            {{line.product.description|safe|striptags|truncatechars:95}}
+                        {% else %}
+                            {% trans 'No description' %}
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    <hr>
+        {% include 'basket/partials/basket_totals.html' %}
+    <form method="post" action="{% url 'checkout:preview' %}" id="place_order_form" >
+        {% csrf_token %}
+        <input type="hidden" name="action" value="place_order" />
+        {% comment %}
+            When submitting sensitive data on the payment details page (eg a bankcard)
+            we don't want to save the data and so we pass the bound form to the preview
+            template and render it in a hidden div.  Then the payment information will
+            get re-submitted when the user confirms the order.
+        {% endcomment %}
+        <div style="display:none">
+            {% block hiddenforms %}{% endblock %}
+        </div>
+
+        <hr>
+        <div class="form-group clearfix">
+            <div class="row">
+                <div class="col-sm-12">
+                     <button id='place-order' type="button" class="btn btn-primary btn-lg btn-block" data-loading-text="{% trans 'Submitting...' %}">{% trans "Place order" %}</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock place_order %}
+
+{% block extrascripts %}
+
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        
+
+        var _radonOptions = {
+            'stripe_pk': 'pk_test_88RHyzdb474EhsN8fmmQbR5h00RBHT79Hn'
+        };
+    </script>
+    <script src="{% static 'js/pages/payment_secure.js' %}"></script>
+{% endblock %}
+

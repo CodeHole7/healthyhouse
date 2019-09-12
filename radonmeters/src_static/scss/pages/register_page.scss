@@ -1,0 +1,123 @@
+.register-page {
+    h2 {
+        margin-bottom: 30px;
+        font-weight: 400;
+    }
+    .forgot-link {
+        text-decoration: underline;
+        margin-top: 28px;
+        font-size: 16px;
+        text-underline-position: under;
+
+    }
+    button {
+        display: block;
+        margin: 30px auto 0;
+    }
+    p {
+        font-size: 16px;
+        line-height: 29px;
+    }
+}
+
+.profile-page {
+    @extend .register-page;
+    h2  {
+        font-size: 20px;
+    }
+    .form-group {
+        margin-bottom: 30px;
+    }
+    .btn {
+        display: block;
+        width: 100%;
+    }
+}
+
+.login-logout {
+    padding-top: 60px;
+    .btn {
+        display: block;
+        width: 100%;
+    }
+    .col-sm-6 {
+        padding-right: 70px;
+        padding-left: 70px;
+    }
+    .register_form {
+        border-left: 1px solid $gray-ultra-light;
+    }
+
+
+    .tab {
+        font-size: 0;
+        .section-tab:first-child {
+            border-top-left-radius: 8px;
+        }
+        .section-tab:last-child {
+            border-top-right-radius: 8px;
+        }
+
+        .section-tab {
+            position: relative;
+            display: inline-block;
+            padding: 12px 10px;
+            min-width: 50%;
+            border: 1px solid $gray-ultra-light;
+            font-size: $font-size-medium;
+            line-height: 29px;
+            text-align: center;
+            z-index: 1;
+            background-color: $bg-gray;
+            color: $brand-default;
+            transition: background-color .3s;
+            &.active {
+                background-color: $white;
+                border-bottom-color: $white;
+            }
+            &:hover,
+            &:focus {
+                background-color: $white;
+                text-decoration: none;
+            }
+        }
+    }
+}
+
+@media (max-width: $dev-xs)  {
+    .login-logout {
+        .col-sm-6 {
+            padding-top: 40px;
+            padding-left: 30px;
+            padding-right: 30px;
+            padding-bottom: 40px;
+        }
+        .login_form,
+        .register_form {
+            display: none;
+
+            &.show {
+                display: block;
+            }
+        }
+        .row {
+            margin: 0;
+            border-left: 1px solid $gray-ultra-light;
+            border-right: 1px solid $gray-ultra-light;
+            border-bottom: 1px solid $gray-ultra-light;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+        .register_form {
+            border-left: none;
+        }
+    }
+    .profile-page {
+        h2 {
+            text-align: center;
+        }
+        .password_form {
+            margin-top: 30px;
+        }
+    }
+}

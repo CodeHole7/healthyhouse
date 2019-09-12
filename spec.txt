@@ -1,0 +1,37 @@
+Function which creates and saves a unique barcode numbers of 8 ciphers [0-9] (DB table: Dosimeters Col: number)
+API function called generate_sensor_barcode which calls above function and returns it to the user.  It should be prefixed with 0.
+   The function should also update status field for newly generated dosimeter to 'created'
+
+
+
+Make cleanup batch job which runs once per week. Should check all barcode numbers, and if a number has not been scanned within 12 months, it should be deleted from database
+
+
+
+Make UI where user can enter dosimeter number and click update status. When clicked the dosimeters status should be updated to 'ready_for_packaging'
+
+     Further, when clicking the button, a pdf of size X should be generated on the server. On this pdf should be 2 sheets. 
+     On sheet 1 should be datamatrix containing dosimeter number prefixed with 1 and a logo and ascii number with no prefix.
+     On sheet 2 should be same as 1 but different size, and prefix 2 instead of 1. Sizes are to be determined.
+     The PDF is automatically sent to client and printed on labelprinter
+     Before the update button can be clicked, the owner of the dosimeter needs to be selected from a list first (assuming that owner is already correctly created in system)
+
+Add batch grouping for dosimeters
+
+Make UI for sending distributor batch dosimeters
+     Should contiain:
+     A dropdown where distributor (owner) can be selected. Mandatory
+     Batch creator to manage batches for the selected distributor. A new batch is required to continue.
+         A textfield for scanning the barcode and an update button
+         When button has been clicked, status for this dosimeter should now be : 'shipped_to_distributor'
+         
+Make UI for recieving distributor batch dosimeters
+     Should contiain:
+         A textfield for scanning the barcode and an update button
+         When button has been clicked, status for this dosimeter should now be : 'recieved_from_distributor'
+When all dosimeters in a batch have been approved, an email should be sent to the distributor (owner)
+
+
+
+
+

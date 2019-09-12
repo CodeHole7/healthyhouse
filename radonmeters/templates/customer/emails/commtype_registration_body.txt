@@ -1,0 +1,7 @@
+{% load i18n %}
+
+{% trans 'Thank you for registering.' %}
+
+{% if password %}
+    {% trans 'We have generated password for you:' %} {{ password }}
+{% endif %}

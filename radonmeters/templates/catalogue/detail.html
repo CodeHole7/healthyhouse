@@ -1,0 +1,331 @@
+{% extends "layout.html" %}
+
+{% load history_tags %}
+{% load currency_filters %}
+{% load reviews_tags %}
+{% load staticfiles %}
+{% load product_tags %}
+{% load display_tags %}
+{% load thumbnail %}
+{% load i18n %}
+{% load i18n %}
+{% load purchase_info_tags %}
+
+{% block title %}
+    {{ product.title }} | {{ block.super }}
+{% endblock %}
+
+{% block description %}
+    {% if product.lead %}
+        {{ product.lead|striptags|truncatechars:135 }}
+    {% else %}
+        {{ product.description|safe|default:""|striptags|truncatechars:135 }}
+    {% endif %}
+{% endblock %}
+
+{% block social_tags %}
+     {% with image=product.primary_image %}
+    <!-- Schema.org markup for Google+ -->
+    <meta itemprop="name" content="{{ product.get_title }}" />
+    <meta itemprop="description" content="{% if product.lead %}
+        {{ product.lead|striptags|truncatechars:135 }}
+    {% else %}
+        {{ product.description|safe|default:""|striptags|truncatechars:135 }}
+    {% endif %}" />
+    <meta itemprop="image" content="{{ request.scheme }}://{{ request.get_host }}{% thumbnail image.original "400x300" crop="center" as thumb %}{{ thumb.url }}{% endthumbnail %}" />
+
+    <!-- Twitter Card data -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="{{ config.SOCIAL_ACCOUNT_TWITTER }}" />
+    <meta name="twitter:title" content="{{ product.get_title }}" />
+    <meta name="twitter:description" content="{{ product.get_title }}" />
+    <meta name="twitter:creator" content="{{ config.SOCIAL_ACCOUNT_TWITTER }}" />
+    <!-- Twitter summary card with large image must be at least 280x150px -->
+    <meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{% thumbnail image.original "400x300" crop="center" as thumb %}{{ thumb.url }}{% endthumbnail %}" />
+    <!-- Open Graph data -->
+    <meta property="og:title" content="{{ product.get_title }}" />
+    <meta property="og:type" content="product" />
+    <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% thumbnail image.original "400x300" crop="center" as thumb %}{{ thumb.url }}{% endthumbnail %}" />
+    <meta property="og:description" content="{% if product.lead %}
+        {{ product.lead|striptags }}
+    {% else %}
+        {{ product.description|safe|default:""|striptags|truncatechars:450 }}
+    {% endif %}" />
+    <meta property="og:site_name" content="Radonmeters" />
+    {% endwith %}
+{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumb-container">
+    <ul class="breadcrumb">
+        <li>
+            <a href="{{ homepage_url }}">{% trans "Home" %}</a>
+        </li>
+        {% with category=product.categories.all.0 %}
+            <li class="">
+                <a href="{{ category.get_ancestors_and_self.0.get_absolute_url }}">{{ category.get_ancestors_and_self.0.name|lower|capfirst }}</a>
+            </li>
+            <li class="active">{{ product.title|lower|capfirst }}</li>
+
+            {% get_back_button as backbutton %}
+            {% if backbutton %}
+                <li class="pull-right">
+                    <a href="{{ backbutton.url }}">
+                        <i class="icon-arrow-left"></i> {{ backbutton.title }}
+                    </a>
+                </li>
+            {% endif %}
+        {% endwith %}
+    </ul>
+</div>
+{% endblock %}
+
+{% block header %}
+{% endblock header %}
+
+{% block content_wrapper %}
+
+<article class="product_page container"><!-- Start of product page -->
+
+    <div class="row" itemscope itemtype="http://schema.org/Product">
+
+        <div class="col-sm-6">
+            {% include "catalogue/partials/gallery.html" %}
+        </div>
+
+        <div class="col-sm-6 product_main">
+            {% comment %}
+            This is a but clunky here.  Better to have some kind of JS-driven dashboard menu that
+            pops out when clicked.  A bit like the Django-Debug-Toolbar button
+            {% endcomment %}
+            {% if user.is_staff %}
+                <a class="pull-right hidden-xs" href="{% url 'dashboard:catalogue-product' pk=product.id %}"><small><i class="icon-edit"></i> {% trans "Edit this product" %}</small></a>
+            {% endif %}
+            <div class="product-header">
+                {% if product.product_usage %}
+                <div class="important-info-container">
+                    <a href="#" data-content="#product-usage" class="important-info">
+                        <span class="rm-icon-alert important-info-icon"></span>
+                        <span class="important-info-text">{% trans "important" %}</span>
+                        <span class="important-info-text">{% trans "info" %}</span>
+                    </a>
+                </div>
+                {% endif %}
+                <div>
+                    <h1 class="product-title clearfix">
+                        <div id="share" class="pull-right"></div>
+                        <span itemprop="name">
+                            {% if product.get_title %}
+                                {{ product.get_title }}
+                            {% else %}
+                                {% trans 'No title' %}
+                            {% endif %}
+                        </span>
+                    </h1>
+                </div>
+            </div>
+            <div  itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                {% include "catalogue/partials/stock_record_availability.html" %}
+                {% include "catalogue/partials/stock_record_details_price.html" %}
+            </div>
+
+
+
+            {% comment %}
+            {% iffeature "reviews" %}
+                {% include "catalogue/reviews/partials/review_stars.html" %}
+            {% endiffeature %}
+            {% endcomment %}
+
+            {% if product.description %}
+            <div class="main-text-detail">
+                <p itemprop="description">
+                    {% if product.lead %}
+                        {{ product.lead|striptags }}
+                    {% else %}
+                        {{ product.description|safe|striptags|truncatechars:450 }}
+                    {% endif %}
+                </p>
+            </div>
+            {% endif %}
+
+            <hr/>
+
+            <div>
+                {% block product_basket_form %}
+                    {% with inline=True %}
+                        {% include "catalogue/partials/add_to_basket_form.html" %}
+                    {% endwith %}
+                {% endblock %}
+            </div>
+        </div><!-- /col-sm-6 -->
+
+    </div><!-- /row -->
+
+    {# PRODUCT TABS #}
+    {% if product.description or product.specification or product.youtube_video_id or product.product_usage %}
+    <div class="sub-section-divider-wrapper">
+        <span class="sub-section-divider"></span>
+        <div class="additional-info-wrapper">
+            {% if product.description %}
+                <a href="#" class="sub-section-tab {% if product.description %}active{% endif %}" data-content="#product-description">{% trans "Description" %}</a>
+                <div class="main-text-detail single-block content-block {% if product.description %}active{% endif %}" id="product-description">
+                    <h1 class="product-title text-center">
+                       {{ product.get_title }}
+                   </h1>
+                   {{ product.description|safe }}
+               </div>
+            {% endif %}
+            {% if product.specification %}
+                <a href="#" class="sub-section-tab {% if product.description == '' %}active{% endif %}" data-content="#product-specification">{% trans "Specification" %}</a>
+                <div class="main-text-detail single-block content-block {% if product.description == '' %}active{% endif %}" id="product-specification">
+                   {{ product.specification|safe }}
+               </div>
+            {% endif %}
+            {% if product.youtube_video_id %}
+                <a href="#" class="sub-section-tab {% if product.description == '' and product.specification == '' %}active{% endif %}" data-content="#product-video">{% trans "Video" %}</a>
+
+                <div class="main-text-detail single-block content-block {% if product.description == '' and product.specification == '' %}active{% endif %}" id="product-video">
+                    <div class="videoWrapper">
+                        {# https://www.youtube.com/embed/{{product.youtube_video_id}}?enablejsapi=1 #}
+                        <iframe id="featured-video-frame" width="560" height="315" src="https://www.youtube.com/embed/{{product.youtube_video_id}}?enablejsapi=1" frameborder="0" allowfullscreen></iframe>
+                    </div>
+               </div>
+            {% endif %}
+            {% if product.product_usage %}
+                <a href="#" class="sub-section-tab {% if product.description == '' and product.specification == '' and product.youtube_video_id == '' %}active{% endif %}" data-content="#product-usage">{% trans "How to use" %}</a>
+
+                <div class="main-text-detail single-block content-block {% if product.description == '' and product.specification == '' and product.youtube_video_id == '' %}active{% endif %}" id="product-usage">
+                    {{ product.product_usage|safe }}
+               </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% comment %}
+    {% block product_description %}
+        {% if product.description %}
+        <div id="product_description" class="sub-header">
+            <h2>{% trans "Product Description" %}</h2>
+        </div>
+        <p>{{ product.description|safe }}</p>
+        {% endif %}
+    {% endblock %}
+    {% endcomment %}
+
+    {% comment %}
+    {% block product_info %}
+    <div class="sub-header">
+        <h2>{% trans "Product Information" %}</h2>
+    </div>
+    <table class="table table-striped">
+        {% if product.upc %}
+        <tr>
+            <th>{% trans "UPC" %}</th><td>{{ product.upc }}</td>
+        </tr>
+        {% endif %}
+        <tr>
+            <th>{% trans "Product Type" %}</th><td>{{ product.get_product_class.name }}</td>
+        </tr>
+
+        {% purchase_info_for_product request product as session %}
+        {% if session.price.exists %}
+            <tr>
+                <th>{% trans "Price (excl. tax)" %}</th><td>{{ session.price.excl_tax|currency:session.price.currency }}</td>
+            </tr>
+            {% if session.price.is_tax_known %}
+                <tr>
+                    <th>{% trans "Price (incl. tax)" %}</th><td>{{ session.price.incl_tax|currency:session.price.currency }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans "Tax" %}</th><td>{{ session.price.tax|currency:session.price.currency }}</td>
+                </tr>
+            {% endif %}
+            <tr>
+                <th>{% trans "Availability" %}</th>
+                <td>{{ session.availability.message }}</td>
+            </tr>
+        {% endif %}
+        {% for av in product.attribute_values.all %}
+            <tr>
+                <th>{{ av.attribute.name }}</th>
+                <td>{{ av.value_as_html }}</td>
+            </tr>
+        {% endfor %}
+        {% iffeature "reviews" %}
+            <tr>
+                <th>{% trans "Number of reviews" %}</th>
+                <td>{{ product.num_approved_reviews }}</td>
+            </tr>
+        {% endiffeature %}
+    </table>
+    {% endblock %}
+    {% endcomment %}
+
+    {% comment %}
+    {% iffeature "reviews" %}
+        {% block product_review %}
+        <section>
+            <div id="reviews" class="sub-header">
+                {% if product.num_approved_reviews > 3 %}
+                    <a href="{% url 'catalogue:reviews-list' product_slug=product.slug product_pk=product.id %}" class="btn pull-right">{% trans "See all reviews" %}</a>
+                {% endif %}
+                <h2>{% trans "Customer Reviews" %}</h2>
+            </div>
+
+            {% if product.num_approved_reviews == 0 %}
+                <p>
+                    {% if product|is_review_permitted:user %}
+                        {% url 'catalogue:reviews-add' product_slug=product.slug product_pk=product.id as add_review_url %}
+                            {% blocktrans %}This product does not have any reviews yet -
+                            <a href="{{ add_review_url }}#addreview">be the first to write one</a>.
+                        {% endblocktrans %}
+                    {% else %}
+                        {% trans "This product does not have any reviews yet" %}.
+                    {% endif %}
+                </p>
+            {% else %}
+                <ol class="list-unstyled review-list">
+                    {% for review in product.reviews.approved.all|slice:":3" %}
+                        <li>
+                        {% include 'catalogue/partials/review.html' %}
+                        </li>
+                    {% endfor %}
+                </ol>
+            {% endif %}
+        </section>
+        {% endblock product_review %}
+    {% endiffeature %}
+    {% endcomment %}
+
+    {% comment %}
+        {% with recommended_products=product.sorted_recommended_products|slice:":6" %}
+            {% if recommended_products %}
+                <div class="sub-header">
+                    <h2>{% trans "Recommended items" %}</h2>
+                </div>
+                <ul class="row">
+                    {% for product in recommended_products %}
+                    <li class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
+                        {% render_product product %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+
+        {% recently_viewed_products current_product=product %}
+    {% endcomment %}
+</article><!-- End of product page -->
+{% endblock content_wrapper %}
+
+{% block extrascripts %}
+    <script id="forVideoApi"></script>
+    <script src="{% static 'js/plugin/cloudzoom.js' %}"></script>
+    <script src="{% static 'bower/jssocials/dist/jssocials.min.js' %}"></script>
+    <script src="{% static 'js/pages/details.js' %}"></script>
+    <script src="{% static 'js/common/social_sharing.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,121 @@
+{% extends 'dashboard/layout.html' %}
+{% load currency_filters %}
+{% load i18n %}
+
+{% block extrastyles %}
+    {{ block.super }}
+    <style>
+        .intl-tel-input {width: 100%;}
+    </style>
+{% endblock %}
+
+{% block body_class %}{{ block.super }} users{% endblock %}
+
+{% block title %}{% trans "Add customer" %} | {{ block.super }}{% endblock %}
+
+{% block breadcrumbs %}
+    <ul class="breadcrumb">
+        <li>
+            <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+        </li>
+        <li>
+            <a href="{% url 'dashboard:users-index' %}">{% trans "Customers" %}</a>
+        </li>
+        <li class="active">{% trans "Add customer" %}</li>
+    </ul>
+{% endblock %}
+
+{% block headertext %}{% trans "Add customer" %}{% endblock %}
+
+{% block dashboard_content %}
+<div class="row">
+    {% block user_general_info %}
+    <div class="col-md-12">
+            <div class="table-header">
+                <h2>{% trans "General" %}</h2>
+            </div>
+            <form action="." method="post" class="js-user-form" novalidate="">
+                {% csrf_token %}
+                {% if form.is_bound and not form.is_valid %}
+                    <div class="alert alert-danger">
+                        <strong>{% trans "Oops! We found some errors" %}</strong> - {% trans "please check the error messages below and try again" %}
+                    </div>
+                {% endif %}
+
+                {% if form.non_field_errors %}
+                    {% for error in form.non_field_errors %}
+                        <div class="alert alert-danger form-group has-error">
+                            <span class="help-inline"><i class="icon-exclamation-sign"></i> {{ error }}</span>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <table class="table table-bordered">
+                    <tr>
+                        <th>{% trans "First name" %}</th>
+                        <td>
+                            {% include 'dashboard/partials/form_field.html' with field=form.first_name nolabel=True %}
+                        
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>{% trans "Last name" %}</th>
+                        <td>
+                            {% include 'dashboard/partials/form_field.html' with field=form.last_name nolabel=True %}
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <th>{% trans "Email" %}</th>
+                        <td>
+                            {% include 'dashboard/partials/form_field.html' with field=form.email nolabel=True %}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>{% trans "Phone" %}</th>
+                        <td>
+                            {% include 'dashboard/partials/form_field.html' with field=form.phone_number nolabel=True %}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>{% trans "Active" %}?</th>
+                        <td>
+                            {% include 'dashboard/partials/form_field.html' with field=form.is_active nolabel=True nocheckbox_label=True %}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>{% trans "Laboratory?" %}</th>
+                        <td>
+                            {% include 'dashboard/partials/form_field.html' with field=form.is_laboratory nolabel=True nocheckbox_label=True %}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>{% trans "Partner" %}?</th>
+                        <td>
+                            {% include 'dashboard/partials/form_field.html' with field=form.is_partner nolabel=True nocheckbox_label=True %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>{% trans "Action" %}</th>
+                        <td>
+                            <button
+                                type="submit"
+                                class="btn btn-primary js-update-user">{% trans 'Save' %}
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    {% endblock %}
+</div>
+{% endblock %}
+
+{% block onbodyload %}
+    {{ block.super }}
+    oscar.dashboard.user.updateInit(false);
+{% endblock onbodyload %}

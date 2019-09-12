@@ -1,0 +1,142 @@
+[
+    {
+        "model": "customer.communicationeventtype",
+        "pk": 1,
+        "fields": {
+            "code": "ORDER_PLACED",
+            "name": "ORDER PLACED",
+            "category": "Order related",
+            "email_subject_template": "Confirmation of order {{ order.number }}",
+            "email_body_template": "{% load currency_filters %}Hello,We are pleased to confirm your order {{ order.number }} has been received and will be processed shortly. Your order contains: {% for line in order.lines.all %} * {{ line.title }} - quantity: {{ line.quantity }} - price: {{ line.line_price_incl_tax|currency:order.currency }}{% endfor %} Basket total: {{ order.basket_total_incl_tax|currency:order.currency }} Shipping: {{ order.shipping_incl_tax|currency:order.currency }} Order Total: {{ order.total_incl_tax|currency:order.currency }} Shipping address: {% for field in order.shipping_address.active_address_fields %}  {{ field }}{% endfor %} The team",
+            "email_body_html_template": "{% extends 'customer/emails/base.html' %}{% load currency_filters %}{% block header %}New order{% endblock %}{% block body %}<p xmlns='http://www.w3.org/1999/html'>Hello,</p><p>We are pleased to confirm your order {{ order.number }} has been received andwill be processed shortly.</p><p>Your order contains:</p><ul>{% for line in order.lines.all %}<li>{{ line.title }} - quantity: {{ line.quantity }} - price: {{ line.line_price_incl_tax|currency:order.currency }}</li>{% endfor %}</ul><p>Basket total: {{ order.basket_total_incl_tax|currency:order.currency }}<br/>Shipping: {{ order.shipping_incl_tax|currency:order.currency }}<br/>Order Total: {{ order.total_incl_tax|currency:order.currency }}</p><p>Shipping address:</p><p>{% for field in order.shipping_address.active_address_fields %}  {{ field }}<br/>{% endfor %}</p>{% endblock %}",
+            "date_created": "2017-10-01 00:00Z",
+            "date_updated": "2017-10-01 00:00Z"
+        }
+    },
+    {
+        "model": "customer.communicationeventtype",
+        "pk": 2,
+        "fields": {
+            "code": "EMAIL_CHANGED",
+            "name": "EMAIL CHANGED",
+            "category": "User related",
+            "email_subject_template": "{% load %}Your email address has changed at {{ site.name }}.",
+            "email_body_template": "{% extends 'customer/emails/base.txt' %}{% block body %}{% autoescape off %}You're receiving this email because your email address has been changed to {{ new_email }}. If it was not you who changed it, please reset your password immediately and correct your email address:http://{{ site.domain }}{{ reset_url }}If it was not you who changed the email address, you can ignore this email.{% endautoescape %}{% endblock %}",
+            "email_body_html_template": "{% extends 'customer/emails/base.html' %}{% block header %}Email has been changed{% endblock %}{% block body %}{% autoescape off %}<p>You're receiving this email because your email address has been changed to <strong>{{ new_email }}</strong>.</p><p>If it was not you who changed it, please reset your password immediately and correct your email address:<a href='http://{{ site.domain }}{{ reset_url }}'>reset password </a></p><p>If it was not you who changed the email address, you can ignore this email.</p>{% endautoescape %}{% endblock %}",
+            "date_created": "2017-10-01 00:00Z",
+            "date_updated": "2017-10-01 00:00Z"
+        }
+    },
+    {
+        "model": "customer.communicationeventtype",
+        "pk": 3,
+        "fields": {
+            "code": "PASSWORD_CHANGED",
+            "name": "PASSWORD CHANGED",
+            "category": "User related",
+            "email_subject_template": "Your password changed at {{ site.name }}.",
+            "email_body_template": "{% extends 'customer/emails/base.txt' %}{% block body %}{% autoescape off %}You're receiving this email because your password has been changed at {{ site.name }}.If it was not you who changed it, please reset your password immediately:http://{{ site.domain }}{{ reset_url }}Otherwise, you can ignore this email.{% endautoescape %}{% endblock %}",
+            "email_body_html_template": "{% extends 'customer/emails/base.html' %}{% block header %}Password has been changed{% endblock %}{% block body %}{% autoescape off %}<p>You're receiving this e-mail because your password has been changed at {{ site.name }}.</p><p>If it was not you who changed it, please reset your password immediately:<a href='http://{{ site.domain }}{{ reset_url }}'>reset password </a></p><p>Otherwise, you can ignore this email.</p>{% endautoescape %}{% endblock %}",
+            "date_created": "2017-10-01 00:00Z",
+            "date_updated": "2017-10-01 00:00Z"
+        }
+    },
+    {
+        "model": "customer.communicationeventtype",
+        "pk": 4,
+        "fields": {
+            "code": "PASSWORD_RESET",
+            "name": "PASSWORD RESET",
+            "category": "User related",
+            "email_subject_template": "Resetting your password at {{ site.name }}.",
+            "email_body_template": "{% extends 'customer/emails/base.txt' %}{% block body %}{% autoescape off %}You're receiving this e-mail because you requested a password reset for your user account at {{ site.name }}.Please go to the following page and choose a new password:{{ reset_url }}{% endautoescape %}{% endblock %}",
+            "email_body_html_template": "{% extends 'customer/emails/base.html' %}{% block header %}Password reset{% endblock %}{% block body %}{% autoescape off %}<p>You're receiving this e-mail because you requested a password reset for your user account at {{ site.name }}.</p><p>Please go to the following page and choose a new password:</p><a href='{{ reset_url }}'>reset password </a>{% endautoescape %}{% endblock %}",
+            "date_created": "2017-10-01 00:00Z",
+            "date_updated": "2017-10-01 00:00Z"
+        }
+    },
+    {
+        "model": "customer.communicationeventtype",
+        "pk": 5,
+        "fields": {
+            "code": "PRODUCT_ALERT_CONFIRMATION",
+            "name": "PRODUCT ALERT CONFIRMATION",
+            "category": "Order related",
+            "email_subject_template": "Confirmation required for stock alert",
+            "email_body_template": "Hello,Somebody (hopefully you) has requested an email alert when'{{ alert.product.get_title|safe }}' is back in stock.  Please click the following linkto confirm:http://{{ site.domain }}{{ alert.get_confirm_url }}You can cancel this alert at any time by clicking the following link:http://{{ site.domain }}{{ alert.get_cancel_url }}Thanks for your interest,The {{ site }} Team",
+            "email_body_html_template": "",
+            "date_created": "2017-10-01 00:00Z",
+            "date_updated": "2017-10-01 00:00Z"
+        }
+    },
+    {
+        "model": "customer.communicationeventtype",
+        "pk": 6,
+        "fields": {
+            "code": "PRODUCT_ALERT",
+            "name": "PRODUCT ALERT",
+            "category": "Order related",
+            "email_subject_template": "{{ alert.product.get_title|safe }} is back in stock",
+            "email_body_template": "{% if alert.user and alert.user.get_short_name %}Dear {{ alert.user.get_short_name }},{% else %}Hello,{% endif %} We are happy to inform you that our product '{{ alert.product.get_title|safe }}' is back in stock:http://{{ site }}{{ alert.product.get_absolute_url }}{% if hurry %}Beware that the amount of items in stock is limited. Be quick or someone might get there first.{% endif %}With this email we have disabled your alert automatically and you will notreceive any further email regarding this product.Thanks for your interest,The {{ site.name }} Team",
+            "email_body_html_template": "",
+            "date_created": "2017-10-01 00:00Z",
+            "date_updated": "2017-10-01 00:00Z"
+        }
+    },
+    {
+        "model": "customer.communicationeventtype",
+        "pk": 7,
+        "fields": {
+            "code": "REGISTRATION",
+            "name": "REGISTRATION",
+            "category": "User related",
+            "email_subject_template": "Thank you for registering.",
+            "email_body_template": "Thank you for registering.{% if password %}We have generated password for you: {{ password }}{% endif %}",
+            "email_body_html_template": "{% extends 'customer/emails/base.html' %}{% block header %}Registration{% endblock %}{% block body %}<p>Thank you for registering.</p>{% if password %}<p>We have generated password for you: {{ password }}</p>{% endif %}{% endblock %}",
+            "date_created": "2017-10-01 00:00Z",
+            "date_updated": "2017-10-01 00:00Z"
+        }
+    },
+    {
+        "model": "customer.communicationeventtype",
+        "pk": 8,
+        "fields": {
+            "code": "DOSIMETER_REPORT",
+            "name": "DOSIMETER REPORT",
+            "category": "Order related",
+            "email_subject_template": "Dosimeters updates.",
+            "email_body_template": "{% extends 'customer/emails/base.html' %}{% block body %}Dosimeters were successful updated{% endblock %}",
+            "email_body_html_template": "{% extends 'customer/emails/base.html' %}{% block body %}<p>Dosimeters were successful updated</p>{% endblock %}",
+            "date_created": "2017-10-01 00:00Z",
+            "date_updated": "2017-10-01 00:00Z"
+        }
+    },
+    {
+        "model": "customer.communicationeventtype",
+        "pk": 9,
+        "fields": {
+            "code": "CONTACT_US",
+            "name": "CONTACT US",
+            "category": "User related",
+            "email_subject_template": "New message from Contact Us form.",
+            "email_body_template": "New Contact Request.Name: {{ name }} E-mail: {{ email }}See in admin: {{ admin_url }}Message: {{ message }}",
+            "email_body_html_template": "{% extends 'base_email.html' %}{% block body %}<h1>New Contact Request.</h1><p>Name: {{ name }}</p><p>E-mail: {{ email }}</p><p>See in admin: {{ admin_url }}</p><p>Message: {{ message }}</p>{% endblock %}",
+            "date_created": "2017-10-01 00:00Z",
+            "date_updated": "2017-10-01 00:00Z"
+        }
+    },
+    {
+        "model": "customer.communicationeventtype",
+        "pk": 10,
+        "fields": {
+            "code": "SEND_VOUCHER",
+            "name": "SEND VOUCHER",
+            "category": "User related",
+            "email_subject_template": "You get a discount coupon.",
+            "email_body_template": "Coupon code: {{ code }}.",
+            "email_body_html_template": "{% extends 'base_email.html' %}{% block body %}<h1>You get a discount coupon.</h1><p>Coupon code: {{ code }}</p>{% endblock %}",
+            "date_created": "2017-10-01 00:00Z",
+            "date_updated": "2017-10-01 00:00Z"
+        }
+    }
+]

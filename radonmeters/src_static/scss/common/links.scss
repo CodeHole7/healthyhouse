@@ -1,0 +1,19 @@
+a {
+    transition: color 0.3s;
+}
+
+.white-link {
+    color: $white;
+    &:hover, &:focus {
+        color: darken($white, 10%)
+    }
+}
+
+
+.brand-link {
+    color: $brand-default;
+    text-decoration: none;
+    &:hover, &:focus {
+        color:$brand-info;
+    }
+}

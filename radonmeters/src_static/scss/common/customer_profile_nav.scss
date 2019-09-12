@@ -1,0 +1,36 @@
+.customer-profile-nav {
+    margin-top: -1px;
+    border-bottom: 1px solid $gray-ultra-light;
+    border-top: 1px solid $gray-ultra-light;
+    .customer-profile-nav-list {
+        @extend .container;
+        list-style-type: none;
+        padding-top: 0;
+        margin-bottom: 0;
+
+        li {
+            display: inline-block;
+            padding-right: 50px;
+        }
+
+        li.active {
+            a {
+                color: $brand-info;
+            }
+        }
+
+        a {
+            text-transform: uppercase;
+            font-size: $font-size-small;
+            display: block;
+            padding: 29px 0;
+            text-decoration: none;
+            color: $brand-default;
+            &:focus,
+            &:hover {
+                text-decoration: none;
+                color: $brand-info;
+            }
+        }
+    }
+}

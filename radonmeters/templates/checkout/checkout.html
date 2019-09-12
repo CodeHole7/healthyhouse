@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+{% load currency_filters %}
+{% load thumbnail %}
+{% load i18n %}
+{% load purchase_info_tags %}
+{% load staticfiles %}
+
+{% block title %}
+    {% trans "Checkout" %} | {{ block.super }}
+{% endblock %}
+
+{% block checkout_nav %}
+    {% include 'checkout/nav.html' %}
+{% endblock %}
+
+{% block mini_basket %}
+{% endblock %}
+{% block navigation %}
+{% endblock %}
+
+{% block content_wrapper %}
+<div class="container">
+    {% if error %}
+        <div class="alert alert-danger">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    {# Shipping address #}
+    {% block shipping_address %}
+    {% endblock shipping_address %}
+
+    {# You will almost certainly want to override this block to provide a payment summary #}
+    {% block payment_method %}
+    {% endblock payment_method %}
+
+    {# order content #}
+    {% block order_contents %}
+        <h1 class="text-center checkout-order-header">{% trans 'PLACE ORDER' %}</h1>
+        <div class="row order-content-page">
+            <div class="col-xs-12 col-md-8 main">
+                {% include 'checkout/include/order_ship_to.html' %}
+                {% include 'checkout/include/payment_method.html' %}
+                {% include 'checkout/include/order_content.html' %}
+            </div>
+            <div class="col-xs-12 col-md-4 aside-preview">
+                {% block place_order %}
+                {% endblock place_order %}
+            </div>
+
+        </div>
+    {% endblock order_contents %}
+
+    {% block shipping_method %}
+    {% endblock shipping_method %}
+
+    {% block payment_details %}
+    {% endblock payment_details %}
+
+
+</div>
+{% endblock content_wrapper %}
+
+
+
+{% block extrascripts %}
+{% endblock %}
+

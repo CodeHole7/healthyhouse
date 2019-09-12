@@ -1,0 +1,398 @@
+{% load i18n instruction %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% trans 'Dosimeters report' %}</title>
+    <style>
+	  	/* add margin on page */
+        @page { 
+		  margin: 105px 0 150px;  
+		  padding: 0;
+		  size:A4; 
+		  @bottom-center{
+			  content: counter(page);
+		  }
+
+	  	}
+	  	.header {
+		  	position: fixed;
+		  	top: -75px;
+		  	left: 0;
+		  	right: 0;
+		}
+		.footer {
+		  	position: fixed;
+		  	bottom: -150px;
+		  	right: 15px;
+		}
+        @font-face {
+            font-family: 'HelveticaNeue';
+            font-style: normal;
+            font-weight: 400;
+        }
+        html, body, div, span, applet, object, iframe,
+        h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+        a, abbr, acronym, address, big, cite, code,
+        del, dfn, em, img, ins, kbd, q, s, samp,
+        small, strike, strong, sub, sup, tt, var,
+        b, u, i, center,
+        dl, dt, dd, ol, ul, li,
+        fieldset, form, label, legend,
+        table, caption, tbody, tfoot, thead, tr, th, td,
+        article, aside, canvas, details, embed,
+        figure, figcaption, footer, header, hgroup,
+        menu, nav, output, ruby, section, summary,
+        time, mark, audio, video {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit; 
+            vertical-align: baseline;
+            box-sizing: border-box;
+            font-family: 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+        * {
+            color: #000000;
+            word-wrap: break-word;
+            word-break: break-word;
+        }
+        h1, h2, h3, h4, h5, p { color: #000000; }
+        body { color: #000000; }
+	  	h1 {
+            font-size: 26px;
+            font-weight: bold;
+            margin: 20px 0;
+        } 
+        p {
+            margin-bottom: 15px;
+            line-height: 1.5em;
+        }
+        hr {
+            margin: 30px 0 40px;
+            border: 0;
+            border-top: 1px solid #DEE3EB;
+            box-sizing: content-box;
+            height: 0;
+        }
+        .root {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .clearfix::after {
+            content: '';
+            clear: both;
+            display: block;
+        }
+	  	.margin-b-15 { margin-bottom: 15px; }
+        .margin-b-30 { margin-bottom: 30px; }
+	  	.margin-b-45 { margin-bottom: 45px; }
+        .s-12 { font-size: 12px; }
+        .s-14 { font-size: 14px; }
+        .ital { font-style: italic; }
+        .bold { font-weight: bold; }
+        .pull-right { float: right; }
+	  	.align-center { text-align: center; }
+        .align-left { text-align: left; }
+        .align-right { text-align: right; }
+	  	.danger-text {
+		  color: #f51a01;
+		  text-transform: uppercase;
+	  	}
+	  	.link {
+		  color: #2186d6;
+		  text-transform: initial;
+	  	}
+	  
+	  	.r-side,
+	  	.l-side {
+			width: 50%;
+			float: left;
+	  	}
+	  	.logo {
+		 	max-width: 20%;
+		  	margin-right: 50px;
+	  	}
+	  	.table {
+            text-align: left;
+            border-collapse: collapse;
+            border-spacing: 0;
+            width: 100%;
+            table-layout: fixed;
+            line-height: 1.5em;
+        }
+        .table thead tr { border: 1px solid #000000; }
+        .table {  border-bottom: 1px solid #000000; }
+        .table th,
+        .table td {
+            padding: 2px 5px;
+            border: 1px solid #000000;
+		  	min-height: 26px
+        }
+        .table thead th {
+            font-weight: bold;
+            background-color: #c4c1c1;
+            border: 1px solid #000000;
+            font-size: 12px;
+        }
+        .even { background-color: rgb(247, 243, 241); }
+	  	
+	  	.instruction-table td {
+		 	vertical-align: middle;
+		  	padding: 10px
+	  	}
+	  	.instruction-table td:last-child {
+		 	border-bottom: 1px solid black 
+	  	}
+	  	.instruction-table__counter {
+			background-color: #c4c1c1;
+		  	color: #ffffff;
+		  	font-size: 32px;
+		  	font-weight: bold;
+		  	border-radius: 50%;
+		  	padding: 0px;
+		  	width: 40px;
+		  	height: 40px;
+		  	line-height: 40px;
+	  	}
+    </style>
+</head>
+<body>
+  	<header class="header align-center">
+	  	<img class="logo" src="https://radonmeters.com/static/images/radon_logo.svg">
+	  	<span class="bold">Radon dosimeter vejledningog information</span>
+	</header>
+  	<footer class="footer">
+	  <p class="s-14 align-right">
+		  HEALTHYHOUSE RADONMETERS<br />
+		  CVR: 38752693<br />
+		  Fruebjergvej 3, 2100 København Ø.<br />
+		  Kontakt: info@radonmeters.com eller tlf. 2336 2260
+	  </p>
+  	</footer>
+  	
+    <div class="root">
+        <h1 class="align-center margin-b-30">
+            Vejledning
+        </h1>
+        
+        <p class="align-center danger-text margin-b-30">
+            (NB! DOSIMETRE BØR OPBEVARES I FRYSER SÅ LÆNGE DE IKKE ER I BRUG!).
+        </p>
+
+        <table class="instruction-table margin-b-45">
+            <tbody>
+                <tr>
+                    <td class="align-center">
+                        <div class="instruction-table__counter">1</div>
+                    </td>
+                    <td class="">
+                        <img src="http://media.radonmeters.com/image1_cropped.png">
+                    </td>
+                    <td class="align-left instruction-table__description">
+                        <p>
+                            Klip den radontætte pose op langs den ene side, og tag
+                            dosimeterboksene ud. Målingen går nu i gang. Udfyld ”Information om
+                            målingen” (se side 2). Gem posen da du skal bruge den når du sender
+                            dosimeterboksene tilbage.
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="align-center">
+                        <div class="instruction-table__counter">2</div>
+                    </td>
+                    <td class="">
+                        <img src="http://media.radonmeters.com/image1_cropped.png">
+                    </td>
+                    <td class="align-left instruction-table__description">
+                        <p>
+                            Hæng dosimeterboksene op, f.eks. i en snor, eller læg dem mindst 1,5
+                            meter fra nærmeste varmekilde, vindue, yderdør, ventilationsåbninger og
+                            mindst 25 cm fra væg, gulv og loft. Den ideelle placering er så tæt på
+                            hovedhøjde som muligt.
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="align-center">
+                        <div class="instruction-table__counter">3</div>
+                    </td>
+                    <td class="">
+                        <img src="http://media.radonmeters.com/image1_cropped.png">
+                    </td>
+                    <td class="align-left instruction-table__description">
+                        <p>
+                            Mål altid med mindst to dosimeterbokse som du placerer i to forskellige rum. Eller flere
+                            rum hvis du har mere end to dosimeterbokse. Det ene
+                            rum skal helst være et soveværelse, og det andet et rum som du ofte opholder dig i.
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="align-center">
+                        <div class="instruction-table__counter">4</div>
+                    </td>
+                    <td class="">
+                        <img src="http://media.radonmeters.com/image1_cropped.png">
+                    </td>
+                    <td class="align-left instruction-table__description">
+                        <p>
+                            I måleperioden skal du bebo hjemmet som du plejer.
+                            Ventilationssystemer skal være tændt, og du skal lufte ud som du plejer.
+                            Flyt ikke rundt på dosimeterboksene i måleperioden.
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="align-center">
+                        <div class="instruction-table__counter">5</div>
+                    </td>
+                    <td class="">
+                        <img src="http://media.radonmeters.com/image1_cropped.png">
+                    </td>
+                    <td class="align-left instruction-table__description">
+                        <p>
+                            Hvis der er flere etager med beboelse i din bolig, skal der placeres mindst
+                            et dosimeter på hver etage. Der skal ikke måles i vådrum. Da kælderrum
+                            ofte er mere udsat for højt radonindhold, skal indrettede rum i kælder,
+                            som gildestue eller soveværelser, altid måles.
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="align-center">
+                        <div class="instruction-table__counter">6</div>
+                    </td>
+                    <td class="">
+                        <img src="http://media.radonmeters.com/image1_cropped.png">
+                    </td>
+                    <td class="align-left instruction-table__description">
+                        <p>
+                            Dosimetrene indsamles efter 60-90 dage. Nu er målingen færdig . Læg
+                            dosimeterboksene tilbage i den radontætte pose og luk den med tape. Er
+                            posen blevet væk, kan du kan pakke boksene ind i sølvpapir for at
+                            undgå radon. Læg nu dosimetrene i svarkuverten sammen med den
+                            udfyldte” Information om målingen” (se side 2). Husk at udfylde alle felter
+                            i formularen da vi ellers ikke kan foretage en analyse af målerne.
+                        </p>
+                        <div class="danger-text">
+                            NÅR DU SKAL RETURNERE, FORESPØRG RETURLABEL HOS
+                            <a href="mailto:info@radonmeters.com" class="link">info@radonmeters.com</a>
+                            FOR GRATIS FORSENDELSE
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="align-center">
+                        <div class="instruction-table__counter">7</div>
+                    </td>
+                    <td class="">
+                        <img src="http://media.radonmeters.com/image1_cropped.png">
+                    </td>
+                    <td class="align-left instruction-table__description">
+                        <p>
+                            Du får analyseresultatet så snart vi har det klar. Analyse og rapportering
+                            tager normalt 4-6 uger. Rapporten viser det målte radonindhold i de rum
+                            hvor dosimetrene har været placeret, samt årsmiddelværdien for
+                            boligen hvis den har været mulig at beregne (se side 2 under
+                            ”Bemærk”).
+                        </p>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <p class="align-center bold margin-b-30">
+            Information om målingen
+        </p>
+
+        <p class="margin-b-15">
+            <b class="bold">Husk</b> at returnere nedenstående <b class="bold">formular</b> sammen med dosimeterboksene
+            efter endt måling.
+        </p>
+
+        <p class="margin-b-15">
+            Udfyld venligst <b class="bold">alle felter</b> for hver måler nedenfor. Vi kan <b class="bold">ikke
+                foretage en analyse</b> af målerne hvis
+            vi ikke har en <b class="bold">start dato</b> og <b class="bold">slut dato</b> for de enkelte målere.
+        </p>
+
+        <div class="margin-b-15 bold">
+            Ordrenummer: .....................
+        </div>
+
+        <table class="table margin-b-45">
+            <thead>
+                <tr class="align-center">
+                    <th>Målernr. (f.eks 01568)</th>
+                    <th>Rum (fx stue)</th>
+                    <th>Etage (fx 1.)</th>
+                    <th>Start dato (dd-mm-åå)</th>
+                    <th>Slut dato (dd-mm-åå)</th>
+                    <th>Opholdsr um</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for _ in '12345678' %}
+                <tr>
+                    <td class="align-right"></td>
+                    <td class="align-right"></td>
+                    <td class="align-right"></td>
+                    <td class="align-right"></td>
+                    <td class="align-right"></td>
+                    <td class="align-right"></td>
+                    <td class="align-right"></td>
+                    <td class="align-right"></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br /><br /><br />
+        <p class="align-center bold margin-b-30">
+            Vigtig information
+        </p>
+
+        <p class="margin-b-15">
+            Målesæsonen for radon løber i fyringssæsonen fra 1. oktober til 30. april. Sporfilmene har
+            begrænset holdbarhed, og målingen skal derfor påbegyndes så snart du har modtaget
+            dosimeterboksene. Dosimetrene kan ikke gemmes og bruges næste målesæson.
+        </p>
+
+        <p class="margin-b-15">
+            Efter endt måling skal dosimetrene straks sendes tilbage til os og seneste afsendelsesdato til
+            Radonmeters fra kunden er 15. maj i en given målesæson. Vi forbeholder os retten til ikke at
+            analysere målere afsendt senere end denne dato. Vi forbeholder os også retten til ikke at analysere
+            målere returneret i en anden radonmålesæson end den måleren blev indkøbt til.
+        </p>
+
+        <p class="margin-b-15">
+            Målere indkøbt via én ordre må kun benyttes på den af kunden angivne måleadresse. Målere indkøbt
+            via én ordre skal returneres samlet til analyse. Der afgives kun en analyserapport.
+        </p>
+
+        <p class="margin-b-15">
+            Udregning af årsmiddelværdi kræver måling i minimum 60 dage i fyringssæsonen, minimum 2
+            steder i huset samt måling på alle husets etager.
+        </p>
+
+        <p class="margin-b-15">
+            Hver af de dosimeterbokse du har modtaget, indeholder en sporfilm som måler radongas. Derfor
+            opbevares dosimeterboksene i en radontæt pose som ikke må åbnes før målingen starter.
+        </p>
+
+        <p class="margin-b-45">
+            Dosimeterboksene afgiver ingen form for stråling og er ikke sundhedsskadelige.
+        </p>
+        <p>
+            {% trans "Link for view" %}: <a class="link" href="{% build_instruction_link %}">{% build_instruction_link %}</a>
+        </p>
+       
+    </div>
+</body>
+
+</html>
