@@ -14,7 +14,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMultiAlternatives
 from django.core.exceptions import ValidationError
 from django.db.models import Q, Count
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.utils.translation import ugettext as _
 from django.utils import timezone
 from oscar.apps.dashboard.orders.forms import OrderSearchForm
@@ -38,20 +38,25 @@ from rest_framework.viewsets import ModelViewSet
 
 from api.catalogue.serializers import DefaultProductChangeSerializer
 from api.catalogue.serializers import DosimeterChangeSerializer
-from api.order.serializers import OrderDetailSerializer, OrderApproveSerializer, OrderAccountingLedgerSerializer, OrderExternalReportSerializer
-from api.order.serializers import OrderListSerializer
+from api.order.serializers import OrderDetailSerializer, OrderApproveSerializer, OrderAccountingLedgerSerializer, OrderExternalReportSerializer, OrderDosimeterDetailSerializer
+from api.order.serializers import OrderListSerializer, OrderShipmentSerializer, LineItemSerializer, LineSerializer, OrderUpdateSerializer
 from common.utils import create_invoice_pdf
 from customer.utils import COMM_TYPE_DOSIMETER_REPORT, COMM_TYPE_LABEL, COMM_TYPE_RETURN_LABEL, COMM_TYPE_INVOICE
-from deliveries.client import create_label_request
+from deliveries.client import create_label_request, create_shipment_request, create_shipment_return
 from instructions.models import InstructionTemplate
 from order.models import ORDER_NOT_FULL, ORDER_IS_WEIRD, ORDER_NO_DOSIMETERS, ORDER_IS_WEIRD
 
+
+#============ Added by Alex M. 2019.9.18 =============#
+Owner = get_model('owners', 'Owner')
+Shipment = get_model('deliveries', 'Shipment')
+ShipmentReturn = get_model('deliveries', 'ShipmentReturn')
+#============ ========================= =============#
 Order = get_model('order', 'Order')
 Line = get_model('order', 'Line')
 Dosimeter = get_model('catalogue', 'Dosimeter')
 DefaultProduct = get_model('catalogue', 'DefaultProduct')
 Instruction = get_model('instructions', 'Instruction')
-
 
 class OrderHelper:
 
@@ -147,7 +152,7 @@ class OrderViewSet(
                     "sent_date": null
                 },...]
     """
-
+   
     permission_classes = (IsAdminUser,)
     queryset = Order.objects.all()
     filter_backends = (filters.SearchFilter, filters.DjangoFilterBackend, filters.OrderingFilter)
@@ -157,6 +162,13 @@ class OrderViewSet(
     pagination_class = OrderPageNumberPagination
 
     def filter_queryset(self, queryset):
+
+        #============ Added by Alex M. 2019.9.17 =============#
+        if not self.request.user.is_superuser and self.request.user.is_staff:
+            staff_owners_list = Owner.objects.values('id').filter(user_id=self.request.user.id)
+            queryset = queryset.filter(owner_id__in=staff_owners_list)
+        #=====================================================#
+
         qs = super().filter_queryset(queryset)
         dosimeters_count = qs.aggregate(count=Count('lines__dosimeters'))['count']
         self.pagination_class.dosimeters_count = dosimeters_count
@@ -170,9 +182,14 @@ class OrderViewSet(
             return OrderDetailSerializer
         elif self.action in ['send_report', 'approve']:
             return serializers.BaseSerializer
+        elif self.action in ['create_shipment', 'create_return_shipment', 'send_order_email',]:
+            return OrderShipmentSerializer
+        elif self.action == 'get_order_detail':
+            return OrderDosimeterDetailSerializer
+        # r
         else:
             return OrderListSerializer
-
+    
     @detail_route(methods=['GET'], permission_classes=[IsAuthenticated])
     def generate_pdf_report(self, request, pk=None):
         """
@@ -356,7 +373,11 @@ class OrderViewSet(
 
         order = self.get_object()
         context = {'order': order}
+
         serializer = OrderAccountingLedgerSerializer(data=request.data, context=context)
+        print('\n\n\n\n\n\n\n================================================')
+        print(context)
+        print('======================================================\n\n\n\n\n\n')
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({'detail': 'Order was imported'})
@@ -578,6 +599,7 @@ class OrderViewSet(
         # Return PDF report (single order).
         else:
             return self._return_pdf(data_set[0])
+    
 
     @list_route(methods=['POST'], permission_classes=[IsAdminUser])
     def send_invoices_pdf(self, request):
@@ -868,6 +890,105 @@ class OrderViewSet(
             return self._failed_response(message)
 
         return Response({'detail': _('Labels has been sent to customers.')})
+    
+
+    """
+        @Author: Alex 
+    """
+    @list_route(methods=['POST'], permission_classes=[IsAdminUser])
+    def send_order_email(self, request):
+        order_number = request.data['number']
+
+        serializer = self.get_serializer(data=request.data)
+        
+        if serializer.is_valid():
+            json_response = JsonResponse({'success':False, 'detail':'Order number is not correct'})
+            return json_response
+        
+        order = Order.objects.get(number = order_number)
+        order.scan_dosimeters()
+        
+        json_response = JsonResponse({'success':True, 'detail':'Order Email sent successfully.'})
+        return json_response
+
+    
+    @list_route(methods=['POST'], permission_classes=[IsAdminUser])
+    def create_shipment(self, request, pk=None):
+        order_number = request.data['number']
+        
+        # Check that order number is valid.
+        serializer = self.get_serializer(data=request.data)
+        
+        if serializer.is_valid():
+            json_response = JsonResponse({'success':False, 'detail':'Order number is not correct'})
+            return json_response
+            # return Response({'detail': _('Order Number is not correct.')})    
+
+        order = Order.objects.get(number = order_number)
+        response = create_shipment_request(order)
+
+        shipment = Shipment()
+        shipment.order_id = order.id
+        shipment.data = response
+        shipment.save()
+
+        # order.scan_dosimeters() #send invoice email to customer
+        order.status = "issued"
+        order.save()
+
+        json_response = JsonResponse({'success':True, 'detail':'Shipment created successfully in API.'})
+        return json_response
+        # return JsonResponse(response)
+        # return Response({'detail': _('Shipment Created Successfully in API')})
+
+
+
+    @list_route(methods=['POST'], permission_classes=[IsAdminUser])
+    def create_return_shipment(self, request, pk=None):
+        order_number = request.data['number']
+        
+        # Check that order number is valid.
+        serializer = self.get_serializer(data=request.data)
+        
+
+        if serializer.is_valid():
+            json_response = JsonResponse({'success':False, 'detail':'Order number is not correct.'})
+            return json_response
+            # return Response({'detail': _('Order Number is not correct.')})    
+
+        order = Order.objects.get(number = order_number)
+        response = create_shipment_return(order)
+
+        shipment_return = ShipmentReturn()
+        shipment_return.order_id = order.id
+        shipment_return.data = response
+        shipment_return.save()
+
+        # order.scan_dosimeters()
+        order.status = "issued"
+        order.save()
+
+        json_response = JsonResponse({'success':True, 'detail':'Return shipment created successfully in API.'})
+        return json_response
+        # return Response({'detail': _('Return Shipment Created Successfully in API')})
+
+    @list_route(methods=['POST'], permission_classes=[IsAdminUser])
+    def get_order_detail(self, request, pk=None):
+        order_number = request.data['number']
+        # status = request.data['status']
+
+        serializer = self.get_serializer(data=request.data)
+        
+        if serializer.is_valid():
+            json_response = JsonResponse({'success':False, 'detail':'Order number is not correct'})
+            return json_response
+        
+        order = Order.objects.get(number = order_number)
+        
+        sn = OrderDosimeterDetailSerializer(order)
+        json_response = sn.data
+        
+        return Response({'success':True, 'detail':json_response})
 
 
 class DosimeterViewSet(ModelViewSet):
@@ -888,3 +1009,4 @@ class DefaultProductViewSet(ModelViewSet):
     permission_classes = (IsAdminUser,)
     queryset = DefaultProduct.objects.all()
     serializer_class = DefaultProductChangeSerializer
+    filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter)
