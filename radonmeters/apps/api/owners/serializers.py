@@ -8,7 +8,7 @@ class OwnerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Owner
-        fields = ['id', 'first_name', 'last_name', 'email', 'is_default']
+        fields = ['id', 'first_name', 'last_name', 'email', 'is_default', 'user']
 
     def validate_is_default(self, is_default):
         return Owner.validate_is_default(self.instance, is_default)
