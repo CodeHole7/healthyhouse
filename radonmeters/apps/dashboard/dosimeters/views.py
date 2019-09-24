@@ -109,6 +109,7 @@ class DosimeterDashboardListView(generic.ListView):
                     #dosimeter.line.order.owner_id = data['owner']
                     #dosimeter.line.order.save()
                     # -----------
+                    
                     dosimeter.save()
                     if data['status'] == Dosimeter.STATUS_CHOICES.ready_for_packaging:
                         # generated a report pdf and automatically send it to customer
