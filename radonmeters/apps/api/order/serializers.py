@@ -302,6 +302,15 @@ class OrderDetailSerializer(OrderListSerializer):
         return custom_format_currency(
             number=instance.total_incl_tax,
             currency=instance.currency)
+    
+    @staticmethod
+    def validate_number(self, number):
+        try:
+            self.order = Order.objects.get(number=number)
+        except Order.DoesNotExist:
+            raise serializers.ValidationError('Order Number is not correct.')
+        return number
+
 
 
 class OrderApproveSerializer(serializers.ModelSerializer):
@@ -339,6 +348,9 @@ class OrderAccountingLedgerSerializer(serializers.ModelSerializer):
             response_sync = acc_sync.post_invoice_metadata(order, invoice_file)
         except Exception as e:
             raise serializers.ValidationError('Error during importing file %s' % e)
+        print('\n\n\n\n\n\n\n=====================serializer test===========================')
+        print(order)
+        print('======================================================\n\n\n\n\n\n')
         self.metadata = json.loads(response_sync.text)[0]
         self.external_id = self.metadata.get('Id')
         if not self.external_id:
@@ -382,3 +394,50 @@ class OrderExternalReportSerializer(serializers.ModelSerializer):
             instance.use_external_report = True
             instance.save()
             return instance
+
+class OrderShipmentSerializer(serializers.ModelSerializer):
+    """  Serializer for create shipment """
+    number = serializers.CharField()
+    class Meta:
+        model = Order
+        fields = ('number',)
+    def validate_number(self, number):
+        try:
+            self.order = Order.objects.get(number=number)
+        except Order.DoesNotExist:
+            raise serializers.ValidationError('Order Number is not correct.')
+        return number
+
+
+class OrderDosimeterDetailSerializer(serializers.ModelSerializer):
+    """  Serializer for one order """
+    id = serializers.ReadOnlyField()
+    number = serializers.CharField()
+    status = serializers.ReadOnlyField()
+    lines = LineSerializer(read_only=True, many=True)
+    quantity = serializers.ReadOnlyField(source='num_items')
+    class Meta:
+        model = Order
+        fields = ('id', 'number', 'status','quantity','lines', 'owner_id')
+    def validate_number(self, number):
+        try:
+            self.order = Order.objects.get(number=number)
+        except Order.DoesNotExist:
+            raise serializers.ValidationError('Order Number is not correct.')
+        return number
+
+class OrderUpdateSerializer(serializers.ModelSerializer):
+    """ Serializer for update order status in API """
+    number = serializers.CharField()
+    status = serializers.CharField()
+    owner = serializers.IntegerField()
+    class Meta:
+        model = Order
+        fields = [
+            'id', 'number', 'status', 'owner',]
+    def validate_number(self, number):
+        try:
+            self.order = Order.objects.get(number=number)
+        except Order.DoesNotExist:
+            raise serializers.ValidationError('Order Number is not correct.')
+        return number
