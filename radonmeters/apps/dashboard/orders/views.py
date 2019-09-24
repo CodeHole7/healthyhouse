@@ -105,7 +105,7 @@ class OrderListView(OrderListViewBase):
         #================= Added by Alex 2019.9.5 ========================
         if not self.request.user.is_superuser and self.request.user.is_staff:
             staff_owners_list = Owner.objects.values('id').filter(user_id=self.request.user.id)
-            queryset = queryset.filter(user_id__in=staff_owners_list)
+            queryset = queryset.filter(owner_id__in=staff_owners_list)
         #=================================================================
 
 
