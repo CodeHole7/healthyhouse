@@ -153,7 +153,7 @@ class BatchSelectDashboardUpdateForm(forms.Form):
         #     raise forms.ValidationError("please enter new batch name or select existed batch.")
         return cleaned_data
     def save_data(self):
-        
+    
         if self.cleaned_data['like'] == 'NEW':
 
             batch = Batch(batch_name = self.cleaned_data['new_batch_name'], 
@@ -175,7 +175,7 @@ class BatchSelectDashboardUpdateForm(forms.Form):
         #     return False
         try:
             batch_dosimeter = Batch_Dosimeter.objects.get(dosimeter_id = dosimeter.id)
-            batch_dosimeter.batch_id = batch_id
+            batch_dosimeter.batch_id = batch.id
             batch_dosimeter.save()
         except Batch_Dosimeter.DoesNotExist:            
             batch_dosimeter = Batch_Dosimeter(batch_id = batch.id, dosimeter_id = dosimeter.id)
