@@ -16,6 +16,7 @@ class OwnerViewSet(
         mixins.ListModelMixin,
         GenericViewSet):
     queryset = Owner.objects.all()
+    # pagination_class = None
     serializer_class = OwnerSerializer
     permission_classes = (IsAdminUser,)
     filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter)
