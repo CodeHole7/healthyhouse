@@ -31,10 +31,12 @@ class DosimetersDashboardApplication(DashboardApplication):
             url(r'^(?P<pk>[-\w]+)/$',
                 self.dosimeter_detail_view.as_view(),
                 name='dosimeter-detail'),
+            # =========== Added by Alex M ==============
             url(r'^download-dosimeter-reports-pdf/(\d+)$', self.dosimeter_report_download_link.as_view(), name='download_dosimeter_reports_pdf'),
             url(r'^dosimeter-batch/(?P<serial_number>[-\w]+)/(?P<owner>[-\w]+)/(?P<status>[-\w]+)/$',
                 self.dosimeter_batch_view.as_view(),
                 name='dosimeter-batch'),
+            # ==========================================
         ]
         return self.post_process_urls(urls)
 
