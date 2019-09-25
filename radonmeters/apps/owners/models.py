@@ -18,7 +18,7 @@ class Owner(models.Model):
     last_name = models.CharField(_('Last name'), max_length=255)
     email = models.EmailField(_('Email address'), blank=True)
     is_default = models.BooleanField(_('Is default'), default=False)
-    user = models.ForeignKey(User, verbose_name ="Staff", default=True, blank=True)
+    user = models.ForeignKey(User, verbose_name ="Staff")
 
     class Meta:
         ordering = ('id', )
