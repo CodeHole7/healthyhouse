@@ -122,7 +122,7 @@ def create_shipment_request(order):
     :param order: Instance of Order model.
     :return: Dictionary or ValidationError.
     """
-    data = package_out(order)
+    data = package_out(order)    
     response_data = _create_shipment(data, 'Shipment')
     order.shipping_id = response_data['id']
     order.save()
