@@ -11,11 +11,15 @@ urlpatterns = [
         dosimeters_views.set_dosimeter_status,
         name='set_dosimeter_status'),
 
-   	url(r'^generate-sensor-barcode/$',
+   	url(r'^generate_sensor_barcode/$',
         dosimeters_views.generate_sensor_barcode,
         name='generate_sensor_barcode'),
+
+
 ]
 
 router = routers.DefaultRouter()
+router.register(r'^batch', dosimeters_views.BatchViewSet, base_name='batch')
+#router.register(r'', dosimeters_views.DosimeterUpdateViewSet, base_name='update_status')
 router.register('', dosimeters_views.DosimeterViewSet)
 urlpatterns += router.urls
