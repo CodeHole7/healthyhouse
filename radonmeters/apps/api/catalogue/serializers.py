@@ -15,7 +15,6 @@ DefaultProduct = get_model('catalogue', 'DefaultProduct')
 Location = get_model('catalogue', 'Location')
 Line = get_model('order', 'Line')
 
-
 class OrderedProductAbstractSerializer(serializers.ModelSerializer):
     """
     Abstract serializer for providing common fields and methods.
