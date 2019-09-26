@@ -10,7 +10,6 @@ from api.permissions import IsPartnerOrAdmin
 
 Location = get_model('catalogue', 'Location')
 
-
 class LocationViewSet(
         mixins.CreateModelMixin,
         mixins.ListModelMixin,
