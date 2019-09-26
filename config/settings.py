@@ -12,7 +12,6 @@ from oscar import OSCAR_MAIN_TEMPLATE_DIR
 from oscar import get_core_apps
 from oscar.defaults import *
 
-
 # CORE CONFIGURATION
 # =============================================================================
 ROOT_DIR = environ.Path(__file__) - 2  # (/folder/current_file.py - 2 = /)
@@ -51,7 +50,7 @@ env = environ.Env(
     DEFAULT_SERVICES_TRUSTPILOT_LINK=(str, ''),
 
     DJANGO_MAIN_PERMISSION=(str, ''),
-    DEFAULT_LANGUAGE_CODE=(str, 'da')
+    DEFAULT_LANGUAGE_CODE=(str, 'en')
 )
 
 environ.Env.read_env()
