@@ -20,6 +20,7 @@ class AuthAPITestCase(APITestCase):
         # Make a request by non authenticated user.
         r = self.client.get(url)
         expected_data = {'detail': 'Authentication credentials were not provided.'}
+        # expected_data = {'detail': 'Legitimation til autentificering blev ikke angivet.'}
         self.assertEqual(r.status_code, 401)
         self.assertDictEqual(r.data, expected_data)
 
@@ -39,6 +40,7 @@ class AuthAPITestCase(APITestCase):
         r = self.client.post(url, data, format='json')
         expected_data = {
             'key': self.auth_token.key,
+            'is_superuser': self.user.is_superuser,
             'is_staff': self.user.is_staff,
             'is_partner': self.user.is_partner,
             'is_laboratory': self.user.is_laboratory}
