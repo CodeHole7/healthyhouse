@@ -13,16 +13,19 @@ from rest_framework.response import Response
 
 from api.dosimeters.serializers import DosimeterUpdateSerializer, \
     DosimeterChangeSerializer, DosimeterSerialNumberSerializer
-from api.dosimeters.serializers import DosimeterUpdateStatusSerializer
+from api.dosimeters.serializers import DosimeterUpdateStatusSerializer, BatchSerializer
 from api.permissions import IsLaboratory
 from common.tasks import mail_admins_task
 from customer.utils import COMM_TYPE_DOSIMETER_REPORT
 from customer.utils import get_email_templates
 from random import randint
 from api.users.serializers import UserSerializer
+from django.http import JsonResponse
 
 
 Dosimeter = get_model('catalogue', 'Dosimeter')
+Batch = get_model('catalogue', 'Batch')
+Batch_Dosimeter = get_model('catalogue', 'Batch_Dosimeter')
 Order = get_model('order', 'Order')
 OrderLine = get_model('order','Line')
 
@@ -210,6 +213,13 @@ def generate_sensor_barcode(request):
     return Response({'dosimeters': created_serial_numbers})
 
 
+@api_view(['GET'])
+@permission_classes([IsLaboratory])
+
+def assign_batch(self, requset):
+
+    return Response({'success': True})
+
     # return Response({'id':dosimeter.id, 'serial_number':dosimeter.serial_number, 'status': dosimeter.status})
 
 
@@ -219,6 +229,7 @@ class DosimeterViewSet(
         GenericViewSet):
     queryset = Dosimeter.objects.all()
     serializer_class = DosimeterChangeSerializer
+    serializer_update_class = DosimeterUpdateStatusSerializer
     permission_classes = (IsAdminUser,)
 
     @list_route(methods=['POST'], serializer_class=DosimeterSerialNumberSerializer)
@@ -226,3 +237,71 @@ class DosimeterViewSet(
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         return Response(serializer.data)
+
+    @list_route(methods=['POST'], serializer_class=DosimeterUpdateStatusSerializer)
+    def update_status(self, request):
+        """
+            @Additional description: 
+            additional params 
+            ========================> (new_batch_name or batch_id) <=======================
+            ex: select existing batch case
+                {"number":"1231313","status":"shipped_to_distributor","owner_id":4,"batch_id":3}
+            \n
+            ex: Creating new batch
+                {"number":"1231313","status":"shipped_to_distributor","owner_id":4,"new_batch_name":"qwer"}
+        """
+        serializer = self.serializer_update_class(data=request.data)
+        if serializer.is_valid():
+            serial_number = serializer.validated_data.get('serial_number')
+
+            try:
+                dosimeter = Dosimeter.objects.get(serial_number=serial_number)
+
+                if 'status' in request.data:
+                    dosimeter.status = request.data['status']
+                    dosimeter.save()
+                if 'owner_id' in request.data:
+                    
+                    if 'new_batch_name' in request.data:
+                        batch = Batch(batch_name = request.data['new_batch_name'], 
+                            batch_owner_id = request.data['owner_id'])
+                        batch.save()
+
+                        try:
+                            batch_dosimeter = Batch_Dosimeter.objects.get(dosimeter_id = dosimeter.id)
+                            batch_dosimeter.batch_id = batch.id
+                            batch_dosimeter.save()
+                        except Batch_Dosimeter.DoesNotExist:            
+                            batch_dosimeter = Batch_Dosimeter(batch_id = batch.id, dosimeter_id = dosimeter.id)
+                            batch_dosimeter.save()
+                        
+                        return Response({'success': True})
+                    elif 'batch_id' in request.data:
+                        batch = Batch.objects.get(id = request.data['batch_id'], batch_owner_id = request.data['owner_id'])
+                        try:
+                            batch_dosimeter = Batch_Dosimeter.objects.get(dosimeter_id = dosimeter.id)
+                            batch_dosimeter.batch_id = batch.id
+                            batch_dosimeter.save()
+                        except Batch_Dosimeter.DoesNotExist:            
+                            batch_dosimeter = Batch_Dosimeter(batch_id = batch.id, dosimeter_id = dosimeter.id)
+                            batch_dosimeter.save()
+                        return Response({'success': True})
+                    
+                return Response({'success': True})
+                
+            except Dosimeter.DoesNotExist:
+                return Response({'serial_number': [_('A valid dosimeter serial number is required')]},
+                    status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class BatchViewSet(
+    mixins.ListModelMixin,
+    GenericViewSet):
+    """
+    API to get all batch list
+    """
+    serializer_class = BatchSerializer
+    queryset = Batch.objects.all()
+    pagination_class = None
