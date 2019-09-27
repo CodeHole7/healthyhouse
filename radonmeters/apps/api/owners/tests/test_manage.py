@@ -28,7 +28,6 @@ class OwnerAPITestCase(APITestCase):
 
     def test_empty_post(self):
         self.client.force_authenticate(self.admin)
-
         response = self.client.post(self.url_list)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertIn('first_name', response.data)
@@ -36,12 +35,13 @@ class OwnerAPITestCase(APITestCase):
 
     def test_add_owner(self):
         self.client.force_authenticate(self.admin)
-
+        user = UserFactory()
         data = {
             'first_name': 'First',
             'last_name': 'Last',
             'email': 'email_owner@email.com',
             'is_default': True,
+            'user':user.id
         }
 
         self.assertEqual(Owner.objects.count(), 1)
@@ -53,12 +53,13 @@ class OwnerAPITestCase(APITestCase):
 
     def test_add_owner_no_one_default(self):
         self.client.force_authenticate(self.admin)
-
+        user = UserFactory()
         data = {
             'first_name': 'First',
             'last_name': 'Last',
             'email': 'email_owner@email.com',
-            'is_default': False,
+            'is_default': True,
+            'user':user.id
         }
 
         self.assertEqual(Owner.objects.count(), 1)
@@ -71,12 +72,13 @@ class OwnerAPITestCase(APITestCase):
         self.owner.save()
 
         self.client.force_authenticate(self.admin)
-
+        user = UserFactory()
         data = {
             'first_name': 'First',
             'last_name': 'Last',
             'email': 'email_owner@email.com',
             'is_default': True,
+            'user':user.id
         }
 
         response = self.client.post(self.url_list, data)
@@ -90,12 +92,13 @@ class OwnerAPITestCase(APITestCase):
 
     def test_update_owner(self):
         self.client.force_authenticate(self.admin)
-
+        user = UserFactory()
         data = {
             'first_name': 'First',
             'last_name': 'Last',
             'email': 'email_owner@email.com',
             'is_default': True,
+            'user':user.id
         }
 
         response = self.client.put(self.url_detail, data)
