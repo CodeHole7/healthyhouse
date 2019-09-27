@@ -8,7 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.views import generic
 from django.views.generic import TemplateView
 from django.views.generic.edit import ProcessFormView, ModelFormMixin
-
+from rest_framework import status
 from oscar.core.loading import get_model
 
 from dashboard.owners.forms import OwnerDashboardSearchForm, \
@@ -91,12 +91,6 @@ class OwnerDashboardListView(generic.ListView):
         return context
 
 
-"""
-    @author : Alex
-    @date : 2019.9.4
-    @description : dashboard/owners/add, update page view
-                   edited because don't need to display staff list
-"""
 class OwnerDashboardFormView(ModelFormMixin, ProcessFormView):
     model = Owner
     fields = ['first_name', 'last_name', 'email', 'is_default']
@@ -113,19 +107,19 @@ class OwnerDashboardFormView(ModelFormMixin, ProcessFormView):
 
 class OwnerDashboardUpdateView(OwnerDashboardFormView, generic.UpdateView):
     def form_valid(self, form):
-        owner = form.save()
-        owner.user_id = self.request.user.id
-        owner.save()
-        return HttpResponseRedirect(self.success_url)
-    # pass
+        form.instance.user = self.request.user
+        form.save()
+        return HttpResponseRedirect(self.success_url, status.HTTP_200_OK)
 
+    # pass
 
 class OwnerDashboardCreateView(OwnerDashboardFormView, generic.CreateView):
     def form_valid(self, form):
-        owner = form.save()
-        owner.user_id = self.request.user.id
-        owner.save()
-        return HttpResponseRedirect(self.success_url)
+        form.instance.user = self.request.user
+        form.save()
+        
+        # return super(OwnerDashboardFormView, self).form_invalid(form)
+        return HttpResponseRedirect(self.success_url, status.HTTP_200_OK)
     #pass
 
 class OwnerDashboardEmailConfigDetailView(generic.UpdateView):
