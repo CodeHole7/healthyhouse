@@ -37,12 +37,15 @@ class AccountingSync:
         headers = {
             "Authorization": self.auth(),
         }
-
+        print('============== Accounting Utils / _make_post_files ==============')
+        print(url)
+        print(headers)
         response = requests.post(
             url,
             files=files,
             headers=headers
         )
+        print(response)
         return response
 
     def _make_post_json(self, path, data=None):
@@ -66,11 +69,16 @@ class AccountingSync:
         if not invoice:
             invoice = create_invoice_pdf(order, context, in_memory=True)
         files = {'file':  ('invoice.pdf', invoice)}
+        print(invoice)
+        print('========= Accounting Utils/ before return self._make_post_file ========\n')
         return self._make_post_files(path, files)
 
     def post_invoice_metadata(self, order, invoice_file):
         # post files
         response = self.post_files(order, invoice_file)
+        print('\n ============== Accounting Utils post_invoice_metadata ==============')
+        print(response)
+        print('==================== self.post_file response =======================\n\n\n\n\n\n')
         if not status.is_success(response.status_code):
             raise ValueError(response.text)
 
