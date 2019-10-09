@@ -345,12 +345,15 @@ class OrderAccountingLedgerSerializer(serializers.ModelSerializer):
         acc_sync = AccountingSync()
         order = self.context['order']
         try:
+            print('======= trying AccounttingSync.post_invoice_metadata ========')
             response_sync = acc_sync.post_invoice_metadata(order, invoice_file)
         except Exception as e:
             raise serializers.ValidationError('Error during importing file %s' % e)
-        print('\n\n\n\n\n\n\n=====================serializer test===========================')
+        
+        print('\n================= Accounting Legder Serializer ======================')
         print(order)
-        print('======================================================\n\n\n\n\n\n')
+        print('======================================================\n\n')
+        
         self.metadata = json.loads(response_sync.text)[0]
         self.external_id = self.metadata.get('Id')
         if not self.external_id:
@@ -413,7 +416,7 @@ class OrderDosimeterDetailSerializer(serializers.ModelSerializer):
     """  Serializer for one order """
     id = serializers.ReadOnlyField()
     number = serializers.CharField()
-    status = serializers.ReadOnlyField()
+    status = serializers.ReadOnlyField()#CharField(required=False)
     lines = LineSerializer(read_only=True, many=True)
     quantity = serializers.ReadOnlyField(source='num_items')
     class Meta:
