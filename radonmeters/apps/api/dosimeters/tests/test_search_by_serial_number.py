@@ -39,7 +39,8 @@ class SeacrhDosimeterBySerialNumberAPITestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         expected_data = {
             'serial_number': self.dosimeter_1.serial_number,
-            'dosimeter_id': self.dosimeter_1.id
+            'dosimeter_id': self.dosimeter_1.id,
+            'order_number':response.data['order_number']
         }
         self.assertDictEqual(response.data, expected_data)
 
