@@ -373,12 +373,14 @@ class OrderViewSet(
 
         order = self.get_object()
         context = {'order': order}
-
         serializer = OrderAccountingLedgerSerializer(data=request.data, context=context)
         print('\n\n\n\n\n\n\n================================================')
         print(context)
-        print('======================================================\n\n\n\n\n\n')
+        print('===== Before OrderAccountingLedgerSerializer validateion =====\n\n')
         serializer.is_valid(raise_exception=True)
+        print('\n\n================================================')
+        print('validate passed sccessfully')
+        print('======================================================\n\n\n\n\n\n')
         serializer.save()
         return Response({'detail': 'Order was imported'})
 
@@ -676,13 +678,51 @@ class OrderViewSet(
 
         return io_buffer.getvalue(), errors
 
+    def _generate_labels_pdf_for_printer(self, qs, out_label=True, return_label=False):
+        """Create pdf file with all labels"""
+
+        io_buffer = BytesIO()
+        writer = PdfFileWriter()
+        errors = []
+
+        for order in qs:
+            def add_bytes_to_merger(pdfbytes):
+                pdfio = BytesIO()
+                pdfio.write(base64.b64decode(pdfbytes))
+                # WARNING get only the first page of the result
+                page = PdfFileReader(pdfio).getPage(0)
+                writer.addPage(page)
+            if out_label:
+                try:
+                    pdfbytes = create_label_request(order.shipping_id)
+                    add_bytes_to_merger(pdfbytes)
+                except ValidationError:
+                    errors.append(order.number)
+            if return_label:
+                try:
+                    pdfbytes = create_label_request(order.shipping_return_id)
+                    add_bytes_to_merger(pdfbytes)
+                except ValidationError:
+                    errors.append(order.number)
+
+        writer.write(io_buffer)
+        return io_buffer.getvalue(), errors
+
     @list_route(methods=['GET'], permission_classes=[IsAdminUser])
     def generate_labels_pdf(self, request):
         queryset = self._get_filtered_qs()
         qs_labels = queryset.exclude(shipping_id='')
 
+        label_printer = False
+        if 'label_printer' in request.GET:
+            if request.GET['label_printer'].lower() in['true','1']:
+                label_printer = True
+
         if qs_labels.exists():
-            file_data, errors = self._generate_labels_pdf(queryset)
+            if label_printer:
+                file_data, errors = self._generate_labels_pdf_for_printer(queryset)
+            else:
+                file_data, errors = self._generate_labels_pdf(queryset)
 
             if errors and len(errors) == qs_labels.count():
                 message = _(
@@ -706,9 +746,16 @@ class OrderViewSet(
         queryset = self._get_filtered_qs()
         qs_labels = queryset.exclude(shipping_return_id='')
 
-        if qs_labels.exists():
-            file_data, errors = self._generate_labels_pdf(queryset, False, True)
+        label_printer = False
+        if 'label_printer' in request.GET:
+            if request.GET['label_printer'].lower() in['true','1']:
+                label_printer = True
 
+        if qs_labels.exists():
+            if label_printer:
+                file_data, errors = self._generate_labels_pdf_for_printer(queryset, False, True)
+            else:
+                file_data, errors = self._generate_labels_pdf(queryset, False, True)
             if errors and len(errors) == qs_labels.count():
                 message = _(
                     'Labels for order with number=[{errors}] can not be generated.'.format(
@@ -919,7 +966,7 @@ class OrderViewSet(
         # Check that order number is valid.
         serializer = self.get_serializer(data=request.data)
         
-        if serializer.is_valid():
+        if not serializer.is_valid():
             json_response = JsonResponse({'success':False, 'detail':'Order number is not correct'})
             return json_response
             # return Response({'detail': _('Order Number is not correct.')})    
@@ -933,8 +980,8 @@ class OrderViewSet(
         shipment.save()
 
         # order.scan_dosimeters() #send invoice email to customer
-        order.status = "issued"
-        order.save()
+        # order.status = "issued"
+        # order.save()
 
         json_response = JsonResponse({'success':True, 'detail':'Shipment created successfully in API.'})
         return json_response
@@ -951,7 +998,7 @@ class OrderViewSet(
         serializer = self.get_serializer(data=request.data)
         
 
-        if serializer.is_valid():
+        if not serializer.is_valid():
             json_response = JsonResponse({'success':False, 'detail':'Order number is not correct.'})
             return json_response
             # return Response({'detail': _('Order Number is not correct.')})    
@@ -965,8 +1012,8 @@ class OrderViewSet(
         shipment_return.save()
 
         # order.scan_dosimeters()
-        order.status = "issued"
-        order.save()
+        # order.status = "issued"
+        # order.save()
 
         json_response = JsonResponse({'success':True, 'detail':'Return shipment created successfully in API.'})
         return json_response
@@ -977,19 +1024,25 @@ class OrderViewSet(
         order_number = request.data['number']
         # status = request.data['status']
 
-        serializer = self.get_serializer(data=request.data)
+        serializer = self.get_serializer(data=request.data['number'])
         
         if serializer.is_valid():
-            json_response = JsonResponse({'success':False, 'detail':'Order number is not correct'})
+            json_response = JsonResponse({'success':False, 'detail':'Order number is not correct.'})
             return json_response
         
         order = Order.objects.get(number = order_number)
         
         sn = OrderDosimeterDetailSerializer(order)
-        json_response = sn.data
-        
-        return Response({'success':True, 'detail':json_response})
+                
+        return Response({'success':True, 'detail':sn.data})
+    
+@list_route(methods=['POST'], permission_classes=[IsAdminUser])
+def get_order_by_status(self, request, pk=None):
+    status = request.data['status']
 
+    orders = Order.objects.all(status = status)
+    sn = OrderDetailSerializer(orders)
+    return Response({'success':True, 'detail':sn})
 
 class DosimeterViewSet(ModelViewSet):
     """
