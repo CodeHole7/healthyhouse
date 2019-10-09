@@ -191,23 +191,23 @@ def generate_sensor_barcode(request):
     # get dosimeters in 'unknown'
     dosimeters = Dosimeter.objects.all().filter(status='unknown')
     for dosimeter in dosimeters:
-            while True:
-                random_bar_code = "0"
-                for i in range(1,8):
-                    digit = randint(0,9)
-                    random_bar_code = random_bar_code + str(digit)
-                # check if barcode is unique
-                try:
-                    Dosimeter.objects.get(serial_number=random_bar_code)
-                except Dosimeter.DoesNotExist:
-                    # save serial number to db and set status as 'created'
-                    dosimeter.status = Dosimeter.STATUS_CHOICES.created
-                    dosimeter.serial_number = random_bar_code                           
-                    dosimeter.save()
-                    created_serial_numbers.append(random_bar_code)
-                    break
-                finally:
-                    pass
+        while True:
+            random_bar_code = "0"
+            for i in range(1,8):
+                digit = randint(0,9)
+                random_bar_code = random_bar_code + str(digit)
+            # check if barcode is unique
+            try:
+                Dosimeter.objects.get(serial_number=random_bar_code)
+            except Dosimeter.DoesNotExist:
+                # save serial number to db and set status as 'created'
+                dosimeter.status = Dosimeter.STATUS_CHOICES.created
+                dosimeter.serial_number = random_bar_code                           
+                dosimeter.save()
+                created_serial_numbers.append(random_bar_code)
+                break
+            finally:
+                pass
 
 
     return Response({'dosimeters': created_serial_numbers})
@@ -243,12 +243,12 @@ class DosimeterViewSet(
         """
             @Additional description: 
             additional params 
-            ========================> (new_batch_name or batch_id) <=======================
+            ========================> (new_batch_description or batch_id) <=======================
             ex: select existing batch case
                 {"number":"1231313","status":"shipped_to_distributor","owner_id":4,"batch_id":3}
             \n
             ex: Creating new batch
-                {"number":"1231313","status":"shipped_to_distributor","owner_id":4,"new_batch_name":"qwer"}
+                {"number":"1231313","status":"shipped_to_distributor","owner_id":4,"new_batch_description":"qwer"}
         """
         serializer = self.serializer_update_class(data=request.data)
         if serializer.is_valid():
@@ -262,8 +262,8 @@ class DosimeterViewSet(
                     dosimeter.save()
                 if 'owner_id' in request.data:
                     
-                    if 'new_batch_name' in request.data:
-                        batch = Batch(batch_name = request.data['new_batch_name'], 
+                    if 'new_batch_description' in request.data:
+                        batch = Batch(batch_description = request.data['new_batch_description'], 
                             batch_owner_id = request.data['owner_id'])
                         batch.save()
 
