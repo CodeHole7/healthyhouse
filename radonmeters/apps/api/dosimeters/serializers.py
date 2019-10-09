@@ -22,9 +22,9 @@ class DosimeterSerialNumberSerializer(serializers.Serializer):
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         representation['dosimeter_id'] = self.dosimeter.id
-        # order_line = OrderLine.objects.get(id=self.dosimeter.line_id)
-        # order_order = OrderOrder.objects.get(id=order_line.order_id)
-        # representation['order_number']=order_order.number
+        order_line = OrderLine.objects.get(id=self.dosimeter.line_id)
+        order_order = OrderOrder.objects.get(id=order_line.order_id)
+        representation['order_number']=order_order.number
         return representation
 
 class DosimeterChangeSerializer(serializers.ModelSerializer):
@@ -101,7 +101,7 @@ class DosimeterUpdateSerializer(serializers.ModelSerializer):
 class BatchSerializer(serializers.ModelSerializer):
     class Meta:
         model = Batch
-        fields = ('id', 'batch_name','batch_owner_id' )
+        fields = ('id', 'batch_description','batch_owner_id' )
 
 class DosimeterUpdateStatusSerializer(serializers.ModelSerializer):
     """  Serializer for updating Dosimeter status """
