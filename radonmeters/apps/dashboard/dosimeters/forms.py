@@ -125,10 +125,11 @@ class BatchSelectDashboardUpdateForm(forms.Form):
         label = pgettext_lazy("Included it into", "Included it into")
     )
 
-    new_batch_name = forms.CharField(
-        max_length = 255,
+    new_batch_description = forms.CharField(
+        #disabled = True,
+        max_length = 512,
         required = False,
-        label = pgettext_lazy("New Batch", "New Batch")
+        label = pgettext_lazy("Batch Description", "Batch Description")
     )
 
     BATCHS_CHOICE = []
@@ -138,25 +139,25 @@ class BatchSelectDashboardUpdateForm(forms.Form):
     def clean(self):
         cleaned_data = super().clean()
         if cleaned_data['like'] == 'NEW':
-            if not cleaned_data['new_batch_name']:
-                self.add_error('new_batch_name',"You didn't enter new batch name")
+            if not cleaned_data['new_batch_description']:
+                self.add_error('new_batch_description',"You didn't enter new batch name")
             try:
-                batch = Batch.objects.get(batch_owner_id = cleaned_data['owner'], batch_name = cleaned_data['new_batch_name'])
-                self.add_error('new_batch_name', 'This batch name already exists')
+                batch = Batch.objects.get(batch_owner_id = cleaned_data['owner'], batch_description = cleaned_data['new_batch_description'])
+                self.add_error('new_batch_description', 'This batch name already exists')
             except Batch.DoesNotExist:
                 pass
         elif cleaned_data['like'] == 'SELECTED':
             if not cleaned_data['batchs']:
                 self.add_error('batchs',"You didn't select batch")
 
-        # if not cleaned_data['batchs'] and not cleaned_data['new_batch_name']:
+        # if not cleaned_data['batchs'] and not cleaned_data['new_batch_description']:
         #     raise forms.ValidationError("please enter new batch name or select existed batch.")
         return cleaned_data
     def save_data(self):
     
         if self.cleaned_data['like'] == 'NEW':
 
-            batch = Batch(batch_name = self.cleaned_data['new_batch_name'], 
+            batch = Batch(batch_description = self.cleaned_data['new_batch_description'], 
                 batch_owner_id = self.cleaned_data['owner'])
             batch.save()
             
@@ -189,9 +190,10 @@ class BatchSelectDashboardUpdateForm(forms.Form):
         self.BATCHS_CHOICE = []
 
         for batch in Batch.objects.all().filter(batch_owner_id = kwargs['initial']['owner']):
-            self.BATCHS_CHOICE.append((batch.id, batch.batch_name))
+            self.BATCHS_CHOICE.append((batch.id, batch.id))
 
         self.fields['batchs'] = forms.ChoiceField(
+            #disabled = True,
             required=False,
             choices = self.BATCHS_CHOICE,
             label = pgettext_lazy("Select Batch", "Select Batch")
@@ -210,8 +212,8 @@ class BatchSelectDashboardUpdateForm(forms.Form):
         # )
 
         # self.fields['owner'].widget.attrs['readonly'] = True
-        # self.fields['status'].widget.attrs['readonly'] = True
-        # self.fields['serial_number'].widget.attrs['readonly'] = True
+        self.fields['batchs'].widget.attrs['disabled'] = True
+        self.fields['new_batch_description'].widget.attrs['disabled'] = True
 
 
 
