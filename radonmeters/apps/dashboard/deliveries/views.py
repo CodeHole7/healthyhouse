@@ -173,3 +173,12 @@ class ShipmentReturnUpdateView(generic.UpdateView):
 
         # Return to default behavior for `form_valid`.
         return super().form_valid(form)
+
+class ShipmentReturnDeleteView(generic.DeleteView):
+    """
+    View for deleting deliveries in the Oscar's Dashboard.
+    """
+
+    model = ShipmentReturn
+    success_url = reverse_lazy('dashboard:order-list')
+    template_name = 'dashboard/deliveries/shipment_return_change_form.html'
