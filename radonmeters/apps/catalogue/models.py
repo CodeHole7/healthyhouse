@@ -15,7 +15,7 @@ from oscar.apps.catalogue.abstract_models import AbstractProduct
 from oscar.apps.partner.models import StockRecord
 from oscar.core.loading import get_model
 from rest_framework.reverse import reverse
-
+from django.utils import timezone
 
 from common.models import UUIDAbstractModel
 
@@ -294,7 +294,7 @@ class Dosimeter(ProductItemAbstractModel):
                 pass
         return False
     @cached_property
-    def get_batch_name(self):
+    def get_batch_description(self):
         
         if self.status is not self.STATUS_CHOICES.unknown and self.status is not self.STATUS_CHOICES.created:
             try:
@@ -302,7 +302,7 @@ class Dosimeter(ProductItemAbstractModel):
                 batch_dosimeter = Batch_Dosimeter.objects.get(dosimeter_id = self.id)
                 batch = batch_dosimeter.batch
 
-                return batch.batch_name
+                return batch.batch_description
             except Batch_Dosimeter.DoesNotExist:
                 pass
         return False
@@ -482,8 +482,10 @@ class Location(TimeStampedModel):
     @desc: Batch table model for dosimeter grouping
 """
 class Batch(models.Model):
-    batch_name = models.CharField(_('Batch Name'), max_length=255, blank=False, default=False)
+    batch_description = models.CharField(_('Batch Description'), max_length=512, blank=True)
     batch_owner = models.ForeignKey(Owner)
+    created_date = models.DateField(
+        _('Date of creation'), null=True, default=timezone.now())
     
 """
     @author: alex m
