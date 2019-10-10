@@ -28,6 +28,9 @@ class DeliveriesDashboardConfig(DashboardApplication):
     shipment_return_update_view = get_class(
         'dashboard.deliveries.views',
         'ShipmentReturnUpdateView')
+    shipment_return_delete_view = get_class(
+        'dashboard.deliveries.views',
+        'ShipmentReturnDeleteView')
 
     def get_urls(self):
         urls = [
@@ -43,12 +46,16 @@ class DeliveriesDashboardConfig(DashboardApplication):
             url(r'^return/(?P<pk>[-\w]+)/$',
                 self.shipment_return_update_view.as_view(),
                 name='shipment-return-update'),
+            url(r'^return/(?P<pk>[-\w]+)/delete/$',
+                self.shipment_return_delete_view.as_view(),
+                name='shipment-return-delete'),
             url(r'^(?P<pk>[-\w]+)/$',
                 self.shipment_update_view.as_view(),
                 name='shipment-update'),
             url(r'^(?P<pk>[-\w]+)/delete/$',
                 self.shipment_delete_view.as_view(),
                 name='shipment-delete')]
+            
         return self.post_process_urls(urls)
 
 
