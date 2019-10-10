@@ -148,7 +148,7 @@ class DosimeterDashboardListView(generic.ListView):
                             messages.success(
                             request=self.request,
                             message=_('Just sent email to owner because all dosimeters in "%s" batch are received from "%s" owner') % \
-                                (batch.batch_name,owner.first_name))
+                                (batch.batch_description,owner.first_name))
 
                     self.updated_dosimeter = data['serial_number']
                     messages.success(
@@ -239,7 +239,7 @@ class BatchSelectDashboardView(generic.TemplateView):
             messages.success(
                         request=self.request,
                         message=_('Dosimeter "%s" status is changed "%s" successfully, and included batch "%s"') % \
-                        (serial_number, status, batch.batch_name))
+                        (serial_number, status, batch.batch_description))
             return redirect('dashboard:dosimeter-list')
         context['form_update'] = self.form_update
 
