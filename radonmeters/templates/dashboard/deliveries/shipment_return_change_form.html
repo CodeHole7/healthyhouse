@@ -34,5 +34,12 @@
             </div>
         {% endblock form_actions %}
     </form>
-
+    {% if shipment %}
+        <form action="{% url 'dashboard:shipment-return-delete' pk=shipment.pk %}" method="post" class="form-stacked well wysiwyg">
+            {% csrf_token %}
+            <h3>{% trans 'Do you want to remove this object?' %}</h3>
+            <p><b>{% trans 'Attention, you also need to cancel/remove this instance in delivery system.' %}</b></p>
+            <input class="btn btn-danger btn-lg" type="submit" value="Delete" />
+        </form>
+    {% endif %}
 {% endblock dashboard_content %}
