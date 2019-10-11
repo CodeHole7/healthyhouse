@@ -240,10 +240,10 @@
       {% endif %}
       <a class="btn btn-default" style="margin: 2px;" href="{% url 'dashboard:shipment-update' order.shipment.id %}">{% trans "View Shipment" %}</a><br />
     {% else %}
-      <!-- <button class="btn btn-primary btn-block js-create-shipment" data-order-id="{{order.id}}" data-url="{% url 'dashboard:shipment-create' %}"
+      <button class="btn btn-primary btn-block js-create-shipment" data-order-id="{{order.id}}" data-url="{% url 'dashboard:shipment-create' %}"
         data-loading-text="{% trans 'Loading...' %}" type="button">
         {% trans "Create Shipment" %}
-      </button> -->
+      </button>
     {% endif %}
     {% if order.shipment_return %}
 {#      {% if order.shipment_return.current_status %}#}
@@ -255,10 +255,10 @@
 {#      {% endif %}#}
       <a class="btn btn-default" style="margin: 2px;" href="{% url 'dashboard:shipment-return-update' order.shipment_return.id %}">{% trans "View Return Shipment" %}</a><br />
     {% else %}
-      <!-- <button class="btn btn-primary btn-block js-create-shipment" data-order-id="{{order.id}}" data-url="{% url 'dashboard:shipment-return-create' %}"
+      <button class="btn btn-primary btn-block js-create-shipment" data-order-id="{{order.id}}" data-url="{% url 'dashboard:shipment-return-create' %}"
         data-loading-text="{% trans 'Loading...' %}" type="button" style="padding: 6px">
         {% trans "Create Return Shipment" %}
-      </button> -->
+      </button>
     {% endif %}
   </td>
   <td style="max-width: 110px; word-wrap: break-word;">
