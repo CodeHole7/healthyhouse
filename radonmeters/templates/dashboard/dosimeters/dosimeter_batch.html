@@ -48,5 +48,30 @@
 {% endblock dashboard_content %}
 
 
+{% block onbodyload %}
+    {{ block.super }}
+    $(function(){
+        function checkAvailable(){
+            let _radioObj = $("input[name=like]");
+            _radioObj.each(function(){
+               
+                if($(this).prop('checked') == true)
+                {
+                    if($(this).val() == 'NEW')
+                    {
+                        $('#id_new_batch_description').attr('disabled', false);
+                        $('#id_batchs').attr('disabled', true);
+                    }else{
+                        $('#id_batchs').attr('disabled', false);
+                        $('#id_new_batch_description').attr('disabled', true);
+                    }
+                }
+            })
+        }
+        checkAvailable();
+        $('input[name=like').on('change', checkAvailable);
 
+    });
+  
+{% endblock onbodyload %}
 
