@@ -14,7 +14,10 @@ urlpatterns = [
    	url(r'^generate_sensor_barcode/$',
         dosimeters_views.generate_sensor_barcode,
         name='generate_sensor_barcode'),
-
+        
+    url(r'^add_dosimeter_note/$',
+        dosimeters_views.add_dosimeter_note,
+        name="add_dosimeter_note"),
 
 ]
 
