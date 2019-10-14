@@ -87,7 +87,8 @@ def serialize_lines(lines):
                 "title": line.title,
                 "upc": line.upc,
                 "quantity": line.quantity,
-                "items": serialize_line_items(line)
+                "items": serialize_line_items(line),
+                'product_id':line.product_id
             }
         )
     return data
@@ -96,6 +97,7 @@ def serialize_lines(lines):
 def serialize_order(order):
     return {
         'id': order.id,
+        'lines': serialize_lines(order.lines.all()),
         'number': order.number,
         'quantity': order.num_items,
         "billing_address": {
@@ -136,7 +138,7 @@ def serialize_order(order):
         'is_approved': order.is_approved,
         'approved_date': order.approved_date,
         'user_who_approved': order.user_who_approved_id,
-        'lines': serialize_lines(order.lines.all()),
+        
         'email': order.user.email,
         'phone_number': order.user.phone_number,
         'total_price': custom_format_currency(
@@ -269,6 +271,10 @@ class OrderAPITestCase(APITestCase):
         url = reverse('api:orders:order-detail', kwargs={'pk': order.pk})
         r = self.client.get(url)
         expected_data = serialize_order(order)
+        print('\n\n\n\n\n\n\n\n\n')
+        print(json.dumps(r.data))
+        print('\n\n\n\n\n\n\n\n\n')
+        print(expected_data)
         self.assertJSONEqual(json.dumps(r.data), expected_data)
 
     def test_change_order_status(self):
