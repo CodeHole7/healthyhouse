@@ -196,7 +196,7 @@ class LineSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Line
-        fields = ['id', 'title', 'upc', 'quantity', 'items']
+        fields = ['id', 'title', 'upc', 'quantity', 'items', 'product_id']
 
     def get_items(self, instance):
         """
@@ -412,21 +412,59 @@ class OrderShipmentSerializer(serializers.ModelSerializer):
         return number
 
 
-class OrderDosimeterDetailSerializer(serializers.ModelSerializer):
+class OrderDosimeterDetailSerializer(OrderListSerializer):
     """  Serializer for one order """
     id = serializers.ReadOnlyField()
     number = serializers.CharField()
     status = serializers.ReadOnlyField()#CharField(required=False)
     lines = LineSerializer(read_only=True, many=True)
     quantity = serializers.ReadOnlyField(source='num_items')
+
+    email = serializers.ReadOnlyField(source='user.email')
+    phone_number = serializers.ReadOnlyField(source='user.phone_number')
+    shipping_address = ShippingAddressSerializer(read_only=True)
+    shipping_code = serializers.ReadOnlyField(source='shipping_id')
+    billing_address = BillingAddressSerializer(read_only=True)
+    total_price = serializers.SerializerMethodField(read_only=True)
+    date_placed = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = Order
-        fields = ('id', 'number', 'status','quantity','lines', 'owner_id')
+        fields = ('id', 'number', 'status','quantity','lines', 'owner_id',
+            'currency', 'date_placed', 'email', 'phone_number',
+            'billing_address', 'shipping_address', 'shipping_code',
+            'shipping_id', 'shipping_incl_tax', 'shipping_method',
+            'total_price', 'total_excl_tax', 'total_incl_tax',
+            'is_reported_by_partner',
+            'is_report_sent', 'sent_date', 'is_approved', 'user_who_approved',
+            'approved_date',
+            'is_exists_accounting', 'is_paid', 'date_payment')
+        read_only_fields = [
+            'currency', 'date_placed', 'email', 'phone_number',
+            'billing_address', 'shipping_address', 'shipping_code',
+            'shipping_id', 'shipping_incl_tax', 'shipping_method',
+            'total_price', 'total_excl_tax', 'total_incl_tax',
+            'is_reported_by_partner',
+            'is_report_sent', 'sent_date', 'is_approved', 'user_who_approved',
+            'approved_date',
+            'is_exists_accounting', 'is_paid', 'date_payment']
+
+    @staticmethod
+    def get_total_price(instance):
+        """
+        Returns formatted string, for example: "215.99 DKK".
+        """
+
+        return custom_format_currency(
+            number=instance.total_incl_tax,
+            currency=instance.currency)
+
     def validate_number(self, number):
         try:
             self.order = Order.objects.get(number=number)
         except Order.DoesNotExist:
             raise serializers.ValidationError('Order Number is not correct.')
+            return False
         return number
 
 class OrderUpdateSerializer(serializers.ModelSerializer):
