@@ -24,6 +24,7 @@ from django.http import JsonResponse
 
 
 Dosimeter = get_model('catalogue', 'Dosimeter')
+DosimeterNote = get_model('catalogue', 'DosimeterNote')
 Batch = get_model('catalogue', 'Batch')
 Batch_Dosimeter = get_model('catalogue', 'Batch_Dosimeter')
 Order = get_model('order', 'Order')
@@ -135,52 +136,6 @@ def set_dosimeter_status(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# def generate_sensor_barcode(request):
-#     # get random 8 chipers
-#     serializer = UserSerializer(request.user)
-    
-#     # get order id with 'created' status
-#     orders = Order.objects.all().filter(user_id=serializer.data['id'], status='created')
-#     if len(orders) < 1:
-#         return Response({'detail': _('No placed orders.')})
-
-#     created_serial_numbers = []
-#     # get order_line id
-#     for order in orders:
-
-#         order_lines = OrderLine.objects.all().filter(order_id=order.id, status='created')
-
-#         for order_line in order_lines:
-#             dosimeters = Dosimeter.objects.all().filter(line_id=order_line.id, status='unknown')
-#             for dosimeter in dosimeters:
-#                     while True:
-#                         random_bar_code = "0"
-#                         for i in range(1,8):
-#                             digit = randint(0,9)
-#                             random_bar_code = random_bar_code + str(digit)
-#                         # check if barcode is unique
-#                         try:
-#                             Dosimeter.objects.get(serial_number=random_bar_code)
-#                         except Dosimeter.DoesNotExist:
-#                             # save serial number to db and set status as 'created'
-#                             dosimeter.status = Dosimeter.STATUS_CHOICES.created
-#                             dosimeter.serial_number = random_bar_code                           
-#                             dosimeter.save()
-#                             created_serial_numbers.append(random_bar_code)
-#                             break
-#                         finally:
-#                             pass
-
-
-#     return Response({'dosimeters': created_serial_numbers})
-
-
-"""
-    @author: alex m.
-    @created: 2019.8.27
-    @desc: generate a unique barcode and save it in db
-"""
-
 @api_view(['GET'])
 @permission_classes([IsLaboratory])
 
@@ -212,6 +167,28 @@ def generate_sensor_barcode(request):
 
     return Response({'dosimeters': created_serial_numbers})
 
+
+@api_view(['POST'])
+@permission_classes([IsAdminUser])
+
+def add_dosimeter_note(request):
+    
+    if 'message' in request.data and 'uuid' in request.data:
+        message = request.data['message']
+        dosimeter_id = request.data['uuid']
+        dosimeter_note = DosimeterNote()
+        
+        try:
+            dosimeter = Dosimeter.objects.get(id=dosimeter_id)
+            dosimeter_note.dosimeter = dosimeter
+        except:   
+            return Response({'success': False})
+
+        dosimeter_note.message = message
+        dosimeter_note.save()
+        return Response({'success': True})
+
+    return Response({'success': False })
 
 @api_view(['GET'])
 @permission_classes([IsLaboratory])
