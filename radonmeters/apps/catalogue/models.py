@@ -190,7 +190,7 @@ class Dosimeter(ProductItemAbstractModel):
         default=STATUS_CHOICES.unknown)
 
     line = models.ForeignKey(
-        Line, related_name='dosimeters', verbose_name=_('Line'))
+        Line, related_name='dosimeters', verbose_name=_('Line'), blank=True, null=True)
 
     # Data which should be set by 3rd-party application:
     concentration = models.FloatField(_('Concentration'), null=True, blank=True)
@@ -484,8 +484,9 @@ class Location(TimeStampedModel):
 class Batch(models.Model):
     batch_description = models.CharField(_('Batch Description'), max_length=512, blank=True)
     batch_owner = models.ForeignKey(Owner)
-    created_date = models.DateField(
-        _('Date of creation'), null=True, default=timezone.now())
+    created_date = models.DateTimeField( _('Date of creation'),auto_now_add=True)
+    # created_date = models.DateField(
+    #     _('Date of creation'), null=True, default=timezone.now())
     
 """
     @author: alex m
@@ -496,6 +497,16 @@ class Batch_Dosimeter(models.Model):
     batch = models.ForeignKey(Batch, on_delete=models.CASCADE)
     dosimeter = models.ForeignKey(Dosimeter, on_delete=models.CASCADE)
     
+class DosimeterNote(models.Model):
+    note_type = models.CharField(max_length=255)
+    message = models.TextField(null=False)
+    create_date = models.DateTimeField(auto_now_add=True)
+    update_date = models.DateTimeField(auto_now=True)
+    dosimeter = models.ForeignKey(Dosimeter, on_delete = models.CASCADE)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        models.SET_NULL,
+        blank=True, null=True)
 
 # noinspection PyUnresolvedReferences
 from oscar.apps.catalogue.models import *
