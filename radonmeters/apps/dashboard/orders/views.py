@@ -21,7 +21,6 @@ from order.models import filter_ready_for_approval_but_not_approved, \
     filter_partial, \
     filter_result_no_slip, \
     filter_slip_no_result
-
 from dashboard.orders.forms import APPROVAL_STATUS_CHOICES
 from dashboard.orders.forms import REPORT_STATUS_CHOICES
 from dashboard.orders.forms import ANALYSIS_STATUS_CHOICES
@@ -404,3 +403,4 @@ class OrderCreateView(TemplateView):
             product_class__name=settings.OSCAR_PRODUCT_TYPE_DOSIMETER)
         context['countries'] = Country.objects.filter(is_shipping_country=True)
         return context
+    
