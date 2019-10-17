@@ -49,6 +49,35 @@
 
 {% block dashboard_content %}
 <div class="container shipping-form">
+    <form action="/api/v1/orders/get_order_detail/" method="post" id="load-order-form" validate>
+        {% csrf_token %}  
+        <div class="row">
+            <div class="col-xs-12 col-sm-5">
+                <div class="form-group">
+                    <label for="id_owner">
+                        {% trans "Order Number" %}
+                    </label>
+                    <div>
+                        <div class="col-sm-10" style="padding-left:0px; padding-right:0px;">
+                            <input
+                                required
+                                type="text"
+                                name="number" 
+                                class="form-control" 
+                                id="number" />
+                            <span class="error-block text-danger" id="order-number-error"></span>
+                        </div>       
+                        <div class="col-sm-2" style="padding-right:0px;">
+                            <button type="submit" id="load-order" class="btn btn-primary load-order pull-right">Load</button>
+                        </div>
+                    </div>
+                    <br>
+                    
+                </div>
+            </div>
+        </div>
+    </form>
+    <br><br><br>
     <form action="{% url 'api:data_import:orders' %}" method="post" id="create-order" class="large-select2 form form-vertical" novalidate>
         <div>
             <div class="row">
@@ -64,7 +93,7 @@
                                     name="owner" 
                                     class="select2 js-owner-select form-control" 
                                     data-ajax-url="/api/v1/owners/" 
-                                    data-name="true" 
+                                    data-name="true"
                                     id="id_owner" />
                             </div>
                             <span class="error-block text-danger"></span>
@@ -282,18 +311,38 @@
                             <span class="error-block text-danger"></span>
                         </div>
 
+
                         <div class="form-group">
-                            <label for="id_line1" class="control-label">
-                                {% trans "Address" %} *
+                            <label for="id_country" class="control-label">
+                                {% trans "Country" %} *
+                            </label>
+                            <div>
+                                <select 
+                                    required
+                                    name="country" 
+                                    class="form-control" 
+                                    id="id_country">
+                                    <option value="">---------</option>
+                                    {% for country in countries %}
+                                        <option value="{{ country.iso_3166_1_a2 }}" >{{ country }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <span class="error-block text-danger"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="id_postcode" class="control-label">
+                                {% trans "Postcode" %} *
                             </label>
                             <div>
                                 <input 
                                     required
                                     type="text" 
-                                    name="line1" 
-                                    placeholder="{% trans "Enter Address" %}" 
+                                    name="postcode" 
+                                    placeholder="{% trans "Enter postcode" %}" 
                                     class="form-control" 
-                                    id="id_line1">
+                                    id="id_postcode">
                             </div>
                             <span class="error-block text-danger"></span>
                         </div>
@@ -315,39 +364,23 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="id_postcode" class="control-label">
-                                {% trans "Postcode" %} *
+                            <label for="id_line1" class="control-label">
+                                {% trans "Address" %} *
                             </label>
                             <div>
                                 <input 
                                     required
                                     type="text" 
-                                    name="postcode" 
-                                    placeholder="{% trans "Enter postcode" %}" 
+                                    name="line1" 
+                                    placeholder="{% trans "Enter Address" %}" 
                                     class="form-control" 
-                                    id="id_postcode">
+                                    id="id_line1">
                             </div>
                             <span class="error-block text-danger"></span>
                         </div>
 
-                        <div class="form-group">
-                            <label for="id_country" class="control-label">
-                                {% trans "Country" %} *
-                            </label>
-                            <div>
-                                <select 
-                                    required
-                                    name="country" 
-                                    class="form-control" 
-                                    id="id_country">
-                                    <option value="">---------</option>
-                                    {% for country in countries %}
-                                        <option value="{{ country.iso_3166_1_a2 }}" >{{ country }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <span class="error-block text-danger"></span>
-                        </div>
+                        
+
                     </div>
             </div>
             <div class="row">
