@@ -4,7 +4,7 @@
 {% load l10n %}
 
 <tr class="dosimeters-row hidden" dosimeters-row-{{ order.id }} >
-    <td colspan="18">
+    <td colspan="20">
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -62,6 +62,7 @@
                         <button style="margin-top: 10px" class="btn btn-primary save-all-dosimeter hidden">Save all</button>
                     </th>
                     <th style="vertical-align: top;" title="{% trans 'Last modified (time and user)' %}"><img src="{% static 'images/orders_icons/8.svg' %}" alt="Last modified (time and user)"></img></th>
+                    <th style="vertical-align: top;">{% trans 'Notes' %}</th>
                 </tr>
             </thead>
             <tbody>
@@ -193,6 +194,11 @@
                         </td>
                         <td title="{{ d.last_modified_by|default:'-' }}">
                             {{ d.last_modified_date|date:'d-m-Y'|default:'-' }}
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-default add_dosimeter_note" data-uuid="{{d.pk}}">
+                                {% trans 'Note' %}
+                            </button>
                         </td>
                     </tr>
                     {% endfor %}
