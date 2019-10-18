@@ -334,6 +334,11 @@
   <td style="min-width: 70px">
     {{ order.date_payment }}
   </td>
+  <td>
+    <button type="button" class="btn btn-primary add_order_note" data-number="{{order.number}}">
+      {% trans 'Note' %}
+    </button>
+  </td>
   {% endif %}
     
   </tr>
