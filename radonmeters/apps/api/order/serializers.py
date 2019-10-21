@@ -302,7 +302,7 @@ class OrderDetailSerializer(OrderListSerializer):
         return custom_format_currency(
             number=instance.total_incl_tax,
             currency=instance.currency)
-    
+
     @staticmethod
     def validate_number(self, number):
         try:
@@ -349,11 +349,11 @@ class OrderAccountingLedgerSerializer(serializers.ModelSerializer):
             response_sync = acc_sync.post_invoice_metadata(order, invoice_file)
         except Exception as e:
             raise serializers.ValidationError('Error during importing file %s' % e)
-        
+
         print('\n================= Accounting Legder Serializer ======================')
         print(order)
         print('======================================================\n\n')
-        
+
         self.metadata = json.loads(response_sync.text)[0]
         self.external_id = self.metadata.get('Id')
         if not self.external_id:
