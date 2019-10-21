@@ -12,13 +12,16 @@ urlpatterns = [
         name='set_dosimeter_status'),
 
    	url(r'^generate_sensor_barcode/$',
-        dosimeters_views.generate_sensor_barcode,
-        name='generate_sensor_barcode'),
+           dosimeters_views.create_dosimeter_serialnumber,
+           name='create_dosimeter_serialnumber'),
         
     url(r'^add_dosimeter_note/$',
         dosimeters_views.add_dosimeter_note,
         name="add_dosimeter_note"),
 
+    url(r'^get_dosimeter_note/$',
+        dosimeters_views.get_dosimeter_note,
+        name="get_dosimeter_note"),
 ]
 
 router = routers.DefaultRouter()
