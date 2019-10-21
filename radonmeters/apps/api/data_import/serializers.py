@@ -20,6 +20,8 @@ from oscar.core.loading import get_model
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
+from api.order.serializers import OrderAccountingLedgerSerializer
+
 from deliveries.client import get_shipment_request
 from deliveries.models import Shipment
 from owners.models import Owner
@@ -102,6 +104,12 @@ class ImportOrderSerializer(serializers.Serializer):
     postcode = serializers.CharField()
     country = serializers.PrimaryKeyRelatedField(queryset=Country.objects.none())
     owner = serializers.PrimaryKeyRelatedField(queryset=Owner.objects.all())
+
+    # Payment fields
+    is_paid = serializers.BooleanField(required=False)
+    date_payment = serializers.DateTimeField(required=False)
+    report_to_accounting = serializers.BooleanField(required=False)
+    invoice_file = serializers.FileField(required=False, allow_null=True)
 
     # Call source field (turns on/off serial number quantity validation):
     call_source = serializers.CharField(allow_blank=True)
@@ -228,7 +236,9 @@ class ImportOrderSerializer(serializers.Serializer):
             partner_order_id=validated_data.get('partner_order_id') or '',
             status=validated_data.get('status') or self.STATUS_CHOICES.completed,
             date_placed=validated_data.get('date_placed'),
-            owner=validated_data.get('owner'),)
+            owner=validated_data.get('owner'),
+            is_paid=validated_data.get('is_paid', False),
+            date_payment=validated_data.get('date_payment', None))
 
     def _create_line(self, validated_data):
         """
@@ -350,6 +360,13 @@ class ImportOrderSerializer(serializers.Serializer):
         self._create_dosimeters(validated_data)
         self._create_shipment(validated_data)
         self._store_request(validated_data)
+
+        if validated_data.get('report_to_accounting'):
+            order = self.order
+            context = {'order': order}
+            serializer = OrderAccountingLedgerSerializer(data=validated_data, context=context)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
 
         # Return instance of User.
         return self.user
