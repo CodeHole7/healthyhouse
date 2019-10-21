@@ -2,6 +2,7 @@ import json
 from decimal import Decimal
 from uuid import uuid4
 
+from faker import Faker
 import os
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -16,11 +17,14 @@ from oscar.test.factories.customer import UserFactory
 from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
+from unittest import skip
 
 from api.data_import.tests.factories import DataImportDictFactory
 from catalogue.tests.factories import DosimeterFactory
 from data_import.models import ImportOrderObject
 from owners.tests.factories import OwnerFactory
+
+fake = Faker()
 
 User = get_user_model()
 Partner = get_model('partner', 'Partner')
@@ -152,7 +156,7 @@ class ImportOrderAPITestCase(APITestCase):
         self.assertEqual(order.shipping_code, data['shipping_code'])
         # self.assertEqual(order.shipping_id, data['shipping_id'])
         self.assertEqual(order.status, data['status'])
-        self.assertEqual(order.date_placed.strftime('%d-%m-%Y %H:%m'), data['date_placed'])
+        self.assertEqual(order.date_placed.strftime('%d-%m-%Y %H:%M'), data['date_placed'])
         self.assertEqual(order.total_incl_tax, _decimal_format(data['total_incl_tax']))
         self.assertEqual(order.total_excl_tax, _decimal_format(data['total_excl_tax']))
         self.assertEqual(order.shipping_incl_tax, _decimal_format(data['shipping_incl_tax']))
@@ -275,7 +279,7 @@ class ImportOrderAPITestCase(APITestCase):
         r = self.client.post(url, data, type='json')
         self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertDictEqual(r.data, expected_data)
-    
+
     def test_import_created_order(self):
         """Test that order with status 'created' cannot be imported with serial numbers.
         """
@@ -337,7 +341,7 @@ class ImportOrderAPITestCase(APITestCase):
         self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertDictEqual(r.data, expected_data)
 
-    
+
     def test_import_required_owner(self):
         url = reverse('api:data_import:orders')
 
@@ -407,6 +411,56 @@ class ImportOrderAPITestCase(APITestCase):
         self.assertEqual(line.partner_name, '')
         self.assertEqual(line.partner_sku, '')
 
+    def test_import_with_payment(self):
+        """Test import with payment data"""
+        url = reverse('api:data_import:orders')
+
+        # Generate data for request.
+        data = DataImportDictFactory(product=self.product.id,
+            is_paid=True,
+            date_payment=fake.date_time_this_year().strftime('%d-%m-%Y %H:%M'))
+
+        # Make a request.
+        r = self.client.post(url, data, type='json')
+
+        # Check the status code of response.
+        self.assertEqual(r.status_code, status.HTTP_201_CREATED)
+
+        # Get all created instances from database.
+        order = Order.objects.last()
+
+        # Check payment data in order.
+        # ---------------------------------------------------------------------
+        self.assertEqual(order.is_paid, True)
+        self.assertEqual(order.date_payment.strftime('%d-%m-%Y %H:%M'), data['date_payment'])
+        self.assertEqual(order.is_exists_accounting, False)
+
+    @skip("Not testing because of 3rd party service")
+    def test_import_with_accounting(self):
+        """Test import with accounting report"""
+        url = reverse('api:data_import:orders')
+
+        # Generate data for request.
+        data = DataImportDictFactory(product=self.product.id,
+            report_to_accounting=True)
+
+        data['invoice_file'] = SimpleUploadedFile(
+            name='invoice.pdf',
+            content=b'file_content',
+            content_type='application/octet-stream')
+
+        # Make a request.
+        r = self.client.post(url, data, format='multipart')
+
+        # Check the status code of response.
+        self.assertEqual(r.status_code, status.HTTP_201_CREATED)
+
+        # Get all created instances from database.
+        order = Order.objects.last()
+
+        # Check accounting flag in order.
+        # ---------------------------------------------------------------------
+        self.assertEqual(order.is_exists_accounting, True)
 
 class ImportAppAPITestCase(APITestCase):
     """
