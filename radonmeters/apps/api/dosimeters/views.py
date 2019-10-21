@@ -12,7 +12,7 @@ from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 
 from api.dosimeters.serializers import DosimeterUpdateSerializer, \
-    DosimeterChangeSerializer, DosimeterSerialNumberSerializer
+    DosimeterChangeSerializer, DosimeterSerialNumberSerializer, IntegerSerializer
 from api.dosimeters.serializers import DosimeterUpdateStatusSerializer, BatchSerializer
 from api.permissions import IsLaboratory
 from common.tasks import mail_admins_task
@@ -135,60 +135,127 @@ def set_dosimeter_status(request):
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# def generate_sensor_barcode(request):
+#     # get random 8 chipers
+#     serializer = UserSerializer(request.user)
 
-@api_view(['GET'])
+#     # get order id with 'created' status
+#     orders = Order.objects.all().filter(user_id=serializer.data['id'], status='created')
+#     if len(orders) < 1:
+#         return Response({'detail': _('No placed orders.')})
+
+#     created_serial_numbers = []
+#     # get order_line id
+#     for order in orders:
+
+#         order_lines = OrderLine.objects.all().filter(order_id=order.id, status='created')
+
+#         for order_line in order_lines:
+#             dosimeters = Dosimeter.objects.all().filter(line_id=order_line.id, status='unknown')
+#             for dosimeter in dosimeters:
+#                     while True:
+#                         random_bar_code = "0"
+#                         for i in range(1,8):
+#                             digit = randint(0,9)
+#                             random_bar_code = random_bar_code + str(digit)
+#                         # check if barcode is unique
+#                         try:
+#                             Dosimeter.objects.get(serial_number=random_bar_code)
+#                         except Dosimeter.DoesNotExist:
+#                             # save serial number to db and set status as 'created'
+#                             dosimeter.status = Dosimeter.STATUS_CHOICES.created
+#                             dosimeter.serial_number = random_bar_code
+#                             dosimeter.save()
+#                             created_serial_numbers.append(random_bar_code)
+#                             break
+#                         finally:
+#                             pass
+
+
+#     return Response({'dosimeters': created_serial_numbers})
+
+@api_view(['POST'])
 @permission_classes([IsLaboratory])
-
-def generate_sensor_barcode(request):
-    # get random 8 chipers
-
+def create_dosimeter_serialnumber(request):
+    """
+        @Additional description:
+        additional params
+        ========================> (amount of serialnumbers to generate) <=======================
+        ex: Creating 42 dosimeters
+            {"value": 42}
+    """
+    serializer = IntegerSerializer(data=request.data)
     created_serial_numbers = []
-    # get dosimeters in 'unknown'
-    dosimeters = Dosimeter.objects.all().filter(status='unknown')
-    for dosimeter in dosimeters:
+    if serializer.is_valid():
+        amount = serializer.validated_data.get('value')
         while True:
-            random_bar_code = "0"
-            for i in range(1,8):
-                digit = randint(0,9)
-                random_bar_code = random_bar_code + str(digit)
-            # check if barcode is unique
+            serial_number = '0'+str(randint(0,999999999)).zfill(9)
             try:
-                Dosimeter.objects.get(serial_number=random_bar_code)
+                Dosimeter.objects.get(serial_number=serial_number)
             except Dosimeter.DoesNotExist:
                 # save serial number to db and set status as 'created'
+                dosimeter = Dosimeter(serial_number=serial_number)
                 dosimeter.status = Dosimeter.STATUS_CHOICES.created
-                dosimeter.serial_number = random_bar_code                           
                 dosimeter.save()
-                created_serial_numbers.append(random_bar_code)
-                break
+                created_serial_numbers.append(serial_number)
+                if len(created_serial_numbers) >= amount:
+                    break
             finally:
                 pass
-
-
-    return Response({'dosimeters': created_serial_numbers})
+    return Response(created_serial_numbers)
 
 
 @api_view(['POST'])
-@permission_classes([IsAdminUser])
-
 def add_dosimeter_note(request):
-    
+
     if 'message' in request.data and 'uuid' in request.data:
         message = request.data['message']
         dosimeter_id = request.data['uuid']
-        dosimeter_note = DosimeterNote()
+        note_type = request.data['note_type']
         
         try:
-            dosimeter = Dosimeter.objects.get(id=dosimeter_id)
-            dosimeter_note.dosimeter = dosimeter
-        except:   
-            return Response({'success': False})
+            note = DosimeterNote.objects.get(
+                dosimeter_id=dosimeter_id, 
+                note_type=note_type,
+                user_id=request.user.id)
+            note.message = message
+            note.save()
+        except DosimeterNote.DoesNotExist:
 
-        dosimeter_note.message = message
-        dosimeter_note.save()
+            dosimeter_note = DosimeterNote()
+            try:
+                dosimeter = Dosimeter.objects.get(id=dosimeter_id)
+                dosimeter_note.dosimeter = dosimeter
+            except:   
+                return Response({'success': False})
+
+            dosimeter_note.message = message
+            dosimeter_note.note_type = note_type
+            dosimeter_note.user = request.user
+            dosimeter_note.save()
+
         return Response({'success': True})
 
     return Response({'success': False })
+
+@api_view(['POST'])
+def get_dosimeter_note(request):
+    
+    if 'uuid' in request.data and 'note_type' in request.data:
+        try:
+            note = DosimeterNote.objects.get(
+                dosimeter_id=request.data['uuid'], 
+                note_type=request.data['note_type'], 
+                user_id=request.user.id)
+            print(note.message)
+        except Exception as e:   
+            print(e)
+            return Response({'success': False})
+
+        return Response({'success': True, 'message':note.message})
+
+    return Response({'success': False })
+
 
 @api_view(['GET'])
 @permission_classes([IsLaboratory])
@@ -218,8 +285,8 @@ class DosimeterViewSet(
     @list_route(methods=['POST'], serializer_class=DosimeterUpdateStatusSerializer)
     def update_status(self, request):
         """
-            @Additional description: 
-            additional params 
+            @Additional description:
+            additional params
             ========================> (new_batch_description or batch_id) <=======================
             ex: select existing batch case
                 {"number":"1231313","status":"shipped_to_distributor","owner_id":4,"batch_id":3}
@@ -238,9 +305,9 @@ class DosimeterViewSet(
                     dosimeter.status = request.data['status']
                     dosimeter.save()
                 if 'owner_id' in request.data:
-                    
+
                     if 'new_batch_description' in request.data:
-                        batch = Batch(batch_description = request.data['new_batch_description'], 
+                        batch = Batch(batch_description = request.data['new_batch_description'],
                             batch_owner_id = request.data['owner_id'])
                         batch.save()
 
@@ -248,10 +315,10 @@ class DosimeterViewSet(
                             batch_dosimeter = Batch_Dosimeter.objects.get(dosimeter_id = dosimeter.id)
                             batch_dosimeter.batch_id = batch.id
                             batch_dosimeter.save()
-                        except Batch_Dosimeter.DoesNotExist:            
+                        except Batch_Dosimeter.DoesNotExist:
                             batch_dosimeter = Batch_Dosimeter(batch_id = batch.id, dosimeter_id = dosimeter.id)
                             batch_dosimeter.save()
-                        
+
                         return Response({'success': True})
                     elif 'batch_id' in request.data:
                         batch = Batch.objects.get(id = request.data['batch_id'], batch_owner_id = request.data['owner_id'])
@@ -259,13 +326,13 @@ class DosimeterViewSet(
                             batch_dosimeter = Batch_Dosimeter.objects.get(dosimeter_id = dosimeter.id)
                             batch_dosimeter.batch_id = batch.id
                             batch_dosimeter.save()
-                        except Batch_Dosimeter.DoesNotExist:            
+                        except Batch_Dosimeter.DoesNotExist:
                             batch_dosimeter = Batch_Dosimeter(batch_id = batch.id, dosimeter_id = dosimeter.id)
                             batch_dosimeter.save()
                         return Response({'success': True})
-                    
+
                 return Response({'success': True})
-                
+
             except Dosimeter.DoesNotExist:
                 return Response({'serial_number': [_('A valid dosimeter serial number is required')]},
                     status=status.HTTP_400_BAD_REQUEST)
