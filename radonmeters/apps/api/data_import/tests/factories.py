@@ -29,7 +29,7 @@ class DataImportDictFactory(factory.DictFactory):
     #shipping_id = fake.ean8()
     shipping_code = 'free_shipping'
     shipping_method = 'Free shipping'
-    date_placed = fake.date_time_this_year().strftime('%d-%m-%Y %H:%m')
+    date_placed = fake.date_time_this_year().strftime('%d-%m-%Y %H:%M')
     status = random.choice(list(settings.OSCAR_ORDER_STATUS_PIPELINE.keys() - {'created'}))
     quantity = random.randint(1, 20)
     owner = factory.lazy_attribute(lambda x: OwnerFactory().id)
