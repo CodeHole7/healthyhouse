@@ -33,6 +33,21 @@ class UpdateDosimeterByLabAPITestCase(APITestCase):
         self.dosimeter_2 = DosimeterFactory(
             line=OrderLineFactory(order=OrderFactory(user=self.user2)))
 
+
+    @override_settings(CELERY_ALWAYS_EAGER=True)
+    @override_config(DOSIMETERS_MANUAL_NOTIFICATIONS=False)
+    def test_generate_sensor_barcode(self):
+        self.client.force_login(user=self.laboratory)
+
+        url = reverse('api:dosimeters:create_dosimeter_serialnumber')
+
+        amount_to_create = 5
+        data = {"value": amount_to_create}
+        response = self.client.post(url,  data=data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), amount_to_create)
+        
+
     @override_settings(CELERY_ALWAYS_EAGER=True)
     @override_config(DOSIMETERS_MANUAL_NOTIFICATIONS=False)
     def test_set_dosimeters_results_by_lab(self):
