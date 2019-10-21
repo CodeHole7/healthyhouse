@@ -9,6 +9,9 @@ OrderLine = get_model('order', 'Line')
 OrderOrder = get_model('order', 'Order')
 Batch = get_model('catalogue', 'Batch')
 
+class IntegerSerializer(serializers.Serializer):
+    value = serializers.IntegerField()
+    
 class DosimeterSerialNumberSerializer(serializers.Serializer):
     serial_number = serializers.CharField()
 
