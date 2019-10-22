@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import pandas as pd
 from ckeditor.fields import RichTextField
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -189,6 +188,7 @@ class Dosimeter(ProductItemAbstractModel):
         _('Status'), max_length=30, choices=STATUS_CHOICES,
         default=STATUS_CHOICES.unknown)
 
+    # Added blank=True, null=True since lab can create dosimeters which have not been assigned to an order yet.
     line = models.ForeignKey(
         Line, related_name='dosimeters', verbose_name=_('Line'), blank=True, null=True)
 
@@ -330,53 +330,53 @@ class Dosimeter(ProductItemAbstractModel):
         if self.measurement_hours and self.uncertainty:
             return round(1000 * (self.uncertainty / self.measurement_hours), 2)
 
-    @property
-    def avg_concentration_visual(self):
-        """
-        Returns average concentration based on dosimeters results.
-        When the yearly average is calculated we need to do the following.
-        multiply all visual concentrations with active_area,
-        then group dosimeters by the variable 'floor'
-        and calculate average for each floor.
-        When all average has been calculated, the average of the averages should be calculated.
+    # @property
+    # def avg_concentration_visual(self):
+    #     """
+    #     Returns average concentration based on dosimeters results.
+    #     When the yearly average is calculated we need to do the following.
+    #     multiply all visual concentrations with active_area,
+    #     then group dosimeters by the variable 'floor'
+    #     and calculate average for each floor.
+    #     When all average has been calculated, the average of the averages should be calculated.
 
-        Example:
-        import pandas as pd
-        dosimeters = pd.DataFrame([[0,-1,117],[1,-1,113],[1,0,135],[0,0,138],[1,0,210],[1,1,213],[1,1,73]],columns = ['active_area','floor','conc_visual'])
-        mus = dosimeters.groupby('floor').apply(lambda x : 0 if x['active_area'].sum() == 0 else (x['active_area']*x['conc_visual']).sum()/x['active_area'].sum()).sum()
-        div = dosimeters.groupby('floor').apply(lambda x : x['active_area'].sum() != 0).sum()
-        yearly_avg = mus/div
+    #     Example:
+    #     import pandas as pd
+    #     dosimeters = pd.DataFrame([[0,-1,117],[1,-1,113],[1,0,135],[0,0,138],[1,0,210],[1,1,213],[1,1,73]],columns = ['active_area','floor','conc_visual'])
+    #     mus = dosimeters.groupby('floor').apply(lambda x : 0 if x['active_area'].sum() == 0 else (x['active_area']*x['conc_visual']).sum()/x['active_area'].sum()).sum()
+    #     div = dosimeters.groupby('floor').apply(lambda x : x['active_area'].sum() != 0).sum()
+    #     yearly_avg = mus/div
 
-        :return: Flat number (rounded).
-        """
-        # TODO Optimize qs without filter
-        dosimeters = self.line.dosimeters.filter(is_active=True)
-        # dosimeters = self.line.dosimeters.all()
-        if not dosimeters:
-            return
+    #     :return: Flat number (rounded).
+    #     """
+    #     # TODO Optimize qs without filter
+    #     dosimeters = self.line.dosimeters.filter(is_active=True)
+    #     # dosimeters = self.line.dosimeters.all()
+    #     if not dosimeters:
+    #         return
 
-        data_dosimeters = [[
-            d.active_area,
-            d.floor,
-            d.concentration_visual]
-            for d in dosimeters if d.is_active]
-        if not all(array_obj[2] is not None for array_obj in data_dosimeters):
-            # check if all dosimeters can calculate conc_visual
-            return
-        if not all(array_obj[1] is not None for array_obj in data_dosimeters):
-            # check if all dosimeters has a floor
-            return
+    #     data_dosimeters = [[
+    #         d.active_area,
+    #         d.floor,
+    #         d.concentration_visual]
+    #         for d in dosimeters if d.is_active]
+    #     if not all(array_obj[2] is not None for array_obj in data_dosimeters):
+    #         # check if all dosimeters can calculate conc_visual
+    #         return
+    #     if not all(array_obj[1] is not None for array_obj in data_dosimeters):
+    #         # check if all dosimeters has a floor
+    #         return
 
-        dosimeters = pd.DataFrame(data_dosimeters, columns=['active_area', 'floor', 'conc_visual'])
-        mus = dosimeters.groupby('floor').apply(
-            lambda x: 0 if x['active_area'].sum() == 0 else (x['active_area'] * x['conc_visual']).sum() / x[
-                'active_area'].sum()).sum()
-        div = dosimeters.groupby('floor').apply(lambda x: x['active_area'].sum() != 0).sum()
-        if div:
-            yearly_avg = mus / div
-        else:
-            yearly_avg = 0
-        return round(yearly_avg, 2)
+    #     dosimeters = pd.DataFrame(data_dosimeters, columns=['active_area', 'floor', 'conc_visual'])
+    #     mus = dosimeters.groupby('floor').apply(
+    #         lambda x: 0 if x['active_area'].sum() == 0 else (x['active_area'] * x['conc_visual']).sum() / x[
+    #             'active_area'].sum()).sum()
+    #     div = dosimeters.groupby('floor').apply(lambda x: x['active_area'].sum() != 0).sum()
+    #     if div:
+    #         yearly_avg = mus / div
+    #     else:
+    #         yearly_avg = 0
+    #     return round(yearly_avg, 2)
 
     @classmethod
     def qs_for_lines(cls, lines):
