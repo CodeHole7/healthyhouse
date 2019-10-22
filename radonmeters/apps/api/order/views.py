@@ -27,7 +27,7 @@ from rest_framework import serializers
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.decorators import detail_route
-from rest_framework.decorators import list_route
+from rest_framework.decorators import list_route, api_view
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -51,6 +51,7 @@ from order.models import ORDER_NOT_FULL, ORDER_IS_WEIRD, ORDER_NO_DOSIMETERS, OR
 Owner = get_model('owners', 'Owner')
 Shipment = get_model('deliveries', 'Shipment')
 ShipmentReturn = get_model('deliveries', 'ShipmentReturn')
+OrderNote = get_model('order', "Ordernote")
 #============ ========================= =============#
 Order = get_model('order', 'Order')
 Line = get_model('order', 'Line')
@@ -479,6 +480,7 @@ class OrderViewSet(
     @staticmethod
     def _generate_reports_pdf(qs):
         data_set = []
+        print(qs)
         for order in qs:
 
             # Generate name (without extension)
@@ -1036,13 +1038,43 @@ class OrderViewSet(
                 
         return Response({'success':True, 'detail':sn.data})
     
-@list_route(methods=['POST'], permission_classes=[IsAdminUser])
-def get_order_by_status(self, request, pk=None):
-    status = request.data['status']
+@api_view(['POST'])
+def add_order_note(request):
+    
+    if 'message' in request.data and 'number' in request.data:
+        try:
+            order = Order.objects.get(number = request.data['number'])
 
-    orders = Order.objects.all(status = status)
-    sn = OrderDetailSerializer(orders)
-    return Response({'success':True, 'detail':sn})
+            try:
+                order_note = OrderNote.objects.get(order_id = order.id, user_id=request.user.id, note_type=request.data['note_type'])
+                order_note.message = request.data['message']
+                order_note.save()
+            except:
+                note = OrderNote()
+                note.user = request.user
+                note.message = request.data['message']
+                note.note_type = request.data['note_type']
+                note.order = order
+                note.save()
+            return Response({'success':True})
+        except:
+            return Response({'success':False, 'detail':"Order does not exist"})
+            
+    return Response({'success':False})
+
+@api_view(['POST'])
+def get_order_note(request):
+    
+    if 'number' in request.data:
+        try:
+            order = Order.objects.get(number = request.data['number'])            
+            note = OrderNote.objects.get(order_id=order.id, note_type = request.data['note_type'], user_id=request.user.id)
+            return Response({'success':True, 'message':note.message})
+        except:
+            return Response({'success':False, 'detail':"Order does not exist"})
+            
+    return Response({'success':False})
+
 
 class DosimeterViewSet(ModelViewSet):
     """
