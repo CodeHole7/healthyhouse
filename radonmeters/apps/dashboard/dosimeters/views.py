@@ -16,6 +16,7 @@ from django.http import HttpResponse, HttpResponseNotFound
 import os
 from django.shortcuts import redirect
 from owners.models import Owner
+from catalogue.models import DosimeterNote
 
 from django.core.mail import send_mail
 from django.core.mail import get_connection
@@ -109,7 +110,7 @@ class DosimeterDashboardListView(generic.ListView):
                     #dosimeter.line.order.owner_id = data['owner']
                     #dosimeter.line.order.save()
                     # -----------
-                    
+
                     dosimeter.save()
                     if data['status'] == Dosimeter.STATUS_CHOICES.ready_for_packaging:
                         # generated a report pdf and automatically send it to customer
@@ -127,7 +128,7 @@ class DosimeterDashboardListView(generic.ListView):
                         total_count = 0
                         for bd in bds:
                             if bd.dosimeter.status == Dosimeter.STATUS_CHOICES.recieved_from_distributor:
-                                email = True                                
+                                email = True
                                 email_content = email_content + bd.dosimeter.serial_number + '\n'
                                 total_count = total_count + 1
                             else:
@@ -140,7 +141,7 @@ class DosimeterDashboardListView(generic.ListView):
                             send_mail(
                                 'All Dosimeters are arrived successfully',
                                 email_content,
-                                'baduki@livecheats.net',
+                                settings.DEFAULT_FROM_EMAIL,
                                 [owner.email],
                                 fail_silently=True,
                             )
@@ -183,7 +184,7 @@ class DosimeterDashboardListView(generic.ListView):
             context['auto_down_pdf'] = './download-dosimeter-reports-pdf/%s'%auto_down_pdf
         return self.render_to_response(context)
 
-    
+
 class DownloadDosimeterReportPDF(View):
 
     def get(self, request, serial_number, *args, **kwargs):
@@ -194,16 +195,16 @@ class DownloadDosimeterReportPDF(View):
                         response = HttpResponse(fh.read(), content_type="application/pdf")
                         response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(file_path)
                         return response
-                
+
         return HttpResponseNotFound('<h1>Invalid Number</h1>')
 
 class BatchSelectDashboardView(generic.TemplateView):
     template_name = 'dashboard/dosimeters/dosimeter_batch.html'
-    
+
     form_update_class = BatchSelectDashboardUpdateForm
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
+
         return context
 
     def get(self, request, serial_number, owner, status, *args, **kwargs):
@@ -214,28 +215,28 @@ class BatchSelectDashboardView(generic.TemplateView):
         context['info_data'] = {'serial_number':serial_number,'owner':owner_object.first_name,'status':status}
 
         self.form_update = self.form_update_class(
-            initial={'serial_number':serial_number,'owner':owner,'status':status}            
+            initial={'serial_number':serial_number,'owner':owner,'status':status}
         )
         #self.form_update.set_batchs(owner)
-        
+
         context['form_update'] =self.form_update
         return self.render_to_response(context)
 
         #return HttpResponseNotFound("<h1>Invalid Parameters</h1>")
         #return HttpResponseNotFound("<h1>Invalid Request</h1>")
     def post(self, request,serial_number, owner, status, *args, **kwargs):
-        
+
         owner_object = Owner.objects.get(id=owner)
 
         context = self.get_context_data()
 
-        context['info_data'] = {'serial_number':serial_number,'owner':owner_object.first_name,'status':status}        
+        context['info_data'] = {'serial_number':serial_number,'owner':owner_object.first_name,'status':status}
 
         self.form_update = self.form_update_class(request.POST, initial={'owner':request.POST.get('owner')})
         #self.form_update.set_batchs(request.POST.get('batchs'))
 
         if self.form_update.is_valid():
-            batch = self.form_update.save_data()          
+            batch = self.form_update.save_data()
             messages.success(
                         request=self.request,
                         message=_('Dosimeter "%s" status is changed "%s" successfully, and included batch "%s"') % \
@@ -286,3 +287,9 @@ class DosimeterDashboardUpdateView(generic.UpdateView):
 
         # Return to default behavior for `form_valid`.
         return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['notes'] = DosimeterNote.objects.all().filter(dosimeter = self.object.id)
+        
+        return context
