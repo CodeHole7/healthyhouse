@@ -55,7 +55,6 @@ class OwnerDashboardListView(generic.ListView):
     """
     def get_queryset(self):
         qs = super().get_queryset()
-
         if self.request.user.is_superuser:
             self.description = _("All owners")
         else:
@@ -93,7 +92,7 @@ class OwnerDashboardListView(generic.ListView):
 
 class OwnerDashboardFormView(ModelFormMixin, ProcessFormView):
     model = Owner
-    fields = ['first_name', 'last_name', 'email', 'is_default']
+    fields = ['first_name', 'last_name', 'email', 'is_default','yrly_avg_met']
     context_object_name = 'owner'
     template_name = 'dashboard/owners/owner_detail.html'
     success_url = reverse_lazy('dashboard:owner-list')
