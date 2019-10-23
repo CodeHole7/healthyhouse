@@ -6,6 +6,7 @@ from django.core.validators import MaxValueValidator
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from users.models import User
+from model_utils import Choices
 
 class Owner(models.Model):
     """
@@ -13,15 +14,27 @@ class Owner(models.Model):
 
     Order has a foreign key to Order.
     """
+    YRLYAVG_CHOICES = Choices(
+        ('sbi_dk_2018', _('SBI 2018')),
+        ('phe_uk_2018_dwe', _('PHE for dwelling')),
+        ('phe_uk_2018_wrk', _('PHE for workplace')))
 
     first_name = models.CharField(_('First name'), max_length=255)
     last_name = models.CharField(_('Last name'), max_length=255)
     email = models.EmailField(_('Email address'), blank=True)
     is_default = models.BooleanField(_('Is default'), default=False)
     user = models.ForeignKey(User, verbose_name ="Staff", default=1)
+    yrly_avg_met = models.CharField(
+        _('Yearly Average method'), max_length=30, choices=YRLYAVG_CHOICES,
+        default=YRLYAVG_CHOICES.sbi_dk_2018)
+    
 
     class Meta:
         ordering = ('id', )
+
+    def yrly_avg_met_txt(self):
+        return self.get_yrly_avg_met_display()
+        #return self.YRLYAVG_CHOICES[int(self.get_yrly_avg_met_display())]
 
     def __str__(self):
         return self.get_full_name() or self.email
