@@ -24,15 +24,14 @@ class InstructionDetailView(generic.ListView):
     def get(self, request, *args, **kwargs):
         self.instruction = self.get_object()
         self.object_list = self.get_queryset()
-        # Commented out until June 2019
-        # for order in self.object_list:
-        #     for line in order.lines.all():
-        #         for dosimeter in line.dosimeters.filter(measurement_start_date__isnull=True):
-        #             dosimeter.measurement_start_date = timezone.now()
-        #             dosimeter.save()
-        #             messages.success(
-        #                 request=self.request,
-        #                 message=_('Measurement start time for dosimeter "%s" has been successfully updated to current date.') % dosimeter.serial_number)
+        for order in self.object_list:
+            for line in order.lines.all():
+                for dosimeter in line.dosimeters.filter(measurement_start_date__isnull=True):
+                    dosimeter.measurement_start_date = timezone.now()
+                    dosimeter.save()
+                    messages.success(
+                        request=self.request,
+                        message=_('Measurement start time for dosimeter "%s" has been successfully updated to current date.') % dosimeter.serial_number)
         context = self.get_context_data()
         return self.render_to_response(context)
 
