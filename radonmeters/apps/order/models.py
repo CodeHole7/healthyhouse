@@ -130,6 +130,136 @@ class OrderedDosimetersMixin:
             self.dosimeters_pdf_report_can_be_generated # recalculate
             return self._why_not_approved
 
+    def seasonal_correction(self, dosimeter):
+        '''
+        Calculate seasonal correction factor based on startmonth and duration
+        '''
+        S=np.array([[0.73,0.73,0.75,0.79,0.85,0.91,0.97,1.02,1.04,1.05,1.03],
+                    [0.74,0.77,0.82,0.88,0.96,1.03,1.08,1.10,1.10,1.07,1.04],
+                    [0.81,0.87,0.95,1.03,1.11,1.17,1.19,1.17,1.13,1.08,1.03],
+                    [0.94,1.04,1.14,1.23,1.28,1.29,1.25,1.19,1.12,1.06,1.02],
+                    [1.16,1.28,1.37,1.41,1.39,1.32,1.24,1.15,1.08,1.03,1.01],
+                    [1.42,1.51,1.52,1.47,1.36,1.25,1.15,1.07,1.02,0.99,0.99],
+                    [1.61,1.58,1.48,1.35,1.22,1.11,1.03,0.98,0.96,0.96,0.97],
+                    [1.56,1.43,1.28,1.15,1.05,0.98,0.93,0.91,0.92,0.94,0.97],
+                    [1.32,1.18,1.06,0.97,0.91,0.87,0.86,0.87,0.90,0.93,0.97],
+                    [1.06,0.96,0.89,0.84,0.82,0.82,0.83,0.86,0.90,0.94,0.98],
+                    [0.88,0.82,0.79,0.77,0.78,0.80,0.84,0.89,0.93,0.97,0.99],
+                    [0.77,0.75,0.74,0.76,0.79,0.83,0.89,0.94,0.98,1.01,1.01]])
+
+        
+        diff_month = lambda d1, d2:(d1.year - d2.year) * 12 + d1.month - d2.month
+        def duration_months (dmt):
+            '''
+            dmt : Dosimeter object
+            Calculates duration of measurement in months.
+            Measurement of length X months and more than 15 days => X+1 months 
+            '''
+            import dateutil.relativedelta
+            mnts = diff_month(dmt.measurement_end_date,dmt.measurement_start_date)
+            days = ((dmt.measurement_end_date-dateutil.relativedelta.relativedelta(months=mnts))-\
+                    dmt.measurement_start_date).days
+            return mnts + int((days-15)>0)
+
+        return S[dosimeter.measurement_start_date.month-1,duration_months(dosimeter)-1]
+
+
+    def yearlyavg_phe_dwelling(self):
+        '''
+        Calculates the yearly average of a dwelling according to
+        public health england (PHE) guidelines including seasonal
+        correction and livingarea correction.
+        '''
+        dosimeters = self.lines.first().dosimeters.filter(is_active=True)
+        if not dosimeters:
+            return
+        data_dosimeters = [[
+            d.active_area,
+            d.floor,
+            d.concentration_visual]
+            for d in dosimeters if d.is_active]
+        if not all(array_obj[2] is not None for array_obj in data_dosimeters):
+            # check if all dosimeters can calculate conc_visual
+            return
+        if not all(array_obj[1] is not None for array_obj in data_dosimeters):
+            # check if all dosimeters has a floor
+            return
+        
+        def single_detector_balance(d, bedroom = True, same_floor = True):
+            if bedroom and same_floor:
+                return 1.04
+            if bedroom and not same_floor:
+                return 1.25
+            if not bedroom and same_floor:
+                return 0.95
+            if not bedroom and not same_floor:
+                return 0.79
+            
+        if len(dosimeters) == 1:
+            d, = dosimeters
+            yearly_avg = d.concentration_visual * self.seasonal_correction(d) * single_detector_balance(bedroom = True, same_floor = True)
+        else:
+            yearly_avg = sum([d.concentration_visual * self.seasonal_correction(d) * (0.58 if d.active_area else 0.42) for d in dosimeters])
+        return round(yearly_avg, 2)
+        
+        
+    def yearlyavg_phe_workplace(self):
+        dosimeters = self.line.dosimeters.filter(is_active=True)
+        if not dosimeters:
+            return
+        yearly_avg = sum([d.concentration_visual * self.seasonal_correction(d) for d in dosimeters])/len(dosimeters)
+        return round(yearly_avg,2)
+        
+    def yearlyavg_sbi(self):
+        """
+        Returns average concentration based on dosimeters results.
+        When the yearly average is calculated we need to do the following.
+        multiply all visual concentrations with active_area,
+        then group dosimeters by the variable 'floor'
+        and calculate average for each floor.
+        When all average has been calculated, the average of the averages should be calculated.
+
+        Example:
+        import pandas as pd
+        dosimeters = pd.DataFrame([[0,-1,117],[1,-1,113],[1,0,135],[0,0,138],[1,0,210],[1,1,213],[1,1,73]],columns = ['active_area','floor','conc_visual'])
+        mus = dosimeters.groupby('floor').apply(lambda x : 0 if x['active_area'].sum() == 0 else (x['active_area']*x['conc_visual']).sum()/x['active_area'].sum()).sum()
+        div = dosimeters.groupby('floor').apply(lambda x : x['active_area'].sum() != 0).sum()
+        yearly_avg = mus/div
+
+        :return: Flat number (rounded).
+        """
+        import pandas as pd
+        # TODO Optimize qs without filter
+        #dosimeters = self.line.dosimeters.filter(is_active=True)
+        dosimeters = self.lines.first().dosimeters.filter(is_active=True)
+        # dosimeters = self.line.dosimeters.all()
+        if not dosimeters:
+            return
+
+        data_dosimeters = [[
+            d.active_area,
+            d.floor,
+            d.concentration_visual]
+            for d in dosimeters if d.is_active]
+        if not all(array_obj[2] is not None for array_obj in data_dosimeters):
+            # check if all dosimeters can calculate conc_visual
+            return
+        if not all(array_obj[1] is not None for array_obj in data_dosimeters):
+            # check if all dosimeters has a floor
+            return
+
+        dosimeters = pd.DataFrame(data_dosimeters, columns=['active_area', 'floor', 'conc_visual'])
+        mus = dosimeters.groupby('floor').apply(
+            lambda x: 0 if x['active_area'].sum() == 0 else (x['active_area'] * x['conc_visual']).sum() / x[
+                'active_area'].sum()).sum()
+        div = dosimeters.groupby('floor').apply(lambda x: x['active_area'].sum() != 0).sum()
+        if div:
+            yearly_avg = mus / div
+        else:
+            yearly_avg = 0
+        return round(yearly_avg, 2)
+
+
     @cached_property
     def dosimeters_avg_concentration(self):
         """
@@ -141,7 +271,16 @@ class OrderedDosimetersMixin:
         # Make next actions only if all needed data is exists.
         if self.dosimeters_pdf_report_can_be_generated:
             # use previous calculation
-            return self.dosimeters_line.dosimeters.first().avg_concentration_visual
+            method = 'sbi'
+            if method == 'sbi':
+                return self.yearlyavg_sbi()
+            elif method == 'phe_dwelling':
+                return self.yearlyavg_phe_dwelling()
+            elif method == 'phe_workplace':
+                return self.yearlyavg_phe_workplace()
+            
+            #return self.avg_concentration_visual_sbi
+            #return self.dosimeters_line.dosimeters.first().avg_concentration_visual
             # dosimeters = self.dosimeters_line.dosimeters.all()
             # concentration_sum = sum([d.concentration_visual or 0 for d in dosimeters])
             # return round(concentration_sum / len(dosimeters), 2)
