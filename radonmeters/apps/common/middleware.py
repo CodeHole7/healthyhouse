@@ -34,6 +34,7 @@ class CustomLocaleMiddleware(LocaleMiddleware):
         """
         # When user has LANGUAGE_SESSION_KEY use it.
         language_session_key = request.session.get(translation.LANGUAGE_SESSION_KEY)
+        
         if language_session_key:
             return language_session_key
 
