@@ -21,6 +21,7 @@
 {% block extrastyles %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static "bower/jquery-auto-complete/jquery.auto-complete.css" %}" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
 {% endblock %}
 
 {% block tabcontent %}
@@ -50,9 +51,31 @@
             </div>
             <button class="btn btn-primary load-more" :class="{'show': next_page}" :disabled="isDisabled" type="button" @click="loadMore">{% trans 'Load more' %}</button>
     </div>
+    
+    <div class="modal fade" data-show="true" id="note_modal_form" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3>{% trans "Add Note" %}</h3>
+                </div>
+                {% include "partials/note_modal.html" %}
+            </div>
+        </div>
+    </div>
+    
 {% endblock tabcontent %}
 
+{% block cdn_scripts %}
+    <!-- jQuery -->
+    
+{% endblock %}
+
 {% block extrascripts %}
+    <script src="{% static 'oscar/js/bootstrap3/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/pages/note_modal.js' %}"></script>
+    <script src="{% static "ckeditor/ckeditor/ckeditor.js" %}?t={% now "Y-m-d-H" %}"></script>
+
     <script id="order-row" type="text/template">
         {% include 'customer/partials/order_row.html' %}
     </script>
@@ -66,5 +89,5 @@
     <script src="{% static 'bower/jquery-auto-complete/jquery.auto-complete.min.js' %}"></script>
     <script src="{% static 'bower/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js' %}"></script>
     <script src="{% static 'bower/vue-bootstrap-datetimepicker/dist/vue-bootstrap-datetimepicker.min.js' %}"></script>
-    <script src="{% static 'js/pages/order_list.js' %}"></script>
+    <script src="{% static 'js/pages/order_list.js' %}"></script>    
 {% endblock %}
