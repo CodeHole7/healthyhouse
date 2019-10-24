@@ -34,6 +34,11 @@
                         <span>{% blocktrans %}Download report{% endblocktrans %}</span>
                     </a>
                 </span>
+                <span class="product-report pull-right">
+                    <a class="add_order_note" style="padding: 5px; margin-right: 40px;" onclick="javascript:add_order_note($(this));" :data-number="order.number">
+                        {% trans 'Add Order Note' %}
+                    </a>
+                </span>
             </div>
             <div v-if="dosimetersListIsOpened" v-for="item in dosimeters" :key="item.pk" :item="item" :is="'dosimeters'"></div>
 
