@@ -64,14 +64,28 @@
                 <autocomplete v-model="location" :disabled="!enableEdit" placeholder="{% trans 'Dosimeter location' %}"
                 ></autocomplete>
             </div>
-
+            <div class="group-item">
+                <button disabled type="button" class="btn btn-primary add_dosimeter_note" style="min-width:70% !important;" :data-uuid="item.pk" onclick="javascript:add_dosimeter_note($(this));">
+                    {% trans 'Add Note' %}
+                </button>
+            </div>
+            <div style="text-align: center">
+                <a v-if="enableEdit"  @click="submitForm" style="margin-bottom:5px; cursor:pointer;" onclick="javascript:disable_note($(this));">
+                    <i class="far fa-save"></i>
+                </a>
+                <a v-else="enableEdit"  @click="handlerEdit" style="margin-bottom:5px; cursor:pointer;" onclick="javascript:enable_note($(this));">
+                    <i class="far fa-edit"></i>
+                </a>
+            </div>
         </form>
-        <button v-if="enableEdit"  @click="submitForm" class="btn btn-primary btn-xs">
+
+        <!-- <button v-if="enableEdit"  @click="submitForm" class="btn btn-primary btn-xs">
             <span>{% trans 'Update data' %}</span>
         </button>
         <button v-else="enableEdit"  @click="handlerEdit"  class="btn btn-primary btn-xs">
             <span class="icon-edit rm-icon-edit"></span>
             <span>{% trans 'Edit' %}</span>
-        </button>
+        </button> -->
     </div>
 </div>
+
