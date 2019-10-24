@@ -1,36 +1,58 @@
 $(document).ready(function(){
-    
-    $('.add_order_note').click(function(){
-        var number = $(this).data('number');
-        var uri = number+"/?note=";
-        $('#add_note_form').attr('action', uri);
-        $('#note_modal_form').modal('show');
-    });
 
-    $('.add_dosimeter_note').click(function(){
-        var uuid = $(this).data('uuid');
-        var uri = "/api/v1/dosimeters/add_dosimeter_note/";
-        $('#add_note_form').attr('action', uri);
-        $('#uuid').val(uuid);
-        $('#note_modal_form').modal('show');
-    });
-
-    $('#add_note_form').submit(function(e){
-        e.preventDefault();       
-        $('#id_message').val(CKEDITOR.instances['id_message'].getData());
-        var post_url = $(this).attr("action"); 
-        var request_method = $(this).attr("method");
-        var form_data = $(this).serialize();
-        
-        $.ajax({
-            url : post_url,
-            type: request_method,
-            data : form_data,
-            success : function(response){
-                CKEDITOR.instances['id_message'].setData('');
-                $('#note_modal_form').modal('hide');
+    var n = $(".language-link"),
+        t = n.find('[name="csrfmiddlewaretoken"]').val(),
+        o = n.find('[name="next"]').val();
+    n.find('[data-name="language"]').on("click", function(i) {
+        i.preventDefault(), $(this).parent().is(".active") || $.ajax(n.data("url"), {
+            type: "POST",
+            data: {
+                csrfmiddlewaretoken: t,
+                next: o,
+                language: $(this).data("lang-code")
+            },
+            success: function(e) {
+                location.reload()
             }
-        });
-    
+        })
     });
+
+    
+    $('.re-lang a').each(function(){
+
+        $(this).on("click",function(){
+            
+            $('#re_language_selector li.active').removeClass('active');
+            $('#re-lang-name').html($(this).html());
+            $(this).parent().addClass('active');
+            $.cookie("re-lang-code", $(this).data('lang-code'), {path:'/'});
+        });
+    });
+
+    function load_report_lang(){
+        var report_lang_code = $.cookie("re-lang-code");
+
+        if(report_lang_code){
+
+            $('.re-lang a').each(function(){
+                if(report_lang_code == $(this).data('lang-code')){
+                    $('#re-lang-name').html($(this).html());
+                    $(this).parent().addClass('active');
+                }
+            })
+        }else{
+            var display_lang = $('#language_selector li.active a');
+
+            $('.re-lang a').each(function(){
+                if(display_lang.data('lang-code') == $(this).data('lang-code')){
+                    $('#re-lang-name').html($(this).html());
+                    $(this).parent().addClass('active');
+                }
+            })
+            
+            $.cookie("re-lang-code", display_lang.data('lang-code'), {path:'/'});
+        }
+    }
+   
+    load_report_lang();
 });
