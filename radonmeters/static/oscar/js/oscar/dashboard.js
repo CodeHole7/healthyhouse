@@ -1337,6 +1337,7 @@ var oscar = (function(o, $) {
       bindDownload: function(urls) {
         var ids = [];
         var downloadHandler = function() {
+          switch_language();
           var that = $(this),
             type = that.data("type"),
             typeOfFile = that.data("object"),
@@ -1359,6 +1360,7 @@ var oscar = (function(o, $) {
             url: url,
             cache: false,
             beforeSend: function() {
+              
               oscar.dashboard.orders.progressBar.show();
               if (type === "single") {
                 initialText = that.text();
@@ -1366,6 +1368,8 @@ var oscar = (function(o, $) {
               }
             },
             success: function(response) {
+              setTimeout(restore_language, 3000);
+              
               window.location = url;
             },
             error: function(response) {
@@ -1412,6 +1416,7 @@ var oscar = (function(o, $) {
         var ids = []; //----
         console.log(urls)
         var sendHandler = function() {
+          switch_language();
           var that = $(this),
             type = that.data("type"),
             typeOfFile = that.data("object"),
@@ -1474,6 +1479,7 @@ var oscar = (function(o, $) {
             if (type === "single") {
               that.button("loaded").text(initialText);
             }
+            setTimeout(restore_language, 10000);
           });
         };
         $(".js-order-send").click(sendHandler);
@@ -2116,5 +2122,41 @@ var oscar = (function(o, $) {
       timeout = setTimeout(later, wait);
       if (callNow) func.apply(context, args);
     };
+  }
+
+  function switch_language(){
+      var n = $(".re-language-link"),
+          t = n.find('[name="csrfmiddlewaretoken"]').val(),
+          o = n.find('[name="next"]').val();
+      $.ajax(n.data("url"), {
+          type: "POST",
+          data: {
+              csrfmiddlewaretoken: t,
+              next: o,
+              language: $('.re-lang.active a').data("lang-code")
+          },
+          success: function(e) {
+              console.log("switch language");
+              console.log($('.re-lang.active a').data("lang-code"));
+          }
+      });
+  }
+
+  function restore_language(){
+      var n = $(".language-link"),
+          t = n.find('[name="csrfmiddlewaretoken"]').val(),
+          o = n.find('[name="next"]').val();
+      $.ajax(n.data("url"), {
+          type: "POST",
+          data: {
+              csrfmiddlewaretoken: t,
+              next: o,
+              language: $("#language_selector .active a").data("lang-code")
+          },
+          success: function(e) {
+              console.log("restore language");
+              console.log($("#language_selector .active a").data("lang-code"));
+          }
+      });
   }
 })(oscar || {}, jQuery);
