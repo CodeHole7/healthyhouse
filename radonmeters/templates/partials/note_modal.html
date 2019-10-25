@@ -1,0 +1,18 @@
+{% load i18n %}
+<div>
+    {% csrf_token %}  
+    <div class="modal-body">
+        <form id="add_note_form" action="" method="post" class="form-stacked">
+            {% csrf_token %}
+            <input type="hidden" value="save_note" name="order_action" />
+            <input type="hidden" id="uuid" name="uuid"/>
+            <input type="hidden" id="number" name="number"/>
+            <input type="hidden" id="note_type" name="note_type" value="User"/>
+            <textarea name="message" id="id_message" rows="10" cols="40" style="visibility: hidden; display:none;"></textarea>
+            <br>
+            <div class="form-actions" style="text-align:right;">
+                <input type="submit" value="{% trans "Save note" %}" class="btn btn-primary" style="font-size: 12px; padding: 7px 15px;"/>
+            </div>
+        </form>
+    </div>  
+</div>
