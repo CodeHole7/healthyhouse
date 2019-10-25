@@ -6,10 +6,8 @@
             {% csrf_token %}
             <input type="hidden" value="save_note" name="order_action" />
             <input type="hidden" id="uuid" name="uuid"/>
+            <input type="hidden" id="note_type" name="note_type" value="Lab"/>
             <textarea name="message" id="id_message" rows="10" cols="40" style="visibility: hidden; display:none;"></textarea>
-            <script>
-                CKEDITOR.replace( 'id_message' );
-            </script>
             <br>
             <div class="form-actions">
                 <input type="submit" value="{% trans "Save note" %}" class="btn btn-primary" />
