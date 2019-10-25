@@ -263,35 +263,38 @@
   </td>
   <td style="max-width: 110px; word-wrap: break-word;">
     {% if is_superuser %}
-    <button {% if order.is_approved %}style="display: none;" {% endif %} type="button" class="btn btn-primary approve-dosimeter"
-      data-id="{{order.pk}}" data-url="{% url 'api:orders:order-approve' pk=order.pk %}"
-    >
-      {% trans 'Approve' %}
-    </button>
-    <br /><br />
+      {% if not order.is_approved %}
+        {% trans 'Order not yet approved' %}
+      
+      <button {% if order.is_approved %}style="display: none;" {% endif %} type="button" class="btn btn-primary approve-dosimeter"
+        data-id="{{order.pk}}" data-url="{% url 'api:orders:order-approve' pk=order.pk %}"
+      >
+        {% trans 'Approve' %}
+      </button>
+      {% else %}
+        <div>
+            {% trans "Approved by" %}: <span class="user-who-approved"><b>
+                {{order.user_who_approved|default:'-'}}
+                {% if order.not_weird %}
+                  <span title="{{order.not_weird_explanation}}">*</span>
+                {% endif %}
+              </b></span>
+        </div>
+        <hr/>
+        {% trans "When" %}:
+        <div class="js-approved-at {% if not order.is_approved %}hidden{% else %}{% if not order.approved_date %}hidden{% endif %}{% endif %}">
+            <b>{{order.approved_date|date:'d-m-Y'}}</b>
+        </div>
+        <hr/>
+        {% trans "Result" %}:
+        <p title="{% trans 'Estimated avg. conc.' %}">
+          <b>{{order.dosimeters_avg_concentration}}&nbsp;Bq&nbsp;m</b><sup>-3</sup>
+        </p>
+      {% endif %}
     {% endif %}
 
-    <div>
-      {% trans "Approved by" %}: <span class="user-who-approved"><b>
-          {% if order.is_approved %}
-          {{order.user_who_approved|default:'-'}}
-          {% else %}
-          -
-          {% endif %}
-          {% if order.not_weird %}
-          <a href="#" title="{{order.not_weird_explanation}}">*</a>
-          {% endif %}
-        </b></span>
-    </div>
-    <div class="js-approved-at {% if not order.is_approved %}hidden{% else %}{% if not order.approved_date %}hidden{% endif %}{% endif %}">
-      <br />
-      {% trans "Approved at" %}: <span>
-      <b>
-          {% if order.is_approved %}
-          {{order.approved_date|date:'d-m-Y'}}
-          {% endif %}
-        </b></span>
-    </div>
+    
+
   </td>
   <td>
     <div>
