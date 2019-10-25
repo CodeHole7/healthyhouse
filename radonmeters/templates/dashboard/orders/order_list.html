@@ -184,7 +184,7 @@
                         <th>{% trans "Partner order ID" %}</th>
                         <th>{% trans "PDF Files" %}</th>
                         <th>{% trans "Shipment" %}</th>
-                        <th>{% trans "Is Approved" %}</th>
+                        <th>{% trans "Report Result" %}</th>
                         <th>{% trans "Send Report" %}</th>
                         {% else %}
                         <th>{% anchor 'number' _("Order number") %}</th>
@@ -199,7 +199,7 @@
                         <th>{% trans "Use external report" %}</th>
                         <th>{% trans "PDF Files" %}</th>
                         <th>{% trans "Shipment" %}</th>
-                        <th>{% trans "Is Approved" %}</th>
+                        <th>{% trans "Report Result" %}</th>
                         <th>{% trans "Send Report" %}</th>
                         <th>{% trans "Exists in accounting program" %}</th>
                         <th>{% trans "Is paid?" %}</th>
@@ -317,8 +317,7 @@
         <script src="{% static 'bower/moment/min/moment.min.js' %}?t={% now "Y-m-d-H" %}"></script>
         <script src="{% static 'bower/jquery-auto-complete/jquery.auto-complete.min.js' %}?t={% now "Y-m-d-H" %}"></script>
         <script src="{% static 'js/pages/dashboard_orders.js' %}?t={% now "Y-m-d-H" %}"></script>
-        <script src="{% static "js/bootstrap-modal/jquery.bootstrap.modal.forms.min.js" %}" type="text/javascript" charset="utf-8"></script>
-        <script src="{% static "js/pages/custom.js" %}" type="text/javascript" charset="utf-8"></script>
+        <script src="{% static "js/pages/dashboard_note_modal.js" %}" type="text/javascript" charset="utf-8"></script>
     {% endblock %}
 
     {% block onbodyload %}
