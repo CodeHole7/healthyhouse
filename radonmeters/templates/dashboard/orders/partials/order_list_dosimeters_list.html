@@ -12,7 +12,9 @@
                     <th style="vertical-align: top; width: 10em" title="{% trans 'Serial #' %}"><img src="{% static 'images/orders_icons/2.svg' %}" alt="Serial Number"></img></th>
                     <th style="vertical-align: top;" title="{% trans 'Active Area' %}"><img src="{% static 'images/orders_icons/3.svg' %}" alt="Active Area"></img></th>
 
+                    <!--
                     <th style="vertical-align: top;" title="{% trans 'Yearly AVG Visual' %}"><img src="{% static 'images/orders_icons/4.svg' %}" alt="Yearly AVG Visual"></img></th>
+                    -->
                     <th style="vertical-align: top;" title="{% trans 'Use Active Concentration Visual' %}"><img src="{% static 'images/orders_icons/5.svg' %}" alt="Use Active Concentration Visual"></img></th>
                     <th style="vertical-align: top;" title="{% trans 'Concentration Visual' %}"><img src="{% static 'images/orders_icons/6.svg' %}" alt="Concentration Visual"></img></th>
                     <th style="vertical-align: top;" title="{% trans 'Uncertainty Visual' %}"><img src="{% static 'images/orders_icons/7.svg' %}" alt="Uncertainty Visual"></img></th>
@@ -100,11 +102,11 @@
                                 class="dosimeter-editing"
                                 {% if d.active_area %}checked=""{% endif %}>
                         </td>
-
+                        <!--
                         <td class="yearly-avg-visual">
                             {{ d.avg_concentration_visual|default:"-" }}
                         </td>
-
+                        -->
 
                         <td>
                             <input
